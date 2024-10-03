@@ -1,0 +1,3182 @@
+:root {
+    --wpwand-brand-color: #3767FB;
+}
+
+.wpwand-settings .notice {
+    margin-left: 20px;
+    max-width: 60%;
+    margin-top: 10px;
+}
+
+
+.wpwand-trigger.wpwand-open {
+    position: fixed;
+    background: var(--wpwand-brand-color);
+    top: 60px;
+    width: 56px;
+    right: 30px;
+    height: 56px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    line-height: 1;
+    color: #fff;
+    z-index: 7;
+    cursor: pointer;
+    transform: translatex(0);
+    transition: .4s;
+    border: none;
+    opacity: 1;
+    border-radius: 50%;
+}
+
+.wpwand-floating * {
+    box-sizing: border-box;
+}
+
+.wpwand-floating {
+    position: fixed;
+    width: 612px;
+    height: 100%;
+    background-color: #fff;
+    right: 0;
+    top: 0;
+    box-shadow: 0 0 20px 2px #00000021;
+    box-sizing: border-box;
+    transition: .4s;
+    transform: translatex(100%);
+    z-index: 99977;
+}
+
+.admin-bar:not(.block-editor-page) .wpwand-floating {
+    padding-top: 30px;
+}
+
+button.wpwand-trigger.wpwand-open.active {
+    /* transform: translatex(-270px); */
+    opacity: 0;
+
+}
+
+.wpwand-floating.active {
+    transform: translatex(0);
+}
+
+.wpwand-floating-header {
+    background: var(--wpwand-brand-color);
+    height: 40px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+
+.wpwand-floating-wraper {
+    /* display: flex; */
+    /* flex-direction: column; */
+}
+
+.wpwand-floating-header h4 {
+    margin: 0;
+    display: block;
+    color: #fff;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600 !important;
+    font-size: 13px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.wpwand-floating-header h4 svg {
+    margin-right: 7px;
+}
+
+.wpwand-result-box h4 {
+    margin: 20px 0;
+    font-weight: 600 !important;
+    color: #080E13;
+}
+
+.wpwand-prompts-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 10px 15px;
+    justify-content: space-between;
+    padding-bottom: 0;
+}
+
+.wpwand-prompts-tabs button.wpwand-tab-item {
+
+    border: none;
+    background-color: #fff;
+    transition: .3s;
+    padding: 10px;
+    border-radius: 8;
+    cursor: pointer;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #080E13;
+    width: 100%;
+}
+
+.wpwand-prompts-tabs button.wpwand-tab-item:hover,
+.wpwand-prompts-tabs button.wpwand-tab-item.active {
+    background: #EAEDF0;
+}
+
+button.wpwand-trigger.wpwand-close-button.active {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translatex(-100%);
+    background: var(--wpwand-brand-color);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+.wpwand-prompt-item {
+    padding: 20px 15px 10px;
+}
+
+.wpwand-total-templates-count span {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    color: #454F5C;
+}
+
+.wpwand-tiemplate-item {
+    padding: 15px;
+    border: 1px solid #EAEDF0;
+    margin-bottom: 10px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.wpwand-tiemplate-item h4 {
+    margin: 0 0 5px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600 !important;
+    font-size: 14px;
+    line-height: 20px;
+    color: #080E13;
+}
+
+.wpwand-tiemplate-item p {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #454F5C;
+    margin: 0;
+}
+
+.wpwand-tiemplate-item svg {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translatey(-50%);
+    width: 13px;
+}
+
+.wpwand-prompt-form-wrap {
+    position: absolute;
+    top: 70px;
+    background-color: #fff;
+    width: 100%;
+    height: calc(100% - 70px);
+    transition: .3s;
+    left: 0;
+    padding: 15px 15px;
+    box-sizing: border-box;
+    opacity: 0;
+    z-index: 5;
+    visibility: hidden;
+    overflow: auto;
+    padding-bottom: 30px;
+}
+
+.wpwand-form-field label {
+    display: block;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600 !important;
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 8px;
+    color: #080E13;
+}
+
+.wpwand-form-field input:not([type=checkbox]),
+.wpwand-form-field select {
+    width: 100%;
+    height: 48px;
+    border: 1px solid #EAEDF0;
+    padding: 0 16px;
+    border-radius: 8px;
+    max-width: 100%;
+    font-size: 14px;
+    color: #454F5C;
+}
+
+.wpwand-back-button {
+    color: #7C838A;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 17px;
+    cursor: pointer;
+    margin-top: 16px;
+}
+
+.wpwand-back-button svg {
+    margin-right: 5px;
+}
+
+h4 {}
+
+.wpwand-template-details h4 {
+    margin-top: 0;
+    color: #080E13;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    margin-bottom: 6px;
+    font-weight: 699;
+}
+
+.wpwand-template-details p {
+    margin: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #454F5C;
+}
+
+.wpwand-template-details {
+    margin-bottom: 20px;
+}
+
+.wpwand-form-field {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+form.wpwand-prompt-form input:focus,
+form.wpwand-prompt-form select:focus {
+    border: 1px solid var(--wpwand-brand-color);
+    box-shadow: unset;
+}
+
+button.wpwand-submit-button,
+a.wpwand-submit-pro {
+    width: 100%;
+    display: flex;
+    background: #46B90F;
+    border: none;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600 !important;
+    font-size: 16px;
+    color: #FFFFFF;
+    border-radius: 8px;
+    line-height: 20px;
+}
+
+a.wpwand-submit-pro {
+    background: #EE2626;
+    text-decoration: none;
+}
+
+a.wpwand-submit-pro svg {
+    margin-right: 9px;
+}
+
+.wpwand-form-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.wpwand-form-group.wpwand-col-2 .wpwand-form-field {
+    /* flex: 0 0 50%; */
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.wpwand-form-group.wpwand-col-2 {
+    margin-left: -10px;
+    margin-right: -10px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.wpwand-prompt-form-wrap.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.wpwand-template-list {
+    margin-top: 5px;
+}
+
+h4 {}
+
+.wpwand-prompt-form-wrap>h4 {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600 !important;
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 15px;
+    color: #080E13;
+}
+
+.wpwand-content {
+    padding: 15px;
+    border: 1px solid #EAEDF0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+
+}
+
+.wpwand-content p,
+.wpwand-ai-response ul,
+.wpwand-ai-response ol {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    /* or 143% */
+    color: #454F5C;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.admin-bar:Not(.block-editor-page) button.wpwand-trigger.wpwand-close-button.active {
+    top: 30px;
+}
+
+.wpwand-content p:last-child {
+    margin-bottom: 0;
+}
+
+.wpwand-content button,
+.wpwand-content span,
+.wpwand-insert-to-widget,
+.wpwand-insert-to-gutenberg {
+    display: inline-flex !important;
+    float: right;
+    background: var(--wpwand-brand-color);
+    color: #fff;
+    border: none;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    cursor: pointer;
+    line-height: 20px;
+    /* identical to box height, or 167% */
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    margin-left: 4px;
+}
+
+
+.wpwand-content button svg,
+.wpwand-content span svg {
+    margin-right: 5px;
+}
+
+.wpwand-prompt-from-wrap {
+    height: calc(100vh - 169px);
+    overflow-x: auto;
+}
+
+form.wpwand-prompt-form textarea {
+    width: 100%;
+    border: 1px solid #EAEDF0;
+    padding: 12px 20px;
+    border-radius: 8px;
+}
+
+
+
+/* api missing css */
+.wpwand-api-missing-notice-wrap {
+    padding: 20px;
+}
+
+.wpwand-api-missing-notice {
+    background: rgba(238, 38, 38, 0.1);
+    color: #EE2626;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 4px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.wpwand-form-field a {
+    color: var(--wpwand-brand-color);
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 15px;
+    display: inline-flex;
+}
+
+
+.wpwand-settings {
+    background: #fff;
+    border-radius: 10px;
+    position: relative;
+    min-height: fit-content;
+    padding-bottom: 30px;
+}
+
+.wpwand-setting-page-wrap {
+    padding: 30px;
+}
+
+.wpwand-settings .wpwand-nav-tab-wrapper {
+    padding: 0 25px 0 !important;
+    border-bottom: 2px solid rgb(22 22 23 / 8%) !important;
+    margin: 0;
+    display: flex;
+}
+
+.wpwand-settings .wpwand-nav-tab {
+    background-color: unset;
+    border: none;
+    border-bottom: 1px solid transparent;
+    padding: 20px 0;
+    margin-right: 30px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-decoration: none;
+    color: #7C838A;
+    margin-left: 0;
+    margin-bottom: -1px;
+    transition: .3s;
+    box-shadow: unset;
+    outline: none;
+    background-color: #fff !important;
+}
+
+.wpwand-settings .wpwand-nav-tab.wpwand-nav-tab-active {
+    border-bottom-color: var(--wpwand-brand-color);
+    color: #080E13;
+}
+
+.wpwand-settings .tab-panel {
+    padding: 0 25px;
+}
+
+.wpwand-settings .tab-panel label {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600 !important;
+    font-size: 14px;
+    line-height: 20px;
+    color: #18181B;
+    position: relative;
+}
+
+.wpwand-settings .tab-panel .wpwand-field-desc {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    /* identical to box height, or 150% */
+    ;
+    color: #454F5C;
+    display: block;
+    margin-top: 8px;
+}
+
+.wpwand-settings .tab-panel th {
+    width: 339px;
+}
+
+.wpwand-settings .tab-panel input:not([type=submit]):not([type=checkbox]),
+.wpwand-settings .tab-panel textarea,
+.wpwand-settings .tab-panel select {
+    width: 350px;
+    height: 45px;
+    border: 1px solid #E4E4E7;
+    border-radius: 5px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+
+
+    /* Neutral/07 */
+
+    color: #080E13;
+    padding: 15px;
+}
+
+.wpwand_api_key_status {
+    display: flex;
+    align-items: center;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+
+    display: flex;
+    align-items: center;
+
+    /* Neutral/07 */
+
+    color: #080E13;
+    margin-top: 10px;
+}
+
+.wpwand_api_key_status svg {
+    margin-right: 5px;
+}
+
+.wpwand-settings .tab-panel textarea {
+    height: 140px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+
+}
+
+.wpwand-settings .tab-panel textarea::placeholder {
+    color: #7C838A;
+}
+
+
+.wpwand-settings p.submit input[type=submit] {
+    background: var(--wpwand-brand-color);
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height, or 150% */
+
+    display: flex;
+    padding: 0 21px;
+}
+
+.wpwand-settings p.submit {
+    padding: 0 25px;
+}
+
+.wpwand-settings .ui-widget.ui-widget-content {
+    background: var(--wpwand-brand-color);
+    height: 3px;
+    border: none;
+    box-sizing: border-box;
+    margin-right: 5px;
+}
+
+.wpwand-settings .ui-slider-horizontal .ui-slider-range-max {
+    background: #EAEDF0;
+}
+
+.wpwand-settings .ui-slider-horizontal .ui-slider-handle {
+    width: 16px;
+    height: 16px;
+    border: 3px solid var(--wpwand-brand-color);
+    border-radius: 50%;
+    top: -6.5px;
+    box-sizing: border-box;
+}
+
+.wpwand-settings .ui-state-active,
+.wpwand-settings .ui-widget-content .ui-state-active,
+.wpwand-settings .ui-widget-header .ui-state-active,
+a.ui-button:active,
+.wpwand-settings .ui-button:active,
+.wpwand-settings .ui-button.ui-state-active:hover {
+    background: var(--wpwand-brand-color);
+}
+
+.wpwand-settings .tab-panel input.wpwand_slider_input {
+    width: 100px !important;
+}
+
+.wpwand-settings .wpwand-slider-input-wrap {
+    display: flex;
+    align-items: center;
+}
+
+
+/* wpwand pro card  */
+
+.wpwand-pro-card-wrapper {
+    width: 512px;
+    background: #FBFBFB;
+    padding: 50px 80px;
+    box-sizing: border-box;
+    text-align: center;
+    position: absolute;
+    top: 61px;
+    right: 0;
+    height: calc(100% - 61px);
+}
+
+.wpwand-logo {
+    background: var(--wpwand-brand-color);
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.wpwand-pro-card-header h3 {
+    /* Headline/H4 */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600 !important;
+    font-size: 24px;
+    line-height: 32px;
+    /* identical to box height, or 133% */
+
+    text-align: center;
+
+    /* Neutral/07 */
+
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #080E13;
+}
+
+.wpwand-pro-card-header p {
+    /* Body/14px/Regular */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 20px;
+    /* or 143% */
+
+    text-align: center;
+    color: #2E3141;
+}
+
+.wpwand-pro-card-header {
+    border-bottom: 1px solid #E1E4E7;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+.wpwand-pro-card-content {
+    text-align: left;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #E1E4E7;
+    margin-bottom: 25px;
+}
+
+.wpwand-pro-card-content ul li {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+
+
+    /* Neutral/07 */
+
+    color: #080E13;
+    display: flex;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.wpwand-pro-card-content ul li svg {
+    width: 15px;
+    margin-right: 10px;
+    min-width: 15px;
+    display: block;
+}
+
+.wpwand-pro-prices {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600 !important;
+    font-size: 40px;
+    line-height: 48px;
+    /* identical to box height, or 120% */
+
+    text-align: center;
+    letter-spacing: -1px;
+
+    /* Neutral/07 */
+
+    color: #080E13;
+}
+
+.wpwand-pro-prices span.wpwand-regular-price {
+    letter-spacing: -1px;
+    text-decoration-line: line-through;
+
+    /* State/Danger */
+
+    color: #EE2626;
+}
+
+.wpwand-pro-card-footer p {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+
+    text-align: center;
+
+    /* Neutral/06 */
+
+    color: #2E3141;
+    margin: 11px 0 20px;
+}
+
+.wpwand-pro-card-footer a {
+    display: block;
+    background: #5ACA25;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border-radius: 8px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600 !important;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.wpwand-settings a.wpwand-get-pro-button {
+    background: #EE2626;
+    border-radius: 8px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height, or 150% */
+
+    display: inline-flex;
+    align-items: center;
+    text-align: right;
+
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 9px 13px;
+    position: absolute;
+    right: 0;
+    top: 10.5px;
+    right: 10px;
+}
+
+.wpwand-model-card-wrapper {
+    width: 512px;
+    background: #FBFBFB;
+    padding: 29px 49px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 61px;
+    right: 0;
+    height: calc(100% - 61px);
+    display: none;
+}
+
+
+.wpwand-model-card-wrapper p {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 20px;
+    /* or 143% */
+
+
+    /* Neutral/07 */
+
+    color: #080E13;
+    margin: 0;
+}
+
+.wpwand-model-card-wrapper h3 {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600 !important;
+    font-size: 18px;
+    line-height: 28px;
+    /* identical to box height, or 156% */
+
+
+    /* Neutral/07 */
+
+    color: #080E13;
+    margin-top: 0;
+}
+
+.wpwand-model-card-wrapper h4 {
+    /* Body/14px/Bold */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600 !important;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+
+
+    /* Neutral/07 */
+
+    color: #080E13;
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+
+
+.wpwand-model-card-content {
+    margin: 31px 0;
+}
+
+.wpwand-model-card-content li:not(:last-child) {
+    border-bottom: 1px solid #EAEDF0;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.wpwand-model-card-content ul {
+    margin: 0;
+}
+
+.wpwand-logo-full {
+    margin-bottom: 30PX;
+}
+
+.wpwand_api_key_status span a {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+
+    display: inline-flex;
+    align-items: center;
+    text-decoration-line: underline;
+
+    /* Primary/Main */
+
+    color: var(--wpwand-brand-color);
+    margin-left: 10px;
+}
+
+a.wpwand-submit-pro-btn.wpwand-get-pro-button {
+    position: static;
+}
+
+.wpwand-tab-header {
+    width: 404px;
+}
+
+.wpwand-tab-header h4 {
+    /* Body/16px/Bold */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600 !important;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+
+    /* gray/900 */
+
+    color: #18181B;
+    margin-bottom: 10px;
+}
+
+.wpwand-tab-header p {
+    /* Body/14px/Regular */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+
+    color: #454F5C;
+    margin-top: 0;
+}
+
+span.wpwand-pro-tag {
+    background: #EE2626;
+    border-radius: 21px;
+    color: #fff;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 5px 7px;
+    margin-left: 7px;
+}
+
+.wpwand-model-card {
+    display: none;
+}
+
+.wpwand-settings .tab-panel select {
+    padding: 0 15px;
+}
+
+/* content animation  */
+
+.skeleton {
+    padding: 15px;
+
+    width: 100%;
+    background: #fff;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .2), 0 1px 8px 0 rgba(0, 0, 0, .12); */
+}
+
+.skeleton .square {
+    height: 80px;
+    border-radius: 5px;
+    background: rgba(130, 130, 130, 0.2);
+    background: -webkit-gradient(linear, left top, right top, color-stop(8%, rgba(130, 130, 130, 0.2)), color-stop(18%, rgba(130, 130, 130, 0.3)), color-stop(33%, rgba(130, 130, 130, 0.2)));
+    background: linear-gradient(to right, rgba(130, 130, 130, 0.2) 8%, rgba(130, 130, 130, 0.3) 18%, rgba(130, 130, 130, 0.2) 33%);
+    background-size: 800px 100px;
+    animation: wave-squares 2s infinite ease-out;
+}
+
+.skeleton .line {
+    height: 12px;
+    margin-bottom: 6px;
+    border-radius: 2px;
+    background: rgba(130, 130, 130, 0.2);
+    background: -webkit-gradient(linear, left top, right top, color-stop(8%, rgba(130, 130, 130, 0.2)), color-stop(18%, rgba(130, 130, 130, 0.3)), color-stop(33%, rgba(130, 130, 130, 0.2)));
+    background: linear-gradient(to right, rgba(130, 130, 130, 0.2) 8%, rgba(130, 130, 130, 0.3) 18%, rgba(130, 130, 130, 0.2) 33%);
+    background-size: 800px 100px;
+    animation: wave-lines 2s infinite ease-out;
+}
+
+.skeleton-right {
+    flex: 1;
+}
+
+.skeleton-left {
+    flex: 2;
+    padding-right: 15px;
+}
+
+.flex1 {
+    flex: 1;
+}
+
+.flex2 {
+    flex: 2;
+}
+
+.skeleton .line:last-child {
+    margin-bottom: 0;
+}
+
+.h8 {
+    height: 8px !important;
+}
+
+.h10 {
+    height: 10px !important;
+}
+
+.h12 {
+    height: 12px !important;
+}
+
+.h15 {
+    height: 15px !important;
+}
+
+.h17 {
+    height: 17px !important;
+}
+
+.h20 {
+    height: 20px !important;
+}
+
+.h25 {
+    height: 25px !important;
+}
+
+.w25 {
+    width: 25% !important
+}
+
+.w40 {
+    width: 40% !important;
+}
+
+.w50 {
+    width: 50% !important
+}
+
+.w75 {
+    width: 75% !important
+}
+
+.m10 {
+    margin-bottom: 10px !important;
+}
+
+.circle {
+    border-radius: 50% !important;
+    height: 80px !important;
+    width: 80px;
+}
+
+@keyframes wave-lines {
+    0% {
+        background-position: -468px 0;
+    }
+
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+@keyframes wave-squares {
+    0% {
+        background-position: -468px 0;
+    }
+
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+.toplevel_page_wpwand img {
+    width: 25px;
+    padding-top: 2px !important;
+    margin: 0;
+    opacity: 1 !important;
+    margin-right: 4px;
+}
+
+.wpwand_editor_icon button {
+    background-image: url(../img/icon.svg);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+span.dashicon.dashicons.dashicons-wpwand-pro:before {
+    content: "Pro";
+}
+
+span.dashicon.dashicons.dashicons-wpwand-pro:before {
+    position: absolute;
+    right: 0;
+    top: 9px;
+    box-sizing: border-box;
+    width: auto;
+    display: flex;
+    align-items: center;
+    background: #EE2626;
+    border-radius: 21px;
+    color: #fff;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 10px;
+    line-height: 20px;
+    padding: 2px 9px;
+    margin-left: 7px;
+    text-transform: uppercase;
+}
+
+button.components-button.components-dropdown-menu__menu-item.has-text.has-icon {
+    position: relative;
+    padding-right: 54px;
+}
+
+span.dashicon.dashicons.dashicons-wpwand-pro {
+    width: 0;
+    margin: 0;
+}
+
+.wpwand-welcome-screen-wrapper {
+    background: #fff;
+    margin: 60px 30px;
+    border-radius: 10px;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.wpwand-welcome-screen {
+    width: 521px;
+}
+
+.wpwand-welcome-screen-header .wpwand-logo {
+    margin-bottom: 7px;
+}
+
+.wpwand-welcome-screen h3 {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600 !important;
+    font-size: 40px;
+    line-height: 48px;
+    color: #080E13;
+    letter-spacing: -1px;
+    margin: 0 0 7px;
+}
+
+.wpwand-welcome-screen p {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+    text-align: center;
+
+    /* Neutral/05 */
+
+    color: #454F5C;
+    margin-bottom: 52px;
+}
+
+.wpwand-welcome-screen iframe {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    height: 248px;
+}
+
+.wpwand-welcome-screen h4 {
+    margin: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600 !important;
+    font-size: 21px;
+    line-height: 32px;
+}
+
+.wpwand-welcome-screen-content ul {
+    text-align: left;
+    padding: 30px 0;
+    border-bottom: 1px solid #EAEDF0;
+}
+
+.wpwand-welcome-screen ul li {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+
+    /* Neutral/07 */
+
+    color: #080E13;
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.wpwand-welcome-screen ul li svg {
+    width: 15px;
+    margin-right: 10px;
+    min-width: 15px;
+}
+
+.wpwand-welcome-screen input#wpwand-api-key {
+    background: #F8F8F9;
+    text-align: center;
+}
+
+form.wpwand-api-missing-form {
+    border: 1px solid #EAEDF0;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.wpwand-welcome-screen-footer {
+    padding-top: 30px;
+}
+
+span.wdelmtr-prompt-trigger {
+    width: 24px;
+    margin-left: 14px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+span.wdelmtr-prompt-trigger:hover {
+    transform: scale(1.1);
+}
+
+span.wpwand-insert-to-widget,
+span.wpwand-insert-to-gutenberg {
+    background: #0c0d0e;
+}
+
+.elementor-editor-active .wpwand-prompt-form-wrap,
+.block-editor-page .wpwand-prompt-form-wrap {
+    top: 40px;
+}
+
+.wpwand-template-filter input {
+    width: 100%;
+    height: 48px;
+    border: 1px solid #d7dce2;
+    padding: 0 16px;
+    border-radius: 8px;
+    max-width: 100%;
+    box-shadow: 0px 12px 32px rgb(0 0 0 / 8%);
+}
+
+.elementor-editor-active .wpwand-prompt-from-wrap {
+    height: calc(100vh - 129px);
+}
+
+.wpwand-ai-response h1 {
+    line-height: 1.4;
+    font-size: 28px;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+/* promo card  */
+.wpwand-welcome-promo-card {
+    background: #FFDF35;
+    display: flex;
+    text-align: left;
+    border-radius: 10px;
+    padding: 20px;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.wpwand-welcome-promo-card span {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    background: var(--wpwand-brand-color);
+    line-height: 28px;
+    padding: 1px 10px;
+    border-radius: 50px;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.wpwand-welcome-promo-card h4 {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    color: #080E13;
+    margin-bottom: 0;
+}
+
+.wpwand-welcome-promo-card a {
+    background: #121616;
+    border-radius: 8px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    padding: 14px 20px;
+    text-align: center;
+}
+
+.wpwand-promo-acton {
+    min-width: fit-content;
+}
+
+.wpwand-welcome-screen-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* promo notice css  */
+.wpwand-promo-notice {
+    background: #FFDF35;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px;
+    padding: 10px;
+    align-items: center;
+    border: none;
+}
+
+.wpwand-promo-notice span {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 28px;
+    letter-spacing: 1px;
+    background: var(--wpwand-brand-color);
+    border-radius: 50px;
+    color: #FFFFFF;
+    padding: 0 13px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.wpwand-promo-notice-content {
+    display: flex;
+    align-items: center;
+}
+
+
+.wpwand-promo-notice h4 {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #080E13;
+}
+
+.wpwand-promo-notice a.wpwand-promo-notice-link {
+    color: #FFFFFF;
+    background: #121616;
+}
+
+.wpwand-promo-notice a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 8px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #080E13;
+    margin-left: 10px;
+    border: 2px solid rgba(8, 14, 19, 0.12);
+    padding: 12px 12px;
+    text-decoration: none;
+}
+
+a.wpwand-sync-prompt-data,
+.wpwand-sync-prompt {
+    display: inline-flex;
+    background: #000;
+    padding: 7px 12px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 3px;
+    align-items: center;
+    justify-content: center;
+}
+
+.wpwand-sync-prompt {
+    opacity: .7;
+}
+
+a.wpwand-sync-prompt-data span.dashicons:before {
+
+    transform: translatex(-50%) translatey(-50%);
+    animation-name: spin;
+    animation-duration: 5000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    /* transform: rotate(3deg); */
+    /* transform: rotate(0.3rad);/ */
+    /* transform: rotate(3grad); */
+    /* transform: rotate(.03turn);  */
+}
+
+@keyframes spin {
+    from {
+        transform: translatex(-50%) translatey(-50%) rotate(0deg);
+    }
+
+    to {
+        transform: translatex(-50%) translatey(-50%) rotate(360deg);
+    }
+}
+
+.wpwand-doc-button a {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    border: 1.5px solid #080E13;
+    border-radius: 8px;
+    line-height: 28px;
+    height: 60px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #080E13;
+    text-decoration: none;
+}
+
+.wpwand-doc-button {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+
+.wpwand-doc-button a svg {
+    margin-right: 10px;
+    width: 18px;
+}
+
+.wpwand-ai-response h3 {
+    font-size: 18px;
+    color: #000;
+    margin-bottom: 20px;
+    line-height: 1.5
+}
+
+.wpwand-ai-response p {}
+
+.wpwand-ai-response h2 {
+    font-size: 22px;
+    color: #000;
+    margin-bottom: 20px;
+    line-height: 1.5
+}
+
+.wpwand-ai-response h4 {
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 20px;
+    line-height: 1.5
+}
+
+a.wpwand-pro-tag {
+    border: 1px solid #ee262640;
+    border-radius: 8px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 21px;
+    display: inline-flex;
+    align-items: center;
+    text-align: right;
+    color: #ee2626;
+    text-decoration: none;
+    margin-left: 10px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    right: 0;
+    top: 10.5px;
+    right: 10px;
+}
+
+.wpwand-settings .tab-panel td {
+    position: relative;
+    display: flex;
+    max-width: fit-content;
+    box-sizing: border-box;
+}
+
+.wpwand-settings .tab-panel span.wpwand-chars-count {
+    position: absolute;
+    color: #000;
+    bottom: 20px;
+    opacity: .5;
+    font-size: 13px;
+    right: 20px;
+}
+
+li#wp-admin-bar-wpwand-trigger a {
+    display: flex;
+}
+
+li#wp-admin-bar-wpwand-trigger a {
+    display: flex !important;
+    align-items: center;
+}
+
+li#wp-admin-bar-wpwand-trigger img {
+    width: 23px;
+    margin-right: 4px;
+}
+
+.edit-post-header-toolbar a.wpwand-trigger {
+    background: var(--wpwand-brand-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    color: #fff;
+    padding: 2.5px 15px;
+    border-radius: 5px;
+    padding-left: 6px;
+}
+
+.edit-post-header-toolbar a.wpwand-trigger img {
+    width: 30px;
+}
+
+div#wpwand-prompt-form input {
+    width: 840px;
+    margin: 0 auto;
+    height: 60px;
+    border: 1px solid #EAEDF0;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05), 0px 12px 32px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    max-width: 100%;
+    font-size: 16px;
+    padding-left: 55px;
+    padding-right: 169px;
+}
+
+div#wpwand-prompt-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    width: 100%;
+    position: sticky;
+    bottom: 50px;
+    align-items: flex-end;
+}
+
+.wpwand-dr-prompt-input {
+    position: relative;
+}
+
+.wpwand-dr-prompt-input img {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    width: 24px;
+    transform: translatey(-50%);
+}
+
+span.wpwand-tag.wpwand-beta {
+    position: absolute;
+    right: 16px;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #666;
+    letter-spacing: 1px;
+    top: 50%;
+    transform: translatey(-50%);
+    line-height: 1;
+}
+
+a.wpwand-ai-bar-hiw {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translatey(-50%);
+    text-decoration: none;
+    line-height: 1;
+    letter-spacing: .5px;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--wpwand-brand-color) !important;
+}
+
+#wpwand-image-generation .wpwand-prompt-form-wrap {
+    opacity: 1;
+    visibility: visible;
+    top: 127px;
+}
+
+
+.wpwand-ai-response.wpwand-dall-e img {
+    width: 256px;
+    max-width: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.wpwand-ai-response.wpwand-dall-e {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.wpwand-ai-image-actions button,
+.wpwand-ai-image-actions a {
+    display: block;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 8px 11px;
+    width: fit-content;
+    margin: 0;
+}
+
+.wpwand-ai-image-actions {
+    display: flex;
+    align-items: center;
+}
+
+.wpwand-ai-image-actions button svg {
+    margin-right: 8px;
+}
+
+.wpwand-ai-image-actions button.wpwand-image-action.download {
+    background-color: transparent;
+    border: 1px solid #D1D6DB;
+    color: #080E13;
+}
+
+.wpwand-image-result-box .line {
+    width: 100%;
+    height: 154px;
+    border-radius: 3px;
+}
+
+.wpwand-ai-image-result-content h4 {
+    margin-top: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 8px;
+    line-height: 22px;
+}
+
+.wpwand-ai-image-result-content p {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    /* identical to box height, or 167% */
+
+
+    /* Neutral/04 */
+    color: #7C838A;
+}
+
+.wpwand-ai-image-actions a {
+    margin-left: 10px;
+    color: #000;
+    text-decoration: none;
+    border: 1px solid #ccc;
+}
+
+.wpwand-ai-image-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 14px;
+}
+
+.wpwand-template-filter {
+    padding: 15px 15px 0;
+}
+
+.elementor-editor-active #wpwand-image-generation .wpwand-prompt-form-wrap,
+.block-editor-page #wpwand-image-generation .wpwand-prompt-form-wrap {
+    top: 95px;
+}
+
+.wpwand-ai-image-actions button.added svg {
+    width: 14px;
+    margin-top: -4px;
+}
+
+.wpwand-trigger.wpwand-open img {
+    width: 40px;
+}
+
+.wpwand-logo-full img {
+    width: 116px;
+}
+
+.wpwand-floating-header img {
+    width: 22px;
+    margin-right: 3px;
+}
+
+.wpwand-settings .tab-panel input[type=color] {
+    padding: 6px !important;
+    max-width: 100px;
+}
+
+.wpwand-upload-field-wrap img {
+    max-width: 74px;
+    width: auto;
+}
+
+.wpwand-upload-field-wrap {
+    position: relative;
+}
+
+button.wpwand-upload-button {
+    background: var(--wpwand-brand-color);
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    display: flex;
+    padding: 0 21px;
+    color: #fff;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.wpwand-upload-field-wrap {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.wpwand-upload-preview {
+    min-width: 100%;
+    position: relative;
+}
+
+
+
+.wpwand-upload-preview span.wpwand-img-preview-remove {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    color: red;
+    background-color: #ffffff8a;
+    width: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+
+
+
+.wpwand-popup-prompt-wrap {
+    position: fixed;
+    width: 442px;
+    height: 200px;
+    background-color: #fff;
+    z-index: 11111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 50%;
+    transform: translatex(-50%);
+    box-shadow: 1px 9px 20px #00000012;
+}
+
+.wpwand-popup-prompt-wrap input {
+    width: 386px;
+}
+
+.wpwand-wc-prompt-toggle,
+.wpwand-button {
+    background: var(--wpwand-brand-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    color: #fff;
+    padding: 2.5px 15px;
+    border-radius: 5px;
+    padding-left: 6px;
+    cursor: pointer;
+    display: inline-flex;
+}
+
+.wpwand-wc-prompt-toggle img,
+.wpwand-button img {
+    width: 27px;
+}
+
+.wpwand-wc-prompt-wrap {
+    position: absolute;
+    top: 14px;
+    left: 145px;
+}
+
+.wpwand-popup-prompt {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 547px;
+    background: #fff;
+    padding: 16px 15px;
+    border: 1px solid #EAEDF0;
+    box-shadow: 0px 12px 32px rgba(11, 32, 78, 0.06);
+    border-radius: 8px;
+    visibility: hidden;
+    opacity: 0;
+    transition: .3s;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.wpwand-popup-prompt.active {
+    visibility: visible;
+    opacity: 2;
+}
+
+.wpwand-wc-prompt-wrap .wpwand-content {
+    border-width: 0 0 1px 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    position: relative;
+}
+
+.wpwand-wc-prompt-wrap .wpwand-content h4 {
+    margin-top: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+
+    /* Neutral/07 */
+    display: inline-block;
+    color: #080E13;
+}
+
+textarea#wpwand-short_description {
+    height: 134px;
+    padding: 12px 16px;
+}
+
+.wpwand-wc-prompt-wrap .wpwand-content:last-child {
+    border: none;
+}
+
+span.wpwand-wc-prompt-close {
+    position: absolute;
+    right: 12px;
+    top: 14px;
+    cursor: pointer;
+}
+
+a.wpwand-yst-trigger.wpwand-button {
+    color: #fff;
+    position: absolute;
+    top: 0;
+    right: 116px;
+}
+
+.yst-replacevar {
+    position: relative;
+}
+
+span.wpwand-seo-generator.wpwand-rankmath-generator.wpwand-button {
+    display: inline-flex;
+    margin-top: 10px;
+}
+
+span.wpwand-seo-generator-locked-ooltip {
+    position: absolute;
+    background-color: black;
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 3px;
+    transition: .3s;
+    visibility: hidden;
+    opacity: 0;
+    display: inline-flex;
+    right: 0;
+    min-width: 173px;
+    max-width: unset;
+    text-transform: uppercase;
+    bottom: 100%;
+    font-size: 12px;
+}
+
+span.wpwand-seo-generator-locked:hover~span.wpwand-seo-generator-locked-ooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.wpwand-seo-generator-wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+
+
+label[for=rank-math-editor-description] {
+    margin-top: 15px;
+}
+
+.length-indicator-wrapper {
+    top: 37px;
+}
+
+
+
+
+/* history page  */
+.wpwand-history-page table.wp-list-table th {
+    font-size: 14px;
+    font-family: Inter;
+    font-weight: 500;
+    line-height: 20px;
+    border-top: none;
+    color: #080E13;
+    padding: 20px;
+    border-bottom: 1px solid rgb(22 22 23 / 7%);
+}
+
+
+.wpwand-history-page table.wp-list-table {
+    border: none;
+    border-radius: 10px;
+}
+
+.wpwand-history-page table.wp-list-table td {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgb(22 22 23 / 7%);
+    font-size: 14px;
+    font-family: Inter;
+    line-height: 20px;
+    color: #18181B;
+    font-weight: 400;
+}
+
+.wpwand-history-page table.wp-list-table tr {
+    background-color: #fff;
+}
+
+
+
+.wpwand-history-page a {
+    color: var(--wpwand-brand-color);
+}
+
+.wpwand-history-page table.wp-list-table td {}
+
+.wpwand-history-page table.wp-list-table td.wpwand-history-action {
+    text-align: right;
+}
+
+a.wpwand-history-btn {
+    display: inline-flex;
+    padding: 4px 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 4px;
+    background: var(--neutral-05, #454F5C);
+    color: #fff;
+    margin-left: 10px;
+    /* Semi-bold/13px */
+    font-size: 14px;
+    font-family: Inter;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+a.wpwand-history-btn.delete {
+    background-color: #EE2626;
+}
+
+.wpwand-history-page .pagination-wrap {
+    margin: 20px 0;
+    display: flex;
+    border: 1px solid #E4E4E7;
+    width: fit-content;
+}
+
+.wpwand-history-page .pagination-wrap a,
+.wpwand-history-page .pagination-wrap span {
+    box-shadow: unset;
+    display: block;
+    padding: 8px 13px;
+    border: none;
+    border-right: 1px solid #E4E4E7;
+    text-decoration: none;
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+}
+
+
+.wpwand-history-page .pagination-wrap a:last-child,
+.wpwand-history-page .pagination-wrap span:last-child {
+    border-right: none;
+}
+
+.wpwand-history-page .pagination-wrap .current {
+    color: var(--wpwand-brand-color);
+    border: 1px solid var(--wpwand-brand-color) !important;
+}
+
+.wpwand-history-details>h1 {
+    font-size: 18px;
+    font-family: Inter;
+    display: inline-flex;
+    font-weight: 600;
+    line-height: 28px;
+    color: 18181B;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.wpwand-history-metas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.wpwand-history-metas a.wpwand-history-btn.delete {
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-decoration: none;
+}
+
+.wpwand-history-metas .wpwand-history-meta {
+    margin-right: 40px;
+    /* Body/14px/Regular */
+    font-size: 14px;
+    font-family: Inter;
+    line-height: 20px;
+}
+
+.wpwand-history-content {
+    padding: 20px 25px;
+    background-color: #fff;
+    border-radius: 10px;
+    font-family: Inter;
+    min-height: 200px;
+}
+
+
+
+.wpwand-markdown.wpwand-history-content h1 {
+    font-weight: 600;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.wpwand-history-page {
+    padding: 27px 20px;
+}
+
+.wpwand-history-page h1 {
+    margin-bottom: 30px;
+    text-transform: capitalize;
+}
+
+#toplevel_page_wpwand a:empty {
+    display: none;
+}
+
+
+.wpwand-floating.wpwand-expanded {
+    width: 50%;
+}
+
+.wpwand-screen-expander {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translatex(-100%);
+    background: var(--wpwand-brand-color);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    justify-content: center;
+    border: none;
+    top: 40px;
+    opacity: 1;
+}
+
+.admin-bar:Not(.block-editor-page) .wpwand-screen-expander {
+    top: 70px;
+}
+
+.wpwand-floating:not(.active) .wpwand-screen-expander {
+    display: none;
+}
+
+.mce-is_pro:after {
+    position: absolute;
+    right: 4px;
+    content: "Pro";
+    top: 3px;
+    box-sizing: border-box;
+    width: auto;
+    display: flex;
+    background: #EE2626;
+    border-radius: 21px;
+    color: #fff;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 10px;
+    line-height: 20px;
+    padding: 2px 9px;
+    margin-left: 7px;
+    display: inline-block !important;
+    text-transform: uppercase;
+}
+
+
+.mce-menu .mce-container-body {
+    min-width: 245px !important;
+}
+
+.mce-menu {
+    min-width: 245px !important;
+}
+
+/* .wpwand-mce-loading{
+    color:var(--wpwand-brand-color)
+} */
+
+
+
+/* post generator  */
+div#wpwand-bulk-post-generator>h1 {
+    color: #18181B;
+    display: inline-flex;
+    /* Body/18px/Bold */
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+    /* 155.556% */
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.wpwand-pgs-wrap {
+    background-color: #fff;
+    border-radius: 10px 10px 0px 0px;
+    margin-top: 35px;
+}
+
+div#wpwand-bulk-post-generator {
+    padding: 20px;
+}
+
+.wpwand-pgs-header {
+    display: flex;
+    padding: 25px 35px;
+    width: 700px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wpwand-pgs-header .step h4 {
+    color: var(--gray-900, #18181B);
+
+    /* Body/14px/Bold */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    /* 142.857% */
+    padding: 0;
+    margin: 0 0 5px;
+}
+
+.wpwand-pgs-header .step p {
+    color: var(--neutral-05, #454F5C);
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    /* 150% */
+    margin: 0;
+}
+
+.wpwand-pgs-content .step-content {
+    padding: 20px 35px;
+    display: none;
+}
+
+form.wpwand-pg-form .wpwand-pgf-row {
+    display: flex;
+    width: 770px;
+    /* align-items: center; */
+    margin-bottom: 37px;
+    gap: 10%;
+    box-sizing: border-box;
+}
+
+form.wpwand-pg-form .wpwand-pgf-row label {
+    color: var(--gray-900, #18181B);
+
+    /* Body/14px/Bold */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    /* 142.857% */
+    margin-bottom: 8px;
+    display: block;
+}
+
+form.wpwand-pg-form .wpwand-pgf-row p {
+    color: var(--neutral-05, #454F5C);
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    /* 150% */
+    margin: 0;
+}
+
+
+
+form.wpwand-pg-form .wpwand-pgf-row .wpwand-pgf-label {
+    width: 40%;
+}
+
+form.wpwand-pg-form .wpwand-pgf-row .wpwand-pgf-field {
+    width: 60%;
+}
+
+form.wpwand-pg-form .wpwand-pgf-row .wpwand-pgf-field input {
+    border: 1px solid var(--gray-200, #E4E4E7);
+    border-radius: 5px;
+    height: 45px;
+    width: 100%;
+    padding-left: 17px;
+}
+
+.wpwand-pgs-content .step-content button {
+    background: var(--wpwand-brand-color);
+    border-radius: 8px;
+    height: 40px;
+    min-width: 100px;
+    border: none;
+    color: #FFF;
+    text-align: center;
+
+    /* Semi-bold/13px */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    /* 150% */
+    padding: 0 20px;
+}
+
+.wpwand-pgs-content .step-content#step-1 {
+    padding-top: 37px;
+}
+
+.wpwand-pgs-content #step-2 .wpwand-pg-info-wrap {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    margin-bottom: 20px;
+}
+
+.wpwand-pgs-content #step-2 .wpwand-pg-info-wrap strong {
+    color: var(--gray-900, #18181B);
+
+    /* Body/14px/Bold */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    margin-right: 8px;
+    line-height: 20px;
+    /* 142.857% */
+}
+
+.wpwand-pgs-content #step-2 .wpwand-pg-info-wrap span {
+    color: var(--neutral-05, #454F5C);
+
+    /* Body/14px/Regular */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    /* 142.857% */
+}
+
+a.wpwand-pgs-back-button {
+    height: 40px;
+    min-width: 100px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px solid var(--neutral-04, #7C838A);
+    color: var(--neutral-07, #080E13);
+    text-align: center;
+
+    /* Semi-bold/13px */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    margin-right: 5px;
+    line-height: 21px;
+    /* 150% */
+    text-decoration: none;
+}
+
+.wpwand-pgs-content #step-3 .wpwand-pg-info {
+    margin-bottom: 20px;
+}
+
+.wpwand-pgs-content #step-3 p {
+    color: #000;
+
+    /* Body/16px/Medium */
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    /* 150% */
+}
+
+.wpwand-pgs-header .step {
+    opacity: .5;
+}
+
+.wpwand-pgs-header .step.active {
+    opacity: 1;
+}
+
+.wpwand-pgs-content .step-content.active {
+    display: block;
+}
+
+.wpwand-pg-titles-wrap {
+    border-radius: 10px;
+    border: 1px solid #EBEBEB;
+    background: #FBFBFB;
+    padding: 20px;
+    margin-bottom: 30px;
+    flex: 0 0 60%;
+    box-sizing: border-box;
+}
+
+.wpwand-pg-titles-header h4 {
+    color: #18181B;
+
+    /* Body/16px/Bold */
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    /* 150% */
+    margin: 0 0 10px;
+}
+
+.wpwand-pcgf-heading-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid #EAEDF0;
+}
+
+.wpwand-pcgf-heading-item label {
+    color: var(--neutral-07, #080E13);
+
+    /* Body/14px/Medium */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    /* 142.857% */
+}
+
+.wpwand-pcgf-heading-content {
+    display: flex;
+    align-items: center;
+}
+
+.wpwand-pcgf-heading-content input[type=checkbox],
+.wpwand-form-field input[type=checkbox] {
+    margin: 0;
+    margin-right: 10px;
+    border: none;
+    display: flex;
+    align-items: center;
+    width: 15px;
+    height: 15px;
+    justify-content: center;
+    text-align: center;
+    border: 1px solid #8c8f9454;
+    display: inline-flex;
+}
+
+.wpwand-pcgf-heading-content input[type=checkbox]:checked,
+.wpwand-form-field input[type=checkbox]:checked {
+    background-color: var(--wpwand-brand-color);
+}
+
+.wpwand-pcgf-heading-content input[type=checkbox]:checked::before,
+.wpwand-form-field input[type=checkbox]:checked::before {
+    content: '\2714';
+    /* Unicode character for checkmark */
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    float: unset;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+}
+
+.wpwand-pcgf-heading-action .remove {
+    color: #FFF;
+    text-align: center;
+
+    /* Semi-bold/13px */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    border-radius: 4px;
+    background: var(--state-danger, #EE2626);
+    font-weight: 500;
+    line-height: 21px;
+    /* 150% */
+    display: inline-flex;
+    padding: 4px 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.wpwand-pcgf-heading-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.wpwand-pcgf-titles-wrap .wpwand-pg-titles-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wpwand-pcgf-titles-wrap .wpwand-pg-titles-header .remove-selected {
+    border-radius: 4px;
+    background: var(--neutral-07, #080E13);
+    display: inline-flex;
+    padding: 4px 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: #FFF;
+    text-align: center;
+
+    /* Semi-bold/13px */
+    text-decoration: none;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21px;
+    /* 150% */
+}
+
+
+.wpwand-pgdc-page .wpwand-pgdc-header h1 {
+    color: var(--gray-900, #18181B);
+
+    /* Body/16px/Bold */
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    /* 150% */
+    padding: 0;
+    margin-bottom: 3px;
+    box-sizing: border-box;
+}
+
+.wpwand-pgdc-page .wpwand-pgdc-header p {
+    margin: 0;
+}
+
+
+
+.wpwand-pgdc-page .wpwand-pgdc-header {
+    border-radius: 10px 10px 0px 0px;
+    background-color: #FCFCFC;
+    padding: 25px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid #EAEDF0;
+    width: 100%;
+}
+
+.wpwand-history-page.wpwand-pgdc-page {
+    padding: 0;
+}
+
+
+.wpwand-pgdc-page table.wp-list-table td span.status {
+    display: inline-flex;
+    padding: 3px 6px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: var(--gray-900, #18181B);
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    /* 166.667% */
+    border-radius: 4px;
+    background: #FEF392;
+}
+
+.wpwand-pgdc-page table.wp-list-table td span.status.done {
+    background: #C9F5B4;
+}
+
+.wpwand-pgdc-page table.wp-list-table td span.status.failed {
+    background: #FFB2B2;
+}
+
+a.wpwand-pgdc-create-button {
+    background: var(--wpwand-brand-color);
+    border-radius: 8px;
+    height: 40px;
+    min-width: 100px;
+    border: none;
+    color: #FFF;
+    text-align: center;
+
+    /* Semi-bold/13px */
+    font-family: Inter;
+    display: inline-flex;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    /* 150% */
+    align-items: center;
+    padding: 0 20px;
+    justify-content: center;
+    text-decoration: none;
+    float: right;
+}
+
+a.wpwand-pgdc-approve-button {
+    background: var(--wpwand-brand-color);
+    display: inline-flex;
+    padding: 4px 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 4px;
+    color: #fff;
+    margin-left: 10px;
+    font-size: 14px;
+    font-family: Inter;
+    font-weight: 500;
+    line-height: 21px;
+    text-decoration: none;
+    position: absolute;
+    right: 85px;
+    top: 0;
+    text-decoration: none;
+    /* transform: translatex(-100%); */
+}
+
+.wpwand-pgs-content {
+    border-top: 1px solid #EAEDF0;
+}
+
+/* sweet aert  */
+.wpwand-swal-alert h2#swal2-title {
+    color: var(--gray-900, #18181B);
+
+    /* Body/18px/Bold */
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+    /* 155.556% */
+    padding: 0;
+}
+
+.wpwand-swal-alert div#swal2-html-container {
+    color: var(--gray-900, #18181B);
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    /* 166.667% */
+    margin-top: 6px;
+}
+
+.wpwand-swal-alert button.swal2-styled {
+    display: inline-flex;
+    padding: 4px 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 4px;
+    color: #fff;
+    margin-left: 10px;
+    font-size: 14px;
+    font-family: Inter;
+    font-weight: 500;
+    line-height: 21px;
+    text-decoration: none;
+}
+
+.wpwand-swal-alert button.swal2-styled.swal2-confirm {
+    background: var(--wpwand-brand-color);
+}
+
+.wpwand-swal-alert button.swal2-styled.swal2-deny {
+    background-color: #EE2626;
+}
+
+.swal2-popup.wpwand-swal-alert {
+    padding: 41px 0;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.swal2-popup.swal2-modal.wpwand-swal-alert {
+    width: 390px;
+    padding: 30px 40px;
+}
+
+div#wpwand-bulk-post-generator .wpwand-history-page.wpwand-history-details {
+    padding: 0;
+}
+
+
+span.wpwand-pgs-limit-text strong {
+    display: block;
+    margin-right: 5px;
+}
+
+span.wpwand-pgs-limit-text {
+    height: 40px;
+    min-width: 100px;
+    border: none;
+    text-align: center;
+    font-family: Inter;
+    display: inline-flex;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    padding: 0 20px;
+    justify-content: center;
+    text-decoration: none;
+    float: right;
+    align-items: center;
+}
+
+a.wpwand-pgdc-create-button.locked {
+    background-color: #EE2626;
+}
+
+div#wpwand-bulk-post-generator>h1 small {
+    font-size: 10px;
+    font-weight: 400;
+    margin-left: 5px;
+}
+
+
+#wpwand-bulk-post-generator a.wpwand-pro-tag {
+    background-color: #ee2626;
+    color: #fff;
+    min-width: 100px;
+    height: 40px;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-left: 0;
+}
+
+.wpwand-pgs-free-htw-video {
+    margin-bottom: 30px;
+    box-sizing: border-box;
+    padding-left: 50px;
+}
+
+.wpwand-pgs-free-htw-video h2 {
+    margin-bottom: 34px;
+    font-size: 29px;
+    line-height: 1.3;
+}
+
+.wpwand-pgs-confirmation-wrap {
+    display: flex;
+    gap: 99px;
+}
+
+.wpwand-pgs-confirmation {
+    padding-top: 50px;
+}
+
+.wpwand-pgs-free-htw-video iframe {
+    width: 640px;
+    height: 363px;
+    max-width: 100%;
+}
+
+.wpwand-pgdc-wrap {
+    margin-top: 40px;
+}
+
+.wpwand-pcgf-headings-field-wrap {
+    display: flex;
+    /* gap: 40px; */
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+.wpwand-pcgf-heading-settings {
+    flex: 0 0 40%;
+    box-sizing: border-box;
+    padding-left: 40px;
+}
+
+.wpwand-pcgf-heading-settings label {
+    color: var(--neutral-07, #080E13);
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.wpwand-pcgf-heading-settings label span.wpwand-optional-label {
+    font-weight: 400;
+    color: 7C838A;
+}
+
+.wpwand-pcgf-heading-settings textarea {
+    width: 100%;
+    height: 85px;
+    padding: 14px 18px;
+    border: 1px solid var(--neutral-02, #EAEDF0);
+    border-radius: 8px;
+}
+
+.wpwand-pcgf-heading-settings .wpwand-pgf-field {
+    margin-bottom: 15px;
+}
+
+.wpwand-pcgf-heading-settings select {
+    border-radius: 8px;
+    border: 1px solid var(--neutral-02, #EAEDF0);
+    background: var(--neutral-01, #FFF);
+    padding: 14px 18px;
+    width: 100%;
+    display: block;
+    max-width: 100%;
+    background: #fff url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E') no-repeat right 5px top 55%;
+    -webkit-appearance: none;
+}
+
+.wpwand-pcgf-heading-settings input[type=checkbox] {
+    margin: 0;
+    margin-right: 10px;
+    border: none;
+    display: flex;
+    align-items: center;
+    width: 15px;
+    height: 15px;
+    justify-content: center;
+    text-align: center;
+    border: 1px solid #8c8f9454;
+    float: left;
+    margin-top: 3px;
+}
+
+.wpwand-pcgf-heading-settings input[type=checkbox]:checked:before {
+    content: '\2714';
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    float: unset;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+}
+
+.wpwand-pcgf-heading-settings input[type=checkbox]:checked {
+    background-color: var(--wpwand-brand-color);
+    border-color: var(--wpwand-brand-color);
+}
+
+.wpwand-history-content h1 {
+    margin-bottom: 0 !important;
+    display: block !important;
+    font-weight: 600;
+    max-width: 100%;
+}
+
+
+/* pgf tab css  */
+form.wpwand-pg-form .wpwand-pgf-row .wpwand-pgf-field textarea {
+    border: 1px solid var(--gray-200, #E4E4E7);
+    border-radius: 5px;
+    min-height: 239px;
+    width: 100%;
+    padding: 15px;
+}
+
+div#wpwand-pgf-custom-wrap .wpwand-pgf-custom .wpwand-pgf-row {
+    width: 778px;
+}
+
+form.wpwand-pg-form.wpwand-pgf-custom .wpwand-pgf-row .wpwand-pgf-label {
+    width: 40%;
+}
+
+form.wpwand-pg-form.wpwand-pgf-custom .wpwand-pgf-row .wpwand-pgf-field {
+    width: 69%;
+}
+
+.wpwand-nasted-tabs {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    border: 1px solid var(--neutral-03, #D1D6DB);
+    border-radius: 8px;
+    margin-top: 30px;
+}
+
+.step-content .wpwand-nasted-tabs {
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+.wpwand-nasted-tabs a {
+    color: var(--neutral-07, #080E13);
+    text-align: center;
+
+    /* Semi-bold/13px */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21px;
+    /* 150% */
+    padding: 16px;
+    text-decoration: none;
+    box-shadow: unset;
+}
+
+.wpwand-nasted-tabs a:first-child {
+    border-right: 1px solid var(--neutral-03, #D1D6DB);
+}
+
+.wpwand-nasted-tabs a.active {
+    background: var(--neutral-02, #EAEDF0);
+}
+
+.wpwand-form-field.wpwand-radio-field-wrap {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 15px;
+}
+
+.wpwand-form-field.wpwand-radio-field-wrap h4 {
+    flex: 0 0 100%;
+    font-weight: 600;
+    color: #080E13;
+    font-size: 14px;
+    margin: 0;
+}
+
+.wpwand-form-field.wpwand-radio-field-wrap label.wpwand-radio-label {
+    font-weight: 400 !important;
+    color: var(--neutral-05, #454F5C);
+    display: inline-flex;
+    align-items: center;
+}
+
+
+/* wpwand table  */
+.wpwand-table-wrap table.wp-list-table th {
+    font-size: 14px;
+    font-family: Inter;
+    font-weight: 500;
+    line-height: 20px;
+    border-top: none;
+    color: #080E13;
+    padding: 20px;
+    border-bottom: 1px solid rgb(22 22 23 / 7%);
+}
+
+
+.wpwand-table-wrap table.wp-list-table {
+    border: none;
+    border-radius: 10px;
+}
+
+.wpwand-table-wrap table.wp-list-table td {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgb(22 22 23 / 7%);
+    font-size: 14px;
+    font-family: Inter;
+    line-height: 20px;
+    color: #18181B;
+    font-weight: 400;
+    display: table-cell;
+}
+
+.wpwand-table-wrap table.wp-list-table tr {
+    background-color: #fff;
+}
+
+
+
+.wpwand-table-wrap a {
+    color: var(--wpwand-brand-color);
+}
+
+
+.wpwand-table-wrap table.wp-list-table td.wpwand-table-action {
+    text-align: right;
+}
+
+a.wpwand-table-btn {
+    display: inline-flex;
+    padding: 4px 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 4px;
+    background: var(--neutral-05, #454F5C);
+    color: #fff;
+    margin-left: 10px;
+    /* Semi-bold/13px */
+    font-size: 14px;
+    font-family: Inter;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+a.wpwand-table-btn.delete {
+    background-color: #EE2626;
+}
+
+.wpwand-table-wrap .pagination-wrap {
+    margin: 20px 0;
+    display: flex;
+    border: 1px solid #E4E4E7;
+    width: fit-content;
+}
+
+.wpwand-table-wrap .pagination-wrap a,
+.wpwand-table-wrap .pagination-wrap span {
+    box-shadow: unset;
+    display: block;
+    padding: 8px 13px;
+    border: none;
+    border-right: 1px solid #E4E4E7;
+    text-decoration: none;
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+}
+
+
+.wpwand-table-wrap .pagination-wrap a:last-child,
+.wpwand-table-wrap .pagination-wrap span:last-child {
+    border-right: none;
+}
+
+.wpwand-table-wrap .pagination-wrap .current {
+    color: var(--wpwand-brand-color);
+    border: 1px solid var(--wpwand-brand-color) !important;
+}
+
+.wpwand-table-metas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.wpwand-table-metas a.wpwand-table-btn.delete {
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-decoration: none;
+}
+
+.wpwand-table-metas .wpwand-table-meta {
+    margin-right: 40px;
+    /* Body/14px/Regular */
+    font-size: 14px;
+    font-family: Inter;
+    line-height: 20px;
+}
+
+.wpwand-table-content {
+    padding: 20px 25px;
+    background-color: #fff;
+    border-radius: 10px;
+    font-family: Inter;
+    min-height: 200px;
+}
+
+
+
+.wpwand-markdown.wpwand-table-content h1 {
+    font-weight: 600;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.wpwand-table-wrap {
+    /* padding: 27px 20px; */
+}
+
+.wpwand-table-wrap h1 {
+    margin-bottom: 30px;
+    text-transform: capitalize;
+}
+
+.wpwand-content.wpwand-prompt-error {
+    color: red;
+}

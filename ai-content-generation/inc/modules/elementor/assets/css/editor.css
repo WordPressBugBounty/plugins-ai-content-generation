@@ -1,0 +1,11 @@
+.wdelmtr-prompt-box {
+    position: fixed;
+    left: 50%;
+    width: 429px;
+    background-color: #fff;
+    transform: translatex(-50%);
+    box-shadow: 0 0 20px #00000070;
+    min-height: 300px;
+    padding: 30px;
+    border-radius: 10px;
+}
