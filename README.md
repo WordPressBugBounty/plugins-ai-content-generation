@@ -1,0 +1,1 @@
+# plugins-ai-content-generation
