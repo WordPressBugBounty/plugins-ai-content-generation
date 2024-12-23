@@ -79,6 +79,8 @@
                     try {
                         r = await async function (t) {
                             let e = new FormData;
+                            e.append("nonce", wpwand_glb.nonce); // Include the nonce
+
                             e.append("prompt", t), e.append("action", "wpwand_editor_request") /* , e.append("nonce", wpwand_editor_wp_nonce) */ ;
                             const o = await fetch(wpwand_gutenberg_editor.editor_ajax_url, {
                                 method: "POST",
@@ -301,6 +303,7 @@
             url: wpwand_glb.ajax_url,
             data: {
                 action: 'wpwand_only_prompt',
+                nonce: wpwand_glb.nonce,
                 prompt,
                 is_table_format
             },

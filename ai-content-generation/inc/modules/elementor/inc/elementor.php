@@ -9,13 +9,16 @@ if ( !defined( 'ABSPATH' ) ) {
 
 function wdelmtr_api_set() {
 
+    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+        wp_send_json_error('Nonce verification failed.', 403);
+    }
     // Check if prompt parameter exists
     if ( empty( $_POST['topic'] ) ) {
         wp_send_json_error( 'Please enter your topic' );
     }
 
     // Sanitize and validate input fields
-    $topic = sanitize_text_field( $_POST['topic'] ?? '' );
+    $topic = sanitize_text_field(wp_unslash( $_POST['topic'] )) ?? '' ;
 
     $selected_model = get_option( 'wdelmtr_model', 'gpt-3.5-turbo' );
 

@@ -1,21 +1,31 @@
 <?php
+
 /**
- * Plugin Name: WP Wand
+ * Plugin Name: WP Wand - AI Writer, AI Content Generator & AI Assistant by ChatGPT, OpenAI | Generate SEO Friendly AI Blog Post & Article with 20X Speed
  * Plugin URI: https://wpwand.com/
  * Description: WP Wand is a AI content generation plugin for WordPress that helps your team create high quality content 10X faster and 50x cheaper. No monthly subscription required.
- * Version: 1.2.5
+ * Version: 1.2.6
  * Author: WP Wand
  * Author URI: https://wpwand.com/
- * Text Domain: wpwand
+ * Text Domain: wp-wand
  * License: GPL-2.0+
  * Requires PHP: 7.4
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
+
+/**
+ * Load plugin textdomain.
+ */
+function wpwand_load_plugin_textdomain()
+{
+    load_plugin_textdomain('wp-wand', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+}
+add_action('plugins_loaded', 'wpwand_load_plugin_textdomain');
+
 if (!function_exists('get_plugin_data')) {
     require_once ABSPATH . 'wp-admin/includes/plugin.php';
 }
 // Define constants
-define('WPWAND_VERSION', get_plugin_data(__FILE__)['Version']);
 
 define('WPWAND_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('WPWAND_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -29,6 +39,13 @@ function wpwand_init()
     if (!current_user_can('manage_options')) {
         return false;
     }
+    // check if php version is 7.4 or higher
+    if (version_compare(phpversion(), '7.4', '<')) {
+        add_action('admin_notices', 'wpwand_php_version_notice');
+
+        return false;
+    }
+    define('WPWAND_VERSION',  get_plugin_data(__FILE__)['Version']);
 
 
     // Vendor Autoload
@@ -43,7 +60,7 @@ function wpwand_init()
         require_once WPWAND_PLUGIN_DIR . 'inc/Finestics/Client.php';
     }
 
-    $init_finestics = new Finestics\Client('wp-wand', 'WP Wand', __FILE__);
+    $init_finestics = new Finestics\Client('wpwand', 'WP Wand', __FILE__);
     $init_finestics->insights()->init();
 
 
@@ -78,14 +95,7 @@ function wpwand_init()
 
 add_action('init', 'wpwand_init', 10);
 
-/**
- * Load plugin textdomain.
- */
-function wpwand_load_plugin_textdomain()
-{
-    load_plugin_textdomain('wpwand', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-}
-add_action('plugins_loaded', 'wpwand_load_plugin_textdomain');
+
 
 // Hook into the 'admin_init' action
 add_action('admin_init', 'wpwand_activation_redirect');
@@ -112,4 +122,11 @@ function wpwand_set_activation_redirect($plugin)
         // Set the option to redirect after activation
         update_option('wpwand_activation_redirect', true);
     }
+}
+
+
+// write a wpwand_php_version_notice function
+function wpwand_php_version_notice()
+{
+    echo '<div class="error"><p>' . esc_html__('WP Wand requires PHP 7.4 or higher. Please upgrade your PHP version.', 'wp-wand') . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }

@@ -124,6 +124,7 @@
           url: wpwand_glb.ajax_url,
           data: {
             action: "wpwand_post_generator",
+            nonce: wpwand_glb.nonce,
             topic,
             count,
           },
@@ -190,6 +191,7 @@
           url: wpwand_glb.ajax_url,
           data: {
             action: "wpwand_post_content_generator",
+            nonce: wpwand_glb.nonce,
             selected_title,
             keyword,
             tone,
@@ -238,6 +240,7 @@
         url: wpwand_glb.ajax_url,
         data: {
           action: "wpwand_post_generation_progress",
+          nonce: wpwand_glb.nonce,
           id,
         },
         success: function (response) {

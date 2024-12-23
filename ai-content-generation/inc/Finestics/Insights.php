@@ -1,4 +1,5 @@
 <?php
+
 namespace Finestics;
 
 // phpcs:ignoreFile
@@ -215,7 +216,8 @@ class Insights
                 'order' => 'ASC',
                 'number' => 1,
                 'paged' => 1,
-            ));
+            )
+        );
 
         $admin_user = (is_array($users) && !empty($users)) ? $users[0] : false;
         $first_name = $last_name = '';
@@ -335,7 +337,7 @@ class Insights
     {
         return false;
 
-        $is_local = in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'));
+        $is_local = isset($_SERVER['REMOTE_ADDR']) ? in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')) : false;
 
         return apply_filters('finestics_is_local', $is_local);
     }
@@ -390,7 +392,7 @@ class Insights
             $optout_url = add_query_arg($this->client->slug . '_tracker_optout', 'true');
 
             if (empty($this->notice)) {
-                $notice = sprintf($this->client->__trans('Want to help make <strong>%1$s</strong> even more awesome? Allow %1$s to collect non-sensitive diagnostic data and usage information.'), $this->client->name);
+                $notice = sprintf($this->client->__trans('Want to help make <strong>%1$s</strong> even more awesome? Allow %1$s to collect non-sensitive diagnostic data and usage information.'), $this->client->name); //phpcs:ignore
             } else {
                 $notice = $this->notice;
             }
@@ -401,19 +403,24 @@ class Insights
             $notice .= '<p class="description" style="display:none;">' . implode(', ', $this->data_we_collect()) . '. No sensitive data is tracked. ';
             $notice .= 'We are using Finestics to collect your data. <a href="' . $policy_url . '">Learn more</a> about how Finestics collects and handle your data.</p>';
 
-            echo '<div class="updated"><p>';
-            printf($notice);
-            echo '</p><p class="submit">';
-            echo '&nbsp;<a href="' . esc_url($optin_url) . '" class="button-primary button-large">' . $this->client->__trans('Allow') . '</a>';
-            echo '&nbsp;<a href="' . esc_url($optout_url) . '" class="button-secondary button-large">' . $this->client->__trans('No thanks') . '</a>';
-            echo '</p></div>';
-
-            echo "<script type='text/javascript'>jQuery('." . $this->client->slug . "-insights-data-we-collect').on('click', function(e) {
+?>
+            <div class="updated">
+                <p>
+                    <?php printf($notice); // phpcs:ignore 
+                    ?>
+                </p>
+                <p class="submit">
+                    <a href="<?php echo esc_url($optin_url); ?>" class="button-primary button-large"><?php echo esc_html($this->client->__trans('Allow')); ?></a>
+                    <a href="<?php echo esc_url($optout_url); ?>" class="button-secondary button-large"><?php echo esc_html($this->client->__trans('No thanks')); ?></a>
+                </p>
+            </div>
+            <script type="text/javascript">
+                jQuery('<?php echo esc_html($this->client->slug); ?>-insights-data-we-collect').on('click', function(e) {
                     e.preventDefault();
                     jQuery(this).parents('.updated').find('p.description').slideToggle('fast');
                 });
-                </script>
-            ";
+            </script>
+        <?php
         }
     }
 
@@ -496,7 +503,7 @@ class Insights
         $server_data = array();
 
         if (isset($_SERVER['SERVER_SOFTWARE']) && !empty($_SERVER['SERVER_SOFTWARE'])) {
-            $server_data['software'] = sanitize_text_field($_SERVER['SERVER_SOFTWARE']);
+            $server_data['software'] = sanitize_text_field(wp_unslash($_SERVER['SERVER_SOFTWARE']));
         }
 
         if (function_exists('phpversion')) {
@@ -748,8 +755,8 @@ class Insights
 
         $data = array(
             'hash' => $this->client->hash,
-            'reason_id' => sanitize_text_field($_POST['reason_id']),
-            'reason_info' => isset($_REQUEST['reason_info']) ? trim(stripslashes(sanitize_text_field($_REQUEST['reason_info']))) : '',
+            'reason_id' => sanitize_text_field(wp_unslash($_POST['reason_id'])),
+            'reason_info' => isset($_REQUEST['reason_info']) ? trim(stripslashes(sanitize_text_field(wp_unslash($_REQUEST['reason_info'])))) : '',
             'site' => $this->get_site_name(),
             'url' => esc_url(home_url()),
             'admin_email' => get_option('admin_email'),
@@ -882,12 +889,12 @@ class Insights
         </style>
 
         <script type="text/javascript">
-            (function ($) {
-                $(function () {
+            (function($) {
+                $(function() {
                     var modal = $('#<?php echo esc_html($this->client->slug); ?>-wd-dr-modal');
                     var deactivateLink = '';
 
-                    $('#the-list').on('click', 'a.<?php echo esc_html($this->client->slug); ?>-deactivate-link', function (e) {
+                    $('#the-list').on('click', 'a.<?php echo esc_html($this->client->slug); ?>-deactivate-link', function(e) {
                         e.preventDefault();
 
                         modal.addClass('modal-active');
@@ -895,13 +902,13 @@ class Insights
                         modal.find('a.dont-bother-me').attr('href', deactivateLink).css('float', 'left');
                     });
 
-                    modal.on('click', 'button.button-primary', function (e) {
+                    modal.on('click', 'button.button-primary', function(e) {
                         e.preventDefault();
 
                         modal.removeClass('modal-active');
                     });
 
-                    modal.on('click', 'input[type="radio"]', function () {
+                    modal.on('click', 'input[type="radio"]', function() {
                         var parent = $(this).parents('li:first');
 
                         modal.find('.reason-input').remove();
@@ -916,7 +923,7 @@ class Insights
                         }
                     });
 
-                    modal.on('click', 'button.button-secondary', function (e) {
+                    modal.on('click', 'button.button-secondary', function(e) {
                         e.preventDefault();
 
                         var button = $(this);
@@ -938,11 +945,11 @@ class Insights
                                 reason_id: (0 === $radio.length) ? 'none' : $radio.val(),
                                 reason_info: (0 !== $input.length) ? $input.val().trim() : ''
                             },
-                            beforeSend: function () {
+                            beforeSend: function() {
                                 button.addClass('disabled');
                                 button.text('Processing...');
                             },
-                            complete: function () {
+                            complete: function() {
                                 window.location.href = deactivateLink;
                             }
                         });
@@ -951,7 +958,7 @@ class Insights
             }(jQuery));
         </script>
 
-        <?php
+<?php
     }
 
     /**

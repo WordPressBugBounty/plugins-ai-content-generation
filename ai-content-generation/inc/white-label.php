@@ -81,7 +81,7 @@ function wpwand_add_white_tab()
 {
     ?>
     <a href="#white-label" class="wpwand-nav-tab">
-        <?php esc_html_e('White Label', 'wpwand'); ?>
+        <?php esc_html_e('White Label', 'wp-wand'); ?>
     </a>
     <?php
 }
@@ -95,8 +95,8 @@ function wpwand_add_white_tab_content()
     <div id="white-label" class="tab-panel" style="display:none;">
         <div class="wpwand-tab-header">
             <h4>
-                <?php esc_html_e('White Label', 'wpwand'); ?>
-                <?php echo wpwand_upgrade_to_pro_button('Available in Agency Plan') ?>
+                <?php esc_html_e('White Label', 'wp-wand'); ?>
+                <?php  wpwand_upgrade_to_pro_button('Available in Agency Plan') ?>
             </h4>
             <p class="wpwand-field-desc">You can change all branding and public info of WP Wand to use it as your own on
                 client’s website</p>
@@ -109,7 +109,7 @@ function wpwand_add_white_tab_content()
                     ?>
                     <tr>
                         <th scope="row">
-                            <label for="<?php echo esc_html($field_name); ?>"><?php echo esc_html($field['label']); ?>
+                            <label for="<?php echo esc_attr($field_name); ?>"><?php echo esc_html($field['label']); ?>
 
                             </label>
                             <span class="wpwand-field-desc">
@@ -122,14 +122,14 @@ function wpwand_add_white_tab_content()
                                     # code...
                                     ?>
                                     <div class="wpwand-upload-field-wrap">
-                                        <input type="text" id="<?php echo esc_html($field_name); ?>"
-                                            name="<?php echo esc_html($field_name); ?>"
-                                            placeholder="<?php echo esc_html($field['placeholder']); ?>" disabled>
-                                        <button id="<?php echo esc_html($field_name); ?>-upload-button" class="wpwand-upload-button"
+                                        <input type="text" id="<?php echo esc_attr($field_name); ?>"
+                                            name="<?php echo esc_attr($field_name); ?>"
+                                            placeholder="<?php echo esc_attr($field['placeholder']); ?>" disabled>
+                                        <button id="<?php echo esc_attr($field_name); ?>-upload-button" class="wpwand-upload-button"
                                             disabled>Upload</button>
                                         <div class="wpwand-upload-preview">
                                             <!-- <span class="wpwand-img-preview-remove">x</span> -->
-                                            <img src="<?php echo $default_val ?>" alt="">
+                                            <img src="<?php echo esc_url($default_val);  // phpcs:ignore?>" alt="">
                                         </div>
                                     </div>
                                     <?php
@@ -137,9 +137,9 @@ function wpwand_add_white_tab_content()
 
                                 default:
                                     ?>
-                                    <input type="<?php echo esc_html($field['type']); ?>" name="<?php echo esc_html($field_name); ?>"
-                                        id="<?php echo esc_html($field_name); ?>"
-                                        placeholder="<?php echo esc_html($field['placeholder']); ?>" value="<?php echo $default_val; ?>"
+                                    <input type="<?php echo esc_attr($field['type']); ?>" name="<?php echo esc_attr($field_name); ?>"
+                                        id="<?php echo esc_attr($field_name); ?>"
+                                        placeholder="<?php echo esc_attr($field['placeholder']); ?>" value="<?php echo esc_attr( $default_val ); ?>"
                                         disabled>
 
                                     <?php
@@ -155,7 +155,7 @@ function wpwand_add_white_tab_content()
             <tr valign="top">
                 <th scope="row">
                     <label for="wpwand_white_label_disable">
-                        <?php esc_html_e('Disable White Label Tab', 'wpwand'); ?>
+                        <?php esc_html_e('Disable White Label Tab', 'wp-wand'); ?>
 
 
                     </label>

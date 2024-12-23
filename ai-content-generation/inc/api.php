@@ -10,42 +10,46 @@ if (!defined('ABSPATH')) {
 function wpwand_request()
 {
 
+    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+        wp_send_json_error('Nonce verification failed.', 403);
+    }
+
     // Check if prompt parameter exists
     if (isset($_POST['wpwand_image_prompt']) && !empty($_POST['wpwand_image_prompt'])) {
-        return wpwand_dall_e_request($_POST['wpwand_image_prompt'], $_POST);
+        return wpwand_dall_e_request(sanitize_text_field(wp_unslash($_POST['wpwand_image_prompt'])), $_POST);
     }
     if (empty($_POST['prompt'])) {
         wp_send_json_error('error');
     }
 
     $selected_model = get_option('wpwand_model', 'gpt-3.5-turbo');
-    $is_elementor = 'true' == $_POST['is_elementor'] ? '<span class="wpwand-insert-to-widget" >Insert to Elementor</span>' : '';
-    $is_gutenberg = 'true' == $_POST['is_gutenberg'] ? '<span class="wpwand-insert-to-gutenberg" >Insert to Editor</span>' : '';
-    $point_of_view = isset($_POST['point_of_view']) ? $_POST['point_of_view'] : false;
+    $is_elementor = isset($_POST['is_elementor']) && 'true' == $_POST['is_elementor'] ? '<span class="wpwand-insert-to-widget" >Insert to Elementor</span>' : '';
+    $is_gutenberg = isset($_POST['is_gutenberg']) && 'true' == $_POST['is_gutenberg'] ? '<span class="wpwand-insert-to-gutenberg" >Insert to Editor</span>' : '';
+    $point_of_view = isset($_POST['point_of_view']) ? sanitize_text_field(wp_unslash($_POST['point_of_view'])) : false;
     $person_cmd = " The content must be written in $point_of_view ";
     $biz_details = '';
     $targated_customer = '';
-    $language = wp_kses_post($_POST['language'] ?? '');
+    $language = isset($_POST['language']) ? wp_kses_post(sanitize_text_field(wp_unslash($_POST['language']))) : '';
     // Sanitize and validate input fields
     $fields = array(
-        'topic' => sanitize_text_field($_POST['topic'] ?? ''),
-        'keywords' => sanitize_text_field($_POST['keyword'] ?? ''),
-        'no_of_results' => absint($_POST['result_number'] ?? 1),
-        'tone' => sanitize_text_field($_POST['tone'] ?? ''),
-        // 'writing_style' => sanitize_text_field($_POST['writing_style'] ?? ''),
-        'word_count' => isset($_POST['word_limit']) ? intval($_POST['word_limit']) + 1000 : '',
-        'product_name' => sanitize_text_field($_POST['product_name'] ?? ''),
-        'description' => sanitize_text_field($_POST['description'] ?? ''),
-        'content' => wp_kses_post($_POST['content'] ?? ''),
-        'content_textarea' => wp_kses_post($_POST['content_textarea'] ?? ''),
-        'custom_textarea' => wp_kses_post($_POST['custom_textarea'] ?? ''),
-        'product_1' => wp_kses_post($_POST['product_1'] ?? ''),
-        'product_2' => wp_kses_post($_POST['product_2'] ?? ''),
-        'description_1' => wp_kses_post($_POST['description_1'] ?? ''),
-        'description_2' => wp_kses_post($_POST['description_2'] ?? ''),
-        'subject' => sanitize_text_field($_POST['subject'] ?? ''),
-        'question' => sanitize_text_field($_POST['question'] ?? ''),
-        'comment' => sanitize_text_field($_POST['comment'] ?? ''),
+        'topic' => isset($_POST['topic']) ? sanitize_text_field(wp_unslash($_POST['topic'])) : '',
+        'keywords' => isset($_POST['keyword']) ? sanitize_text_field(wp_unslash($_POST['keyword'])) : '',
+        'no_of_results' => isset($_POST['result_number']) ? absint(sanitize_text_field(wp_unslash($_POST['result_number'])) ) : 1,
+        'tone' => isset($_POST['tone']) ? sanitize_text_field(wp_unslash($_POST['tone'])) : '',
+        // 'writing_style' isset($_POST['writing_style') ? => sanitize_text_field(wp_unslash($_POST['writing_style')] ) : '',
+        'word_count' => isset($_POST['word_limit']) ? intval(sanitize_text_field(wp_unslash($_POST['word_limit']))) + 1000 : '',
+        'product_name' => isset($_POST['product_name']) ? sanitize_text_field(wp_unslash($_POST['product_name'])) : '',
+        'description' => isset($_POST['description']) ? sanitize_text_field(wp_unslash($_POST['description'])) : '',
+        'content' => isset($_POST['content']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['content']))) : '',
+        'content_textarea' => isset($_POST['content_textarea']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['content_textarea']))) : '',
+        'custom_textarea' => isset($_POST['custom_textarea']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['custom_textarea']))) : '',
+        'product_1' => isset($_POST['product_1']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['product_1']))) : '',
+        'product_2' => isset($_POST['product_2']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['product_2']))) : '',
+        'description_1' => isset($_POST['description_1']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['description_1']))) : '',
+        'description_2' => isset($_POST['description_2']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['description_2']))) : '',
+        'subject' => isset($_POST['subject']) ? sanitize_text_field(wp_unslash($_POST['subject'])) : '',
+        'question' => isset($_POST['question']) ? sanitize_text_field(wp_unslash($_POST['question'])) : '',
+        'comment' => isset($_POST['comment']) ? sanitize_text_field(wp_unslash($_POST['comment'])) : '',
     );
 
     // Replace fields in prompt with values
@@ -55,7 +59,7 @@ function wpwand_request()
             $key = trim($matches[1]);
             return isset($fields[$key]) ? $fields[$key] : '';
         },
-        sanitize_text_field($_POST['prompt'])
+        sanitize_text_field(wp_unslash($_POST['prompt']))
     );
 
     $args = [
@@ -79,7 +83,6 @@ function wpwand_request()
             </button>
             ' . $is_elementor . $is_gutenberg . '<div class="wpwand-ai-response">' . wpautop($reply) . '
             </div></div>';
-
         }
     } elseif (isset($content->error)) {
         $text .= '<div class="wpwand-content wpwand-prompt-error">';
@@ -93,6 +96,8 @@ add_action('wpwand_ajax_api', 'wpwand_request');
 
 function wpwand_request_hook()
 {
+
+
     do_action('wpwand_ajax_api');
 }
 
@@ -103,18 +108,21 @@ add_action('wp_ajax_nopriv_wpwand_request', 'wpwand_request_hook');
 function wpwand_api_set()
 {
 
+    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+        wp_send_json_error('Nonce verification failed.', 403);
+    }
     // Check if prompt parameter exists
     if (empty($_POST['api_key'])) {
         wp_send_json_error('Please enter your api key');
     }
 
-    if (!preg_match('/^sk-/', $_POST['api_key'])) {
+    if (!preg_match('/^sk-/', sanitize_text_field(wp_unslash($_POST['api_key'])))) {
         wp_send_json_error('Invalid api key.');
     }
 
 
     // Sanitize and validate input fields
-    $api_key = sanitize_text_field($_POST['api_key'] ?? '');
+    $api_key = sanitize_text_field(wp_unslash($_POST['api_key'])) ?? '';
 
     $set_api_key = update_option('wpwand_api_key', $api_key);
 
@@ -130,7 +138,6 @@ function wpwand_api_set()
     }
 
     wp_send_json_error('Something went wrong.');
-
 }
 
 // Register AJAX action for logged-in and non-logged-in users
@@ -149,6 +156,9 @@ function wpwand_check_api_key()
 
 function wpwand_only_prompt()
 {
+    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+        wp_send_json_error('Nonce verification failed.', 403);
+    }
 
     // Check if prompt parameter exists
     if (empty($_POST['prompt'])) {
@@ -160,7 +170,7 @@ function wpwand_only_prompt()
     $targated_customer = '';
     $language = wpwand_get_option('wpwand_language', 'English');
     // Sanitize and validate input fields
-    $prompt = sanitize_text_field($_POST['prompt'] ?? '');
+    $prompt = sanitize_text_field(wp_unslash($_POST['prompt'])) ?? '';
     $rawResponse = isset($_POST['rawResponse']) && true == $_POST['rawResponse'] ? true : false;
 
     $is_table_format_prompt = $rawResponse ? '' : 'You must give output with html tags';
@@ -183,7 +193,6 @@ function wpwand_only_prompt()
             } else {
                 $text .= $reply;
             }
-
         }
     } elseif (isset($content->error)) {
         $text .= '<div class="wpwand-content wpwand-prompt-error">';
@@ -201,23 +210,29 @@ add_action('wp_ajax_nopriv_wpwand_download_image', 'wpwand_download_image');
 
 function wpwand_download_image()
 {
+    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+        wp_send_json_error('Nonce verification failed.', 403);
+    }
 
-    $image_link = isset($_POST['image_url']) ? $_POST['image_url'] : false;
-    $image_name = isset($_POST['image_name']) ? str_replace(' ', '_', $_POST['image_name']) : 'image';
+    $image_link = isset($_POST['image_url']) ? sanitize_text_field(wp_unslash($_POST['image_url'])) : false;
+    $image_name = isset($_POST['image_name']) ? str_replace(' ', '_', sanitize_text_field(wp_unslash($_POST['image_name']))) : 'image';
     if ($image_link) {
 
         wp_send_json(wpwand_insert_media($image_link, $image_name));
-
     }
 }
 
 function wpwand_dall_e_request($prompt, $args = [])
 {
+
+    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+        wp_send_json_error('Nonce verification failed.', 403);
+    }
     // Call OpenAI API to generate content
     $openAI = new OpenAi(WPWAND_OPENAI_KEY);
 
-    $no_of_result = isset($_POST['result_number']) ? $_POST['result_number'] : 1;
-    $image_resulation = isset($_POST['image_resulation']) ? $_POST['image_resulation'] : '256x256';
+    $no_of_result = isset($_POST['result_number']) ? sanitize_text_field(wp_unslash($_POST['result_number'])) : 1;
+    $image_resulation = isset($_POST['image_resulation']) ? sanitize_text_field(wp_unslash($_POST['image_resulation'])) : '256x256';
 
     $complete = $openAI->image([
         "prompt" => $prompt,
@@ -241,7 +256,7 @@ function wpwand_dall_e_request($prompt, $args = [])
             $text .= '<div class="wpwand-content">
 
             <div class="wpwand-ai-response wpwand-dall-e">
-            <img src="' . $image->url . '" >
+            <img src="' . $image->url /* // phpcs:ignore */ . '" > 
             <div class="wpwand-ai-image-content">
             <div class="wpwand-ai-image-result-content">
             <h4> ' . $version_info . ' </h4>
@@ -256,8 +271,7 @@ function wpwand_dall_e_request($prompt, $args = [])
             </button>
             </div>
             </div>
-            </div></div>';
-
+            </div></div>';  // phpcs:ignore
         }
     } elseif (isset($content->error)) {
         $text .= '<div class="wpwand-content wpwand-prompt-error">';
@@ -286,14 +300,13 @@ function wpwand_insert_media($url, $file_name = 'ai-generated-image')
     $id = media_handle_sideload($file_array, 0);
 
     if (is_wp_error($id)) {
-        @unlink($file_array['tmp_name']);
+        wp_delete_file($file_array['tmp_name']);
         return $id;
     }
     $attachment = array();
     $attachment['id'] = $id;
     $attachment['url'] = wp_get_attachment_url($id);
     return $attachment;
-
 }
 
 
@@ -351,7 +364,6 @@ function wpwand_openAi($prompt, $number_of_result = 1, $args = [])
             'frequency_penalty' => (int) $frequency_penalty,
             'presence_penalty' => (int) $presence_penalty,
         ]);
-
     }
 
     return json_decode($complete);

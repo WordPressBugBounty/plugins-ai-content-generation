@@ -123,7 +123,7 @@ Your third headline goes here." required></textarea>
                         </div>
                         <p>Bulk generation is a premium feature. You need to upgrade to use the full feature.</p>
                         <a href="" data-target="step-2" class="wpwand-pgs-back-button">Back</a>
-                        <?= wpwand_upgrade_to_pro_button(); ?>
+                        <?php wpwand_upgrade_to_pro_button(); ?>
                     </div>
 
                     <div class="wpwand-pgs-free-htw-video">

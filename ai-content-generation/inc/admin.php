@@ -8,7 +8,7 @@ function wpwand_settings_page()
 
         <?php
 
-        if (isset($_GET['welcome_screen'])) {
+        if (isset($_GET['welcome_screen'])) {// phpcs:ignore
 
             wpwand_welcome_screen();
             return true;
@@ -18,7 +18,7 @@ function wpwand_settings_page()
         <div class="wpwand-setting-page-wrap">
 
             <div class="wpwand-logo-full">
-                <img src="<?php echo wpwand_loago_url(); ?>">
+                <img src="<?php echo esc_url( wpwand_loago_url() );  // phpcs:ignore?>">
 
             </div>
             <div class="wpwand-settings">
@@ -26,7 +26,7 @@ function wpwand_settings_page()
 
                 <h2 class="wpwand-nav-tab-wrapper">
                     <a href="#general" class="wpwand-nav-tab nav-tab-active">
-                        <?php esc_html_e('General', 'wpwand'); ?>
+                        <?php esc_html_e('General', 'wp-wand'); ?>
                     </a>
                     <?php do_action('wpwand_add_tab_link') ?>
                 </h2>
@@ -39,7 +39,7 @@ function wpwand_settings_page()
                             <tr valign="top">
                                 <th scope="row">
                                     <label for="wpwand_api_key">
-                                        <?php esc_html_e('OpenAI API Key', 'wpwand'); ?>
+                                        <?php esc_html_e('OpenAI API Key', 'wp-wand'); ?>
                                         <span class="wpwand-field-desc">Add your OpenAI API key to activate
                                             <?php echo esc_html(wpwand_brand_name()) ?>
                                         </span>
@@ -58,7 +58,7 @@ function wpwand_settings_page()
                                         </svg>
 
                                         <span>
-                                            <?php printf($activate_text) ?>
+                                            <?php printf($activate_text) // phpcs:ignore ?>
                                         </span>
                                     </div>
                                 </td>
@@ -68,7 +68,7 @@ function wpwand_settings_page()
                                 <tr>
                                     <th scope="row">
                                         <label for="wpwand_model">
-                                            <?php esc_html_e('Model', 'wpwand'); ?>
+                                            <?php esc_html_e('Model', 'wp-wand'); ?>
                                             <span class="wpwand-field-desc">Add your OpenAI API key to activate
                                                 <?php echo esc_html(wpwand_brand_name()) ?>
                                             </span>
@@ -77,28 +77,28 @@ function wpwand_settings_page()
                                     <td>
                                         <select id="wpwand_model" name="wpwand_model">
                                             <option value="gpt-4o" <?php selected(wpwand_get_option('wpwand_model', 'gpt-3.5-turbo'), 'gpt-4o'); ?>>
-                                                <?php esc_html_e('gpt-4o', 'wpwand'); ?></option>
+                                                <?php esc_html_e('gpt-4o', 'wp-wand'); ?></option>
                                             <option value="gpt-4" <?php selected(wpwand_get_option('wpwand_model', 'gpt-3.5-turbo'), 'gpt-4'); ?>>
-                                                <?php esc_html_e('gpt-4', 'wpwand'); ?></option>
+                                                <?php esc_html_e('gpt-4', 'wp-wand'); ?></option>
                                             <option value="gpt-3.5-turbo" <?php selected(wpwand_get_option('wpwand_model', 'gpt-3.5-turbo'), 'gpt-3.5-turbo'); ?>>
-                                                <?php esc_html_e('gpt-3.5-turbo', 'wpwand'); ?></option>
+                                                <?php esc_html_e('gpt-3.5-turbo', 'wp-wand'); ?></option>
                                             <option value="gpt-3.5-turbo-16k" <?php selected(wpwand_get_option('wpwand_model', 'gpt-3.5-turbo'), 'gpt-3.5-turbo-16k'); ?>>
-                                                <?php esc_html_e('gpt-3.5-turbo-16k', 'wpwand'); ?></option>
+                                                <?php esc_html_e('gpt-3.5-turbo-16k', 'wp-wand'); ?></option>
                                             <option value="text-davinci-003" <?php selected(wpwand_get_option('wpwand_model', 'gpt-3.5-turbo'), 'text-davinci-003'); ?>>
-                                                <?php esc_html_e('text-davinci-003', 'wpwand'); ?></option>
+                                                <?php esc_html_e('text-davinci-003', 'wp-wand'); ?></option>
                                             <option value="text-curie-001" <?php selected(wpwand_get_option('wpwand_model', 'gpt-3.5-turbo'), 'text-curie-001'); ?>>
-                                                <?php esc_html_e('text-curie-001', 'wpwand'); ?></option>
+                                                <?php esc_html_e('text-curie-001', 'wp-wand'); ?></option>
                                             <option value="text-babbage-001" <?php selected(wpwand_get_option('wpwand_model', 'gpt-3.5-turbo'), 'text-babbage-001'); ?>>
-                                                <?php esc_html_e('text-babbage-001', 'wpwand'); ?></option>
+                                                <?php esc_html_e('text-babbage-001', 'wp-wand'); ?></option>
                                             <option value="text-ada-001" <?php selected(wpwand_get_option('wpwand_model', 'gpt-3.5-turbo'), 'text-ada-001'); ?>>
-                                                <?php esc_html_e('text-ada-001', 'wpwand'); ?></option>
+                                                <?php esc_html_e('text-ada-001', 'wp-wand'); ?></option>
                                         </select>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">
                                         <label for="wpwand_language">
-                                            <?php esc_html_e('Default Content Language', 'wpwand'); ?>
+                                            <?php esc_html_e('Default Content Language', 'wp-wand'); ?>
                                             <span class="wpwand-field-desc">Select your language</span>
                                         </label>
                                     </th>
@@ -108,7 +108,7 @@ function wpwand_settings_page()
                                             if (is_array(wpwand_language_array())) {
                                                 $default_language = wpwand_get_option('wpwand_language', 'en');
                                                 foreach (wpwand_language_array() as $key => $value) {
-                                                    printf('<option value="%s" %s >%s</option>', $key, selected($default_language, $key), $key);
+                                                    printf('<option value="%s" %s >%s</option>', $key, selected($default_language, $key), $key); // phpcs:ignore
                                                 }
                                             }
                                             ?>
@@ -118,7 +118,7 @@ function wpwand_settings_page()
                                 <tr valign="top">
                                     <th scope="row">
                                         <label for="wpwand_temperature">
-                                            <?php esc_html_e('Temperature', 'wpwand'); ?>
+                                            <?php esc_html_e('Temperature', 'wp-wand'); ?>
                                             <span class="wpwand-field-desc">Controls randomness: If you lower the number, the
                                                 result will be repetitive & the output quality might gets lower.</span>
                                         </label>
@@ -135,7 +135,7 @@ function wpwand_settings_page()
                                 <tr valign="top">
                                     <th scope="row">
                                         <label for="wpwand_max_tokens">
-                                            <?php esc_html_e('Max Token', 'wpwand'); ?>
+                                            <?php esc_html_e('Max Token', 'wp-wand'); ?>
                                             <span class="wpwand-field-desc">The maximum number of tokens to generate. One token
                                                 is roughly 4 characters for normal English text.</span>
                                         </label>
@@ -151,7 +151,7 @@ function wpwand_settings_page()
                                 <tr valign="top">
                                     <th scope="row">
                                         <label for="wpwand_presence_penalty">
-                                            <?php esc_html_e('Presence Penalty', 'wpwand'); ?>
+                                            <?php esc_html_e('Presence Penalty', 'wp-wand'); ?>
                                             <span class="wpwand-field-desc"></span>
                                         </label>
                                     </th>
@@ -166,7 +166,7 @@ function wpwand_settings_page()
                                 <tr valign="top">
                                     <th scope="row">
                                         <label for="wpwand_frequency">
-                                            <?php esc_html_e('Frequency', 'wpwand'); ?>
+                                            <?php esc_html_e('Frequency', 'wp-wand'); ?>
                                             <span class="wpwand-field-desc"></span>
                                         </label>
                                     </th>
@@ -181,7 +181,7 @@ function wpwand_settings_page()
                                 <tr valign="top">
                                     <th scope="row">
                                         <label for="wpwand_frequency">
-                                            <?php esc_html_e('Hide ChatGPT Assistant inside gutenberg', 'wpwand'); ?>
+                                            <?php esc_html_e('Hide ChatGPT Assistant inside gutenberg', 'wp-wand'); ?>
                                             <span class="wpwand-field-desc"></span>
                                         </label>
                                     </th>
@@ -197,7 +197,7 @@ function wpwand_settings_page()
                                 <tr>
                                     <th scope="row">
                                         <label for="toggler_position">
-                                            <?php esc_html_e('AI Button Position', 'wpwand'); ?>
+                                            <?php esc_html_e('AI Button Position', 'wp-wand'); ?>
                                             <span class="wpwand-field-desc">Change WP Wand’s AI button position based on your
                                                 preference</span>
                                         </label>
@@ -205,9 +205,9 @@ function wpwand_settings_page()
                                     <td>
                                         <select id="toggler_position" name="toggler_position">
                                             <option value="top" <?php selected(wpwand_get_option('toggler_position', 'top'), 'top'); ?>>
-                                                <?php esc_html_e('Top', 'wpwand'); ?></option>
+                                                <?php esc_html_e('Top', 'wp-wand'); ?></option>
                                             <option value="side" <?php selected(wpwand_get_option('toggler_position', 'top'), 'side'); ?>>
-                                                <?php esc_html_e('Side', 'wpwand'); ?></option>
+                                                <?php esc_html_e('Side', 'wp-wand'); ?></option>
                                         </select>
                                     </td>
                                 </tr>
@@ -221,7 +221,7 @@ function wpwand_settings_page()
 
                     </div>
                     <?php do_action('wpwand_add_tab_content') ?>
-                    <?php submit_button(esc_html__('Update', 'wpwand')); ?>
+                    <?php submit_button(esc_html__('Update', 'wp-wand')); ?>
 
                 </form>
 
@@ -237,13 +237,13 @@ function wpwand_settings_page()
 function wpwand_register_menu()
 {
     add_menu_page(wpwand_brand_name(), wpwand_brand_name(), 'manage_options', 'wpwand', '', wpwand_loago_icon_url());
-    add_submenu_page('wpwand', wpwand_brand_name(), 'Settings', 'manage_options', 'wpwand', 'wpwand_settings_page');
+    add_submenu_page('wp-wand', wpwand_brand_name(), 'Settings', 'manage_options', 'wpwand', 'wpwand_settings_page');
 
 
     if (!defined('WPWAND_PRO_FILE_')) {
 
         add_submenu_page(
-            'wpwand',
+            'wp-wand',
             '',
             '',
             'manage_options',
@@ -264,7 +264,7 @@ function wpwand_register_settings()
         'wpwand_api_key',
         array(
             'type' => 'string',
-            'description' => esc_html__('OpenAI API Key', 'wpwand'),
+            'description' => esc_html__('OpenAI API Key', 'wp-wand'),
             'sanitize_callback' => 'sanitize_text_field',
             'validate_callback' => 'wpwand_validate_api_key',
         )
@@ -275,7 +275,7 @@ function wpwand_register_settings()
         'wpwand_model',
         array(
             'type' => 'string',
-            'description' => esc_html__('Model', 'wpwand'),
+            'description' => esc_html__('Model', 'wp-wand'),
             'sanitize_callback' => 'sanitize_text_field',
             'validate_callback' => 'wpwand_validate_model',
         )
@@ -286,7 +286,7 @@ function wpwand_register_settings()
         'wpwand_language',
         array(
             'type' => 'string',
-            'description' => esc_html__('Language', 'wpwand'),
+            'description' => esc_html__('Language', 'wp-wand'),
             'sanitize_callback' => 'sanitize_text_field',
             'validate_callback' => 'wpwand_validate_model',
         )
@@ -296,7 +296,7 @@ function wpwand_register_settings()
         'toggler_position',
         array(
             'type' => 'string',
-            'description' => esc_html__('Toggler Position', 'wpwand'),
+            'description' => esc_html__('Toggler Position', 'wp-wand'),
             'sanitize_callback' => 'sanitize_text_field',
             'validate_callback' => 'wpwand_validate_model',
         )
@@ -307,7 +307,7 @@ function wpwand_register_settings()
         'wpwand_temperature',
         array(
             'type' => 'string',
-            'description' => esc_html__('Temperature', 'wpwand'),
+            'description' => esc_html__('Temperature', 'wp-wand'),
             'sanitize_callback' => 'sanitize_text_field',
             'validate_callback' => 'wpwand_validate_input_field',
         )
@@ -317,7 +317,7 @@ function wpwand_register_settings()
         'wpwand_frequency',
         array(
             'type' => 'string',
-            'description' => esc_html__('Frequency', 'wpwand'),
+            'description' => esc_html__('Frequency', 'wp-wand'),
             'sanitize_callback' => 'sanitize_text_field',
             'validate_callback' => 'wpwand_validate_input_field',
         )
@@ -361,12 +361,12 @@ function wpwand_validate_api_key($input)
 
     // Check if the input is empty
     if (empty($input)) {
-        add_settings_error('wpwand_api_key', 'wpwand_api_key_empty', esc_html__('Please enter an OpenAI API key.', 'wpwand'));
+        add_settings_error('wpwand_api_key', 'wpwand_api_key_empty', esc_html__('Please enter an OpenAI API key.', 'wp-wand'));
         $error = true;
     } else {
         // Check if the input matches the expected format of an OpenAI secret key
         if (!preg_match('/^sk-\w+$/', $input)) {
-            add_settings_error('wpwand_api_key', 'wpwand_api_key_invalid', esc_html__('Invalid OpenAI API key format.', 'wpwand'));
+            add_settings_error('wpwand_api_key', 'wpwand_api_key_invalid', esc_html__('Invalid OpenAI API key format.', 'wp-wand'));
             $error = true;
         }
     }
@@ -392,7 +392,7 @@ function wpwand_validate_model($input)
     $allowed_models = array('davinci', 'curie', 'babbage');
 
     if (!in_array($input, $allowed_models)) {
-        add_settings_error('wpwand_model', 'wpwand_model_invalid', esc_html__('Invalid model selected.', 'wpwand'));
+        add_settings_error('wpwand_model', 'wpwand_model_invalid', esc_html__('Invalid model selected.', 'wp-wand'));
         return wpwand_get_option('wpwand_model');
     }
 

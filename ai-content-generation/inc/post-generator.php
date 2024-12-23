@@ -1,4 +1,5 @@
 <?php
+
 namespace WPWAND;
 
 if (!defined('ABSPATH')) {
@@ -25,7 +26,6 @@ class Post_Generator_FR
         add_action('admin_menu', [$this, 'register_menu']);
         add_action('wp_ajax_wpwand_post_generator', [$this, 'generate_title']);
         add_action('wp_ajax_nopriv_wpwand_post_generator', [$this, 'generate_title']);
-
     }
 
 
@@ -36,7 +36,7 @@ class Post_Generator_FR
      */
     function register_menu()
     {
-        add_submenu_page('wpwand', __('Bulk Posts', 'wpwand'), __('Bulk Posts', 'wpwand'), 'manage_options', 'wpwand-post-generator', [$this, 'post_generate_page']);
+        add_submenu_page('wpwand', __('Bulk Posts', 'wp-wand'), __('Bulk Posts', 'wp-wand'), 'manage_options', 'wpwand-post-generator', [$this, 'post_generate_page']);
     }
 
     /**
@@ -45,12 +45,16 @@ class Post_Generator_FR
      */
     function generate_title()
     {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+            wp_send_json_error('Nonce verification failed.', 403);
+        }
+
         if (empty($_POST['topic'])) {
             wp_send_json_error('error');
         }
 
-        $topic = sanitize_text_field($_POST['topic'] ?? '');
-        $count = sanitize_text_field($_POST['count'] ?? '');
+        $topic = isset($_POST['topic']) ? sanitize_text_field(wp_unslash($_POST['topic'])) : '';
+        $count = isset($_POST['count']) ? sanitize_text_field(wp_unslash($_POST['count'])) : 0;
 
         $language = wpwand_get_option('wpwand_language', 'English');
         $rawResponse = isset($_POST['rawResponse']) && true == $_POST['rawResponse'] ? true : false;
@@ -83,8 +87,6 @@ class Post_Generator_FR
                     </div>
                 </div>
                 ';
-
-
             }
         } elseif (isset($content->error)) {
             $text .= '<div class="wpwand-content wpwand-prompt-error">';
@@ -105,9 +107,6 @@ class Post_Generator_FR
     {
 
         include 'view/post-generator.php';
-
-
-
     }
 }
 

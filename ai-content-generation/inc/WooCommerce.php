@@ -26,7 +26,7 @@ class WooCommerce
             ?>
             <div class="wpwand-popup-prompt-wrap" style="display:none">
                 <div class="wpwand-wc-prompt-wrap">
-                    <span class="wpwand-wc-prompt-toggle" href="#"><img src="<?php echo wpwand_loago_icon_url() ?>">Generate Content
+                    <span class="wpwand-wc-prompt-toggle" href="#"><img src="<?php echo esc_url(wpwand_loago_icon_url()) // phpcs:ignore ?>" alt="WPWAND Logo">Generate Content
                         with
                         AI</span>
                     <div class="wpwand-popup-prompt">

@@ -36,6 +36,10 @@ function wpwand_block_editor()
 
 function wpwand_editor_request()
 {
+    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+        wp_send_json_error('Nonce verification failed.', 403);
+    }
+
     $wpaicg_result = array('status' => 'error', 'msg' => 'Missing request parameters');
     // if ( !wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
     //     $wpaicg_result['status'] = 'error';
@@ -43,7 +47,7 @@ function wpwand_editor_request()
     //     wp_send_json( $wpaicg_result );
     // }
     if (isset($_POST['prompt']) && !empty($_POST['prompt'])) {
-        $command = $_POST['prompt'];
+        $command = isset($_POST['prompt']) ? sanitize_text_field( wp_unslash($_POST['prompt']) ) : '';
         $selected_model = get_option('wpwand_model', 'gpt-3.5-turbo');
         $busines_details = get_option('wpwand_busines_details');
         $targated_customer = get_option('wpwand_targated_customer');

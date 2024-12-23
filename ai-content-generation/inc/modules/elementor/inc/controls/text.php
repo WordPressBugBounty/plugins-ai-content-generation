@@ -46,7 +46,7 @@ class fdwltControl_Text extends Base_Data_Control {
 				<label for="<?php $this->print_control_uid(); ?>" class="elementor-control-title">{{{ data.label }}}</label>
 			<# } #>
             <# if ( data.ai.active == true ) { #>
-                <span class="wdelmtr-prompt-trigger"><img src="<?php echo esc_url(wpwand_loago_icon_url())?>" alt=""/></span>
+                <span class="wdelmtr-prompt-trigger"><img src="<?php echo esc_url(wpwand_loago_icon_url())  // phpcs:ignore?>" alt=""/></span>
             <# } #>
 
 			<div class="elementor-control-input-wrapper elementor-control-unit-5 elementor-control-dynamic-switcher-wrapper">

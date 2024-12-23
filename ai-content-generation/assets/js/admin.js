@@ -143,7 +143,9 @@
                 url: wpwand_glb.ajax_url,
                 data: {
                     action: 'wpwand_api_set',
-                    api_key
+                    api_key,
+                    nonce: wpwand_glb.nonce
+
 
                 },
                 success: function (response) {
@@ -194,7 +196,7 @@
                 data: {
                     action: 'wpwand_dismiss_notice',
                     notice_id: noticeId,
-                    security: $(this).data('nonce')
+                    nonce: wpwand_glb.nonce
                 },
                 success: function (response) {
                     // console.log(response);
@@ -213,7 +215,9 @@
                 url: wpwand_glb.ajax_url,
                 data: {
                     action: 'wpwand_sync_date',
-                    sync: true
+                    sync: true,
+                    nonce: wpwand_glb.nonce
+
                 },
                 success: function (response) {
                     // console.log(response);
@@ -405,6 +409,7 @@
                 url: wpwand_glb.ajax_url,
                 data: {
                     action: 'wpwand_request',
+                    nonce: wpwand_glb.nonce,
                     prompt,
                     topic,
                     keyword,
@@ -574,7 +579,9 @@
                 data: {
                     action: 'wpwand_download_image',
                     image_url,
-                    image_name
+                    image_name,
+                    nonce: wpwand_glb.nonce
+
 
                 },
                 success: function (response) {

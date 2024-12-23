@@ -281,7 +281,7 @@ abstract class WP_Background_Process extends WP_Async_Request {
 	 * @return string
 	 */
 	protected function generate_key( $length = 64, $key = 'batch' ) {
-		$unique  = md5( microtime() . wp_rand() );
+		$unique  = md5( microtime() . wp_wp_rand() );
 		$prepend = $this->identifier . '_' . $key . '_';
 
 		return substr( $prepend . $unique, 0, $length );

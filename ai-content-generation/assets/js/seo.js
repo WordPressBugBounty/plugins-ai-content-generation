@@ -52,6 +52,7 @@
             url: wpwand_glb.ajax_url,
             data: {
                 action: 'wpwand_seo_prompt',
+                nonce: wpwand_glb.nonce,
                 post_id,
                 type,
                 title

@@ -10,7 +10,7 @@ function wpwand_ai_buttons()
     if (is_admin() && current_user_can('manage_options')) {
         ?>
         <script>
-            var wpwand_editor_wp_nonce = '<?php echo wp_create_nonce('wpwand-ajax-nonce') ?>';
+            var wpwand_editor_wp_nonce = '<?php echo esc_attr(wp_create_nonce('wpwand-ajax-nonce')) ?>';
         </script>
         <?php
         if (!current_user_can('edit_posts') && !current_user_can('edit_pages')) {
@@ -23,7 +23,7 @@ function wpwand_ai_buttons()
             <script>
                 var wpwand_plugin_url = '<?php echo esc_html(WPWAND_PLUGIN_URL) ?>';
                 var wpwand_editor_ajax_url = '<?php echo esc_html(admin_url('admin-ajax.php')) ?>';
-                var wpwandTinymceEditorMenus = <?php echo _wp_specialchars(json_encode($wpwand_editor_button_menus, JSON_UNESCAPED_UNICODE), ENT_NOQUOTES, 'UTF-8', true) ?>;
+                var wpwandTinymceEditorMenus = <?php echo wp_json_encode($wpwand_editor_button_menus) // phpcs:ignore ?>;
                 var wpwandEditorChangeAction = 'below';
             </script>
             <?php

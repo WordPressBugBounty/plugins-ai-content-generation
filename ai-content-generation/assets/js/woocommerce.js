@@ -62,6 +62,7 @@
             url: wpwand_glb.ajax_url,
             data: {
                 action: 'wpwand_wc_prompt',
+                nonce: wpwand_glb.nonce,
                 prompt,
             },
             success: function (response) {

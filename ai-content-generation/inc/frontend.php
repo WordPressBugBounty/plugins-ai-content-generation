@@ -9,16 +9,16 @@ function wpwand_frontend_callback()
 
     ob_start(); ?>
 
-    <!-- <button><?php esc_html_e('Generate content', 'wpwand') ?></button> -->
+    <!-- <button><?php esc_html_e('Generate content', 'wp-wand') ?></button> -->
     <?php if ('side' == wpwand_get_option('toggler_position', 'top')): ?>
         <button class="wpwand-trigger wpwand-open">
-            <img src="<?php echo wpwand_loago_icon_url(); ?>">
+            <img src="<?php echo esc_url(wpwand_loago_icon_url());   // phpcs:ignore?>">
         </button>
     <?php endif; ?>
     <div class="wpwand-floating">
         <div class="wpwand-floating-wraper">
             <div class="wpwand-floating-header">
-                <h4> <img src="<?php echo wpwand_loago_icon_url(); ?>">
+                <h4> <img src="<?php echo esc_url(wpwand_loago_icon_url());  // phpcs:ignore?>">
                     <?php echo esc_html(wpwand_brand_name()) ?> - Your Personal Content Creator</h4>
             </div>
 
@@ -84,7 +84,7 @@ function wpwand_frontend_callback()
                             </span></div>
                         <div class="wpwand-template-list">
                             <?php if (is_array(wpwand_templates())):
-                                                                            $custom_prompt = wpwand_get_custom_prpompts('aichar');
+                                $custom_prompt = wpwand_get_custom_prpompts('aichar');
 
                                 foreach (wpwand_templates() as $key => $template):
                                     if (!isset($template['number_of_results'])) {
@@ -101,7 +101,7 @@ function wpwand_frontend_callback()
 
                                     $markdown = true == $template['markdown'] ? 1 : 0;
                                     $fields = explode(', ', $template['fields']);
-                                    ?>
+                            ?>
                                     <div class="wpwand-tiemplate-item">
                                         <h4>
                                             <?php echo esc_html($template['title']) ?>
@@ -318,7 +318,7 @@ function wpwand_frontend_callback()
                                                                                                                                                                                                                                                                                                  ):  */
 
                                                 if (true == $template['number_of_results']):
-                                                    ?>
+                                                ?>
                                                     <div class="wpwand-form-field">
                                                         <label for="wpwand-result-number">Number of Results</label>
                                                         <input type="number" id="wpwand-result-number" min="1" max="10"
@@ -390,7 +390,7 @@ function wpwand_frontend_callback()
                                                         if (is_array(wpwand_language_array())) {
                                                             $default_language = wpwand_get_option('wpwand_language', 'en');
                                                             foreach (wpwand_language_array() as $key => $value) {
-                                                                printf('<option value="%s" %s >%s</option>', $key, selected($default_language, $key), $key);
+                                                                printf('<option value="%s" %s >%s</option>', $key, selected($default_language, $key), $key); //phpcs:ignore
                                                             }
                                                         }
                                                         ?>
@@ -406,12 +406,12 @@ function wpwand_frontend_callback()
                                                             if ($custom_prompt) {
 
                                                                 foreach ($custom_prompt as $value) {
-                                                                    printf('<option value="%s">%s</option>', $value['prompt'], $value['title']);
+                                                                    printf('<option value="%s">%s</option>', $value['prompt'], $value['title']); //phpcs:ignore
                                                                 }
                                                             }
                                                             if (function_exists('wpwand_pro_premad_aichars')) {
                                                                 foreach (wpwand_pro_premad_aichars() as $value) {
-                                                                    printf('<option value="%s">%s</option>', $value['prompt'], $value['title']);
+                                                                    printf('<option value="%s">%s</option>', $value['prompt'], $value['title']); //phpcs:ignore
                                                                 }
                                                             }
 
@@ -468,7 +468,8 @@ function wpwand_frontend_callback()
 
                                         </div>
                                     </div>
-                                <?php endforeach; endif; ?>
+                            <?php endforeach;
+                            endif; ?>
                         </div>
 
                     </div>
@@ -529,7 +530,7 @@ function wpwand_frontend_callback()
     </div>
 
 
-    <?php printf("%s", ob_get_clean());
+<?php printf("%s", ob_get_clean()); //phpcs:ignore
 
 }
 

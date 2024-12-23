@@ -12,10 +12,10 @@ function wpwand_admin_scripts()
     }
     ';
     wp_enqueue_media();
-    wp_enqueue_style('wpwand-inter-font', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-    wp_enqueue_style('jquery-ui', WPWAND_PLUGIN_URL . 'assets/css/jquery-ui.css');
-    wp_enqueue_style('sweetalert2', WPWAND_PLUGIN_URL . 'assets/css/sweetalert2.min.css');
-    wp_enqueue_style('wpwand-admin', WPWAND_PLUGIN_URL . 'assets/css/admin.css');
+    wp_enqueue_style('wpwand-inter-font', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap', [], WPWAND_VERSION);
+    wp_enqueue_style('jquery-ui', WPWAND_PLUGIN_URL . 'assets/css/jquery-ui.css', [], WPWAND_VERSION);
+    wp_enqueue_style('sweetalert2', WPWAND_PLUGIN_URL . 'assets/css/sweetalert2.min.css', [], WPWAND_VERSION);
+    wp_enqueue_style('wpwand-admin', WPWAND_PLUGIN_URL . 'assets/css/admin.css', [], WPWAND_VERSION);
     wp_add_inline_style('wpwand-admin', $custom_css);
 
 
@@ -23,9 +23,11 @@ function wpwand_admin_scripts()
 
 
     // wp_enqueue_script('jquery-ui-slider');
-    wp_enqueue_script('jquery-showdown', 'https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js', ['jquery']);
-    wp_enqueue_script('sweetalert2', WPWAND_PLUGIN_URL . 'assets/js/sweetalert2.all.min.js', ['jquery']);
-    wp_enqueue_script('wpwand-admin', WPWAND_PLUGIN_URL . 'assets/js/admin.js', ['jquery', 'jquery-ui-slider']);
+    // wp_enqueue_script('jquery-showdown', 'https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js', ['jquery']);
+    wp_enqueue_script('jquery-showdown', WPWAND_PLUGIN_URL . 'assets/js/showdown.min.js', ['jquery'], WPWAND_VERSION, true);
+
+    wp_enqueue_script('sweetalert2', WPWAND_PLUGIN_URL . 'assets/js/sweetalert2.all.min.js', ['jquery'], WPWAND_VERSION, true);
+    wp_enqueue_script('wpwand-admin', WPWAND_PLUGIN_URL . 'assets/js/admin.js', ['jquery', 'jquery-ui-slider'], WPWAND_VERSION, true);
     wp_localize_script(
         'wpwand-admin',
         'wpwand_glb',
@@ -39,22 +41,23 @@ function wpwand_admin_scripts()
             'hide_ai_bar' => wpwand_get_option('wpwand_hide_ai_bar_gutenberg', 0),
             'post_id' => get_the_id(),
             'is_pro' => defined('WPWAND_PRO_FILE_') ?? false,
+            'nonce'    => wp_create_nonce('wpwand_global_nonce')
+
         )
     );
 
-    wp_enqueue_script('wpwand-seo', WPWAND_PLUGIN_URL . 'assets/js/seo.js', ['wpwand-admin']);
+    wp_enqueue_script('wpwand-seo', WPWAND_PLUGIN_URL . 'assets/js/seo.js', ['wpwand-admin'], WPWAND_VERSION, true);
 
     // Check if the current screen is 'edit-product' (assuming 'product' is the post type)
     if ($screen->id === 'product') {
-        wp_enqueue_script('wpwand-wwoocommerce', WPWAND_PLUGIN_URL . 'assets/js/woocommerce.js', ['wpwand-admin']);
+        wp_enqueue_script('wpwand-wwoocommerce', WPWAND_PLUGIN_URL . 'assets/js/woocommerce.js', ['wpwand-admin'], WPWAND_VERSION, true);
     }
 
 
     if (strpos($screen->id, "wpwand-post-generator")) {
         // wp_enqueue_script('vue', WPWAND_PLUGIN_URL . 'assets/js/vue.global.js', array('jquery'), null, true);
-        wp_enqueue_script('wpwand-wwoocommerce', WPWAND_PLUGIN_URL . 'assets/js/post-generator.js', ['wpwand-admin']);
+        wp_enqueue_script('wpwand-wwoocommerce', WPWAND_PLUGIN_URL . 'assets/js/post-generator.js', ['wpwand-admin'], WPWAND_VERSION, true);
     }
-
 }
 
 add_action('admin_enqueue_scripts', 'wpwand_admin_scripts');
@@ -62,7 +65,7 @@ add_action('admin_enqueue_scripts', 'wpwand_admin_scripts');
 
 function wpwand_pro_card()
 {
-    ?>
+?>
 
     <div class="wpwand-pro-card-wrapper">
         <div class="wpwand-pro-card">
@@ -164,7 +167,7 @@ function wpwand_pro_card()
             </div>
         </div>
     </div>
-    <?php
+<?php
 }
 
 function wpwand_model_details_card()
@@ -172,7 +175,7 @@ function wpwand_model_details_card()
     if (!WPWAND_OPENAI_KEY) {
         return false;
     }
-    ?>
+?>
 
     <div class="wpwand-model-card-wrapper">
         <div class="wpwand-model-card" id="wpwand-gpt-3-5">
@@ -281,7 +284,7 @@ function wpwand_model_details_card()
             </div>
         </div>
     </div>
-    <?php
+<?php
 }
 
 function wpwand_get_option($opt, $default = '')
@@ -295,22 +298,22 @@ function wpwand_get_option($opt, $default = '')
 
 function wpwand_add_advanced_tab()
 {
-    ?>
+?>
     <a href="#advanced" class="wpwand-nav-tab">
-        <?php esc_html_e('Advanced', 'wpwand'); ?>
+        <?php esc_html_e('Advanced', 'wp-wand'); ?>
     </a>
-    <?php
+<?php
 }
 
 add_action('wpwand_add_tab_link', 'wpwand_add_advanced_tab');
 
 function wpwand_add_advanced_tab_content()
 {
-    ?>
+?>
     <div id="advanced" class="tab-panel" style="display:none;">
         <div class="wpwand-tab-header">
             <h4>
-                <?php esc_html_e('Advanced Features', 'wpwand'); ?>
+                <?php esc_html_e('Advanced Features', 'wp-wand'); ?>
             </h4>
             <p class="wpwand-field-desc">Improve your content quality 5x with these premium options. Generate
                 targeted, high quality unique content fast.</p>
@@ -320,22 +323,22 @@ function wpwand_add_advanced_tab_content()
             <tr>
                 <th scope="row">
                     <label for="wpwand_ai_character">
-                        <?php esc_html_e('A.I Character', 'wpwand'); ?>
-                        <?php echo wpwand_upgrade_to_pro_button() ?>
+                        <?php esc_html_e('A.I Character', 'wp-wand'); ?>
+                        <?php wpwand_upgrade_to_pro_button() ?>
                     </label>
                     <span class="wpwand-field-desc">Tell your A.I what character it contains while writing for
                         you. It will highly improve your content output.</span>
                 </th>
                 <td>
                     <textarea disabled id="wpwand_ai_character" name="wpwand_ai_character" rows="5" cols="30"
-                        placeholder="Example: You are an expert in SEO copywriting and specializing in Amazon product review article writing."><?php echo esc_attr(wpwand_get_option('wpwand_ai_character', )); ?></textarea>
+                        placeholder="Example: You are an expert in SEO copywriting and specializing in Amazon product review article writing."><?php echo esc_attr(wpwand_get_option('wpwand_ai_character',)); ?></textarea>
                 </td>
             </tr>
             <tr>
                 <th scope="row">
                     <label for="wpwand_busines_details">
-                        <?php esc_html_e('Business Details', 'wpwand'); ?>
-                        <?php echo wpwand_upgrade_to_pro_button() ?>
+                        <?php esc_html_e('Business Details', 'wp-wand'); ?>
+                        <?php wpwand_upgrade_to_pro_button() ?>
 
                     </label>
                     <span class="wpwand-field-desc">Write about your business in detail so that AI can
@@ -349,8 +352,8 @@ function wpwand_add_advanced_tab_content()
             <tr>
                 <th scope="row">
                     <label for="wpwand_targated_customer">
-                        <?php esc_html_e('Targated Customer', 'wpwand'); ?>
-                        <?php echo wpwand_upgrade_to_pro_button() ?>
+                        <?php esc_html_e('Targated Customer', 'wp-wand'); ?>
+                        <?php wpwand_upgrade_to_pro_button() ?>
 
                     </label>
                     <span class="wpwand-field-desc">Write about your target customers in details. Give as much
@@ -369,26 +372,26 @@ function wpwand_add_advanced_tab_content()
 
 
     </div>
-    <?php
+<?php
 }
 
 add_action('wpwand_add_tab_content', 'wpwand_add_advanced_tab_content');
 
 function wpwand_upgrade_to_pro_button($label = 'Upgrade To Pro')
 {
-    return sprintf('<a class="wpwand-pro-tag" target="_blank" href="%s">%s</a>', esc_url('https://wpwand.com/pro-plugin'), $label);
+    return printf('<a class="wpwand-pro-tag" target="_blank" href="%s">%s</a>', esc_url('https://wpwand.com/pro-plugin'), $label); // phpcs:ignore
 }
 function wpwand_geneeral_locked_content()
 {
 
-    ?>
+?>
 
 
     <tr valign="top">
         <th scope="row">
             <label for="wpwand_frequency">
-                <?php esc_html_e('Sync Plugin Data', 'wpwand'); ?>
-                <?php echo wpwand_upgrade_to_pro_button() ?>
+                <?php esc_html_e('Sync Plugin Data', 'wp-wand'); ?>
+                <?php wpwand_upgrade_to_pro_button() ?>
             </label>
             <span class="wpwand-field-desc">We often update our data for higher quality results.
                 By clicking sync button you can get updated data instantly.</span>
@@ -399,13 +402,13 @@ function wpwand_geneeral_locked_content()
             </div>
         </td>
     </tr>
-    <?php
+<?php
 }
 add_action('wpwand_general_tab_content', 'wpwand_geneeral_locked_content');
 
 function wpwand_welcome_screen()
 {
-    ?>
+?>
 
     <div class="wpwand-welcome-screen-wrapper">
         <div class="wpwand-welcome-screen">
@@ -432,7 +435,7 @@ function wpwand_welcome_screen()
                     <?php echo esc_html(wpwand_brand_name()) ?>
                 </h3>
                 <p>Your ultimate AI content generation assistant.</p>
-                <!-- <img src="<?php echo WPWAND_PLUGIN_URL . 'assets/img/video.png' ?>" alt=""> -->
+
                 <iframe width="560" src="https://www.youtube.com/embed/CJkraHhSsZ8" title="YouTube video player"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -507,7 +510,8 @@ function wpwand_welcome_screen()
 
                 </ul>
             </div>
-            <?php // if ( !WPWAND_OPENAI_KEY ): ?>
+            <?php // if ( !WPWAND_OPENAI_KEY ): 
+            ?>
             <div class="wpwand-welcome-screen-footer">
 
                 <h4>Start by connecting your free OpenAI Key</h4>
@@ -530,7 +534,7 @@ function wpwand_welcome_screen()
 
                             <div class="wpwand-form-submit">
                                 <button class="wpwand-submit-button">
-                                    <?php echo WPWAND_OPENAI_KEY ? 'Connected!' : 'Connect API'; ?>
+                                    <?php echo WPWAND_OPENAI_KEY ? esc_html__('Connected!', 'wp-wand') : esc_html__('Connect API', 'wp-wand'); ?>
                                 </button>
                             </div>
                         </form>
@@ -538,10 +542,11 @@ function wpwand_welcome_screen()
                 </div>
 
             </div>
-            <?php //ndif; ?>
+            <?php //ndif; 
+            ?>
         </div>
     </div>
-    <?php
+<?php
 }
 
 function wpwand_promo_notice()
@@ -549,8 +554,8 @@ function wpwand_promo_notice()
     // if (true == get_option('wpwand_promo_notice_dismiss')) {
     //     return false;
     // }
-    $notice_id = rand(5555, 444444);
-    ?>
+    $notice_id = wp_rand(5555, 444444);
+?>
 
     <div class="wpwand-promo-notice notice wpwand-notice-<?php echo esc_attr($notice_id); ?>"">
             <div class=" wpwand-promo-notice-content">
@@ -562,11 +567,11 @@ function wpwand_promo_notice()
     <div class="wpwand-promo-notice-action">
         <a target="_blank" href="https://wpwand.com/pricing-plan/" class="wpwand-promo-notice-link">Get Lifetime Access</a>
         <a href="" class="wpwand-promo-notice-Hide" data-notice-id="<?php echo esc_attr($notice_id); ?>"
-            data-nonce="<?php echo wp_create_nonce('dismiss-notice-' . $notice_id); ?>">Hide</a>
+            data-nonce="<?php echo esc_attr(wp_create_nonce('dismiss-notice-' . $notice_id)); ?>">Hide</a>
     </div>
     </div>
 
-    <?php
+<?php
 }
 
 if (!function_exists('wpwand_pro_init')) {
@@ -576,10 +581,8 @@ if (!function_exists('wpwand_pro_init')) {
 
 function wpwand_dismiss_notice()
 {
-    $notice_id = isset($_POST['notice_id']) ? $_POST['notice_id'] : '';
-
-    if (!$notice_id) {
-        wp_send_json_error('Something went wrong');
+    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+        wp_send_json_error('Nonce verification failed.', 403);
     }
 
     $dismiss = update_option('wpwand_promo_notice_dismiss', true);
@@ -590,18 +593,18 @@ add_action('wp_ajax_nopriv_wpwand_dismiss_notice', 'wpwand_dismiss_notice');
 
 function wpwand_frontend_language()
 {
-    ?>
+?>
     <div class="wpwand-form-group">
         <div class="wpwand-form-field">
             <label for="wpwand-Language">Language
-                <?php echo wpwand_upgrade_to_pro_button() ?>
+                <?php wpwand_upgrade_to_pro_button() ?>
             </label>
             <select name="wpwand-Language" id="wpwand-Language" disabled>
                 <option value="English">English</option>
             </select>
         </div>
     </div>
-    <?php
+<?php
 }
 // add_action('wpwand_frontend_language', 'wpwand_frontend_language');
 
@@ -612,14 +615,13 @@ function wpwand_admin_bar_menu($wp_admin_bar)
     $wp_admin_bar->add_menu(
         array(
             'id' => 'wpwand-trigger',
-            'title' => '<img style="width:25px" src="' . wpwand_loago_icon_url() . '" > AI Assistant',
+            'title' => '<img style="width:25px" src="' . wpwand_loago_icon_url() . '" > AI Assistant',  // phpcs:ignore
             'href' => '#',
             'meta' => array(
                 'class' => 'wpwand-trigger',
             ),
         )
     );
-
 }
 if ('top' == wpwand_get_option('toggler_position', 'top') && is_admin()) {
     add_action('admin_bar_menu', 'wpwand_admin_bar_menu', 999);
@@ -627,7 +629,7 @@ if ('top' == wpwand_get_option('toggler_position', 'top') && is_admin()) {
 
 function wpwand_dall_e_image_field()
 {
-    ?>
+?>
     <div class="wpwand-form-group wpwand-col-2">
         <div class="wpwand-form-field">
             <label for="wpwand-image-resulation">Select Resolution</label>
@@ -642,7 +644,7 @@ function wpwand_dall_e_image_field()
             <input type="number" id="wpwand-result-number" min="1" max="3" name="wpwand-result-number" value="1">
         </div>
     </div>
-    <?php
+<?php
 }
 
 add_action('wpwand_dall_e_frontend_fields', 'wpwand_dall_e_image_field');
@@ -731,7 +733,6 @@ function wpwand_pgs_rate_limi()
     }
 
     return true;
-
 }
 
 
@@ -758,16 +759,33 @@ function wpwangd_get_max_token($command, $selected_model = '')
     return $max_token;
 }
 
-function wpwand_get_custom_prpompts($type = '')
-{
+function wpwand_get_custom_prpompts($type = '') {
     global $wpdb;
 
-    $where = !empty($type) ? "WHERE type = '" . $type . "'" : "";
-    $query = "SELECT * FROM {$wpdb->prefix}wpwand_custom_prompts $where";
-    $results = $wpdb->get_results($query, ARRAY_A);
+    // Check if the result is already cached
+    $cache_key = 'wpwand_custom_prompts_' . $type;
+    $cached_results = wp_cache_get($cache_key, 'wpwand_custom_prompts');
 
-    if ($results) {
-        return $results;
+    if ($cached_results !== false) {
+        return $cached_results;
+    }
+
+    // Perform database query if not cached
+    if (!empty($type)) {
+        $table_name = $wpdb->prefix . 'wpwand_custom_prompts';
+        // Use WPDB's built-in method to properly escape the table name
+        $results = $wpdb->get_results(// phpcs:ignore
+            $wpdb->prepare(
+                "SELECT * FROM `" . esc_sql($table_name) . "` WHERE type = %s",
+                $type
+            )
+        ); 
+
+        if ($results) {
+            // Cache the results for future use
+            wp_cache_set($cache_key, $results, 'wpwand_custom_prompts', HOUR_IN_SECONDS);
+            return $results;
+        }
     }
 
     return false;

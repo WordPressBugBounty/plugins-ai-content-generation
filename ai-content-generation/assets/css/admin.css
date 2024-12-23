@@ -1609,6 +1609,7 @@ li#wp-admin-bar-wpwand-trigger img {
     padding: 2.5px 15px;
     border-radius: 5px;
     padding-left: 6px;
+    min-width: max-content;
 }
 
 .edit-post-header-toolbar a.wpwand-trigger img {

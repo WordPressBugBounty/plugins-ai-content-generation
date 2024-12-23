@@ -23,6 +23,11 @@ function wpwand_templates()
 }
 function wpwand_sync_date()
 {
+    if(defined('DOING_AJAX')){
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+            wp_send_json_error('Nonce verification failed.', 403);
+        }
+    }
     // Check if the plugin is being activated for the first time
     if (function_exists('wpwand_pro_get_data')) {
         wpwand_pro_get_data();

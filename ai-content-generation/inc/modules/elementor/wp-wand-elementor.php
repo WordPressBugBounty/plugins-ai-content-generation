@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: WP Wand Elmentor
  * Plugin URI: https://wdelmtr.com/
@@ -28,8 +29,6 @@ function wdelmtr_init()
     if (!is_admin()) {
         return false;
     }
-
-
 }
 
 
@@ -59,7 +58,7 @@ final class WDELMTR_Extension
 
     public function i18n()
     {
-        load_plugin_textdomain('wdelmtr');
+        load_plugin_textdomain('wp-wand');
     }
 
     public function init()
@@ -85,15 +84,14 @@ final class WDELMTR_Extension
         add_action('elementor/widgets/register', [$this, 'init_widgets']);
         add_action('elementor/editor/after_enqueue_scripts', [$this, 'wdelmtr_editor_scripts'], 100);
         add_action('wp_enqueue_scripts', array($this, 'wdelmtr_register_frontend_styles'), 10);
-
     }
 
     public function wdelmtr_editor_scripts()
     {
 
-        wp_enqueue_style('wpwand-inter-font', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-        wp_enqueue_style('jquery-ui', WPWAND_PLUGIN_URL . 'assets/css/jquery-ui.css');
-        wp_enqueue_style('wpwand-admin', WPWAND_PLUGIN_URL . 'assets/css/admin.css', ['elementor-editor']);
+        wp_enqueue_style('wpwand-inter-font', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap', [], WDELMTR_VERSION);
+        wp_enqueue_style('jquery-ui', WPWAND_PLUGIN_URL . 'assets/css/jquery-ui.css', [], WDELMTR_VERSION);
+        wp_enqueue_style('wpwand-admin', WPWAND_PLUGIN_URL . 'assets/css/admin.css', ['elementor-editor'], WDELMTR_VERSION);
         $custom_css = '
         .wpwand_editor_icon button {
             background-image: url(' . wpwand_loago_icon_url() . ');
@@ -104,9 +102,9 @@ final class WDELMTR_Extension
         ';
         wp_add_inline_style('wpwand-admin', $custom_css);
 
-        wp_enqueue_script('jquery-showdown', 'https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js', ['jquery']);
-        wp_enqueue_script('jquery-ui-slider');
-        wp_enqueue_script('wpwand-admin', WPWAND_PLUGIN_URL . 'assets/js/admin.js', ['jquery']);
+        wp_enqueue_script('jquery-showdown', WDELMTR_PLUGIN_URL .'assets/js/showdown.min.js', ['jquery'], WDELMTR_VERSION, true);
+        wp_enqueue_script('jquery-ui-slider', [], ['jquery'], WDELMTR_VERSION, true);
+        wp_enqueue_script('wpwand-admin', WPWAND_PLUGIN_URL . 'assets/js/admin.js', ['jquery'], WDELMTR_VERSION, true);
 
         wp_enqueue_style(
             'wdelmtr-editor',
@@ -114,20 +112,18 @@ final class WDELMTR_Extension
             null,
             WDELMTR_VERSION
         );
-        // wp_enqueue_script(
-        //     'wdelmtr-editor',
-        //     WDELMTR_PLUGIN_URL . 'assets/js/editor.js',
-        //     array( 'jquery' ),
-        //     WDELMTR_VERSION,
-        //     true
-        // );
+  
 
-        wp_localize_script('wpwand-admin', 'wpwand_glb', array(
-            'plugin_url' => WDELMTR_PLUGIN_URL,
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'setting_url' => admin_url('admin.php?page=wdelmtr'),
+        wp_localize_script(
+            'wpwand-admin',
+            'wpwand_glb',
+            array(
+                'plugin_url' => WDELMTR_PLUGIN_URL,
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'setting_url' => admin_url('admin.php?page=wdelmtr'),
+                'nonce'    => wp_create_nonce('wpwand_global_nonce')
 
-        )
+            )
         );
     }
 
@@ -143,61 +139,59 @@ final class WDELMTR_Extension
             null,
             WDELMTR_VERSION
         );
-
-
     }
 
     public function admin_notice_minimum_php_version()
     {
 
-        if (isset($_GET['activate'])) {
-            unset($_GET['activate']);
+        if (isset($_GET['activate'])) {// phpcs:ignore
+            unset($_GET['activate']);// phpcs:ignore
         }
 
         $message = sprintf(
             /* translators: 1: Plugin name 2: PHP 3: Required PHP version */
-            esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', 'wdelmtr'),
-            '<strong>' . esc_html__('WP Wand Extension', 'wdelmtr') . '</strong>',
-            '<strong>' . esc_html__('PHP', 'wdelmtr') . '</strong>',
+            esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', 'wp-wand'),
+            '<strong>' . esc_html__('WP Wand Extension', 'wp-wand') . '</strong>',
+            '<strong>' . esc_html__('PHP', 'wp-wand') . '</strong>',
             self::MINIMUM_PHP_VERSION
         );
 
-        printf('<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message);
+        printf('<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message); //phpcs:ignore
     }
 
     public function admin_notice_missing_main_plugin()
     {
 
-        if (isset($_GET['activate'])) {
-            unset($_GET['activate']);
+        if (isset($_GET['activate'])) {// phpcs:ignore
+            unset($_GET['activate']);// phpcs:ignore
         }
 
         $message = sprintf(
             /* translators: 1: Plugin name 2: Elementor */
-            esc_html__('"%1$s" requires "%2$s" to be installed and activated.', 'wdelmtr'),
-            '<strong>' . esc_html__('WP Wand Extension', 'wdelmtr') . '</strong>',
-            '<strong>' . esc_html__('Elementor', 'wdelmtr') . '</strong>'
+            esc_html__('"%1$s" requires "%2$s" to be installed and activated.', 'wp-wand'),
+            '<strong>' . esc_html__('WP Wand Extension', 'wp-wand') . '</strong>',
+            '<strong>' . esc_html__('Elementor', 'wp-wand') . '</strong>'
         );
 
-        printf('<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message);
+        printf('<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message); //phpcs:ignore
     }
 
     public function admin_notice_minimum_elementor_version()
     {
 
-        if (isset($_GET['activate'])) {
-            unset($_GET['activate']);
+        if (isset($_GET['activate'])) {// phpcs:ignore
+            unset($_GET['activate']);// phpcs:ignore
         }
 
         $message = sprintf(
             /* translators: 1: Plugin name 2: Elementor 3: Required Elementor version */
-            esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', 'wdelmtr'),
-            '<strong>' . esc_html__('WP Wand Extension', 'wdelmtr') . '</strong>',
-            '<strong>' . esc_html__('WP Wand', 'wdelmtr') . '</strong>',
+            esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', 'wp-wand'),
+            '<strong>' . esc_html__('WP Wand Extension', 'wp-wand') . '</strong>',
+            '<strong>' . esc_html__('WP Wand', 'wp-wand') . '</strong>',
             self::MINIMUM_ELEMENTOR_VERSION
         );
 
-        printf('<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message);
+        printf('<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message); //phpcs:ignore
     }
 
     public function init_widgets($widgets_manager)
@@ -206,7 +200,6 @@ final class WDELMTR_Extension
         /*
          * Extensions Include
          */
-
     }
 }
 
@@ -221,6 +214,5 @@ function register_currency_control($controls_manager)
     $controls_manager->register(new Elementor\fdwltControl_Text());
     $controls_manager->register(new Elementor\FDWELT_Control_Textarea());
     $controls_manager->register(new Elementor\FDWSELT_Control_Wysiwyg());
-
 }
 add_action('elementor/controls/register', 'register_currency_control');

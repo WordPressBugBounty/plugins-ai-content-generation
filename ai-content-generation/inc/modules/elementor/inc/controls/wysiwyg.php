@@ -52,7 +52,7 @@ class FDWSELT_Control_Wysiwyg extends Base_Data_Control {
 		<div class="elementor-control-field">
 			<div class="elementor-control-title">{{{ data.label }}}</div>
                 <# if ( data.ai.active == true ) { #>
-                    <span class="wdelmtr-prompt-trigger"><img src="<?php echo esc_url(wpwand_loago_icon_url() )?>" alt=""/></span>
+                    <span class="wdelmtr-prompt-trigger"><img src="<?php echo esc_url(wpwand_loago_icon_url() )  // phpcs:ignore?>" alt=""/></span>
                 <# } #>
 			<div class="elementor-control-input-wrapper elementor-control-tag-area"></div>
 		</div>
