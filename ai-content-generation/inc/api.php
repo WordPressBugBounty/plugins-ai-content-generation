@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 function wpwand_request()
 {
 
-    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpwand_global_nonce')) {
         wp_send_json_error('Nonce verification failed.', 403);
     }
 
@@ -31,26 +31,7 @@ function wpwand_request()
     $targated_customer = '';
     $language = isset($_POST['language']) ? wp_kses_post(sanitize_text_field(wp_unslash($_POST['language']))) : '';
     // Sanitize and validate input fields
-    $fields = array(
-        'topic' => isset($_POST['topic']) ? sanitize_text_field(wp_unslash($_POST['topic'])) : '',
-        'keywords' => isset($_POST['keyword']) ? sanitize_text_field(wp_unslash($_POST['keyword'])) : '',
-        'no_of_results' => isset($_POST['result_number']) ? absint(sanitize_text_field(wp_unslash($_POST['result_number'])) ) : 1,
-        'tone' => isset($_POST['tone']) ? sanitize_text_field(wp_unslash($_POST['tone'])) : '',
-        // 'writing_style' isset($_POST['writing_style') ? => sanitize_text_field(wp_unslash($_POST['writing_style')] ) : '',
-        'word_count' => isset($_POST['word_limit']) ? intval(sanitize_text_field(wp_unslash($_POST['word_limit']))) + 1000 : '',
-        'product_name' => isset($_POST['product_name']) ? sanitize_text_field(wp_unslash($_POST['product_name'])) : '',
-        'description' => isset($_POST['description']) ? sanitize_text_field(wp_unslash($_POST['description'])) : '',
-        'content' => isset($_POST['content']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['content']))) : '',
-        'content_textarea' => isset($_POST['content_textarea']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['content_textarea']))) : '',
-        'custom_textarea' => isset($_POST['custom_textarea']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['custom_textarea']))) : '',
-        'product_1' => isset($_POST['product_1']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['product_1']))) : '',
-        'product_2' => isset($_POST['product_2']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['product_2']))) : '',
-        'description_1' => isset($_POST['description_1']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['description_1']))) : '',
-        'description_2' => isset($_POST['description_2']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['description_2']))) : '',
-        'subject' => isset($_POST['subject']) ? sanitize_text_field(wp_unslash($_POST['subject'])) : '',
-        'question' => isset($_POST['question']) ? sanitize_text_field(wp_unslash($_POST['question'])) : '',
-        'comment' => isset($_POST['comment']) ? sanitize_text_field(wp_unslash($_POST['comment'])) : '',
-    );
+    $fields = wpwand_api_fields_validate();
 
     // Replace fields in prompt with values
     $command = preg_replace_callback(
@@ -94,6 +75,36 @@ function wpwand_request()
 }
 add_action('wpwand_ajax_api', 'wpwand_request');
 
+
+if (!function_exists('wpwand_api_fields_validate')) {
+    function wpwand_api_fields_validate()
+    {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpwand_global_nonce')) {
+            wp_send_json_error('Nonce verification failed.', 403);
+        }
+        return array(
+            'topic' => isset($_POST['topic']) ? sanitize_text_field(wp_unslash($_POST['topic'])) : '',
+            'keywords' => isset($_POST['keyword']) ? sanitize_text_field(wp_unslash($_POST['keyword'])) : '',
+            'no_of_results' => isset($_POST['result_number']) ? absint(sanitize_text_field(wp_unslash($_POST['result_number']))) : 1,
+            'tone' => isset($_POST['tone']) ? sanitize_text_field(wp_unslash($_POST['tone'])) : '',
+            // 'writing_style' isset($_POST['writing_style') ? => sanitize_text_field(wp_unslash($_POST['writing_style')] ) : '',
+            'word_count' => isset($_POST['word_limit']) ? intval(sanitize_text_field(wp_unslash($_POST['word_limit']))) + 1000 : '',
+            'product_name' => isset($_POST['product_name']) ? sanitize_text_field(wp_unslash($_POST['product_name'])) : '',
+            'description' => isset($_POST['description']) ? sanitize_text_field(wp_unslash($_POST['description'])) : '',
+            'content' => isset($_POST['content']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['content']))) : '',
+            'content_textarea' => isset($_POST['content_textarea']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['content_textarea']))) : '',
+            'custom_textarea' => isset($_POST['custom_textarea']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['custom_textarea']))) : '',
+            'product_1' => isset($_POST['product_1']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['product_1']))) : '',
+            'product_2' => isset($_POST['product_2']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['product_2']))) : '',
+            'description_1' => isset($_POST['description_1']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['description_1']))) : '',
+            'description_2' => isset($_POST['description_2']) ?  wp_kses_post(sanitize_text_field(wp_unslash($_POST['description_2']))) : '',
+            'subject' => isset($_POST['subject']) ? sanitize_text_field(wp_unslash($_POST['subject'])) : '',
+            'question' => isset($_POST['question']) ? sanitize_text_field(wp_unslash($_POST['question'])) : '',
+            'comment' => isset($_POST['comment']) ? sanitize_text_field(wp_unslash($_POST['comment'])) : '',
+        );
+    }
+}
+
 function wpwand_request_hook()
 {
 
@@ -108,7 +119,7 @@ add_action('wp_ajax_nopriv_wpwand_request', 'wpwand_request_hook');
 function wpwand_api_set()
 {
 
-    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpwand_global_nonce')) {
         wp_send_json_error('Nonce verification failed.', 403);
     }
     // Check if prompt parameter exists
@@ -156,7 +167,7 @@ function wpwand_check_api_key()
 
 function wpwand_only_prompt()
 {
-    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpwand_global_nonce')) {
         wp_send_json_error('Nonce verification failed.', 403);
     }
 
@@ -210,7 +221,7 @@ add_action('wp_ajax_nopriv_wpwand_download_image', 'wpwand_download_image');
 
 function wpwand_download_image()
 {
-    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpwand_global_nonce')) {
         wp_send_json_error('Nonce verification failed.', 403);
     }
 
@@ -225,7 +236,7 @@ function wpwand_download_image()
 function wpwand_dall_e_request($prompt, $args = [])
 {
 
-    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpwand_global_nonce')) {
         wp_send_json_error('Nonce verification failed.', 403);
     }
     // Call OpenAI API to generate content
@@ -338,7 +349,7 @@ function wpwand_openAi($prompt, $number_of_result = 1, $args = [])
     // Call OpenAI API to generate content
     $openAI = new OpenAi(get_option('wpwand_api_key'));
 
-    if ('gpt-3.5-turbo' == $selected_model || 'gpt-3.5-turbo-16k' == $selected_model || 'gpt-4' == $selected_model || 'gpt-4o' == $selected_model) {
+    // if ('gpt-3.5-turbo' == $selected_model || 'gpt-3.5-turbo-16k' == $selected_model || 'gpt-4' == $selected_model || 'gpt-4o' == $selected_model) {
 
         $complete = $openAI->chat([
             'model' => $selected_model,
@@ -354,7 +365,7 @@ function wpwand_openAi($prompt, $number_of_result = 1, $args = [])
             'frequency_penalty' => (int) $frequency_penalty,
             'presence_penalty' => (int) $presence_penalty,
         ]);
-    } else {
+/*     } else {
         $complete = $openAI->completion([
             'n' => $number_of_result < 1 ? 1 : $number_of_result,
             'model' => $selected_model,
@@ -364,7 +375,7 @@ function wpwand_openAi($prompt, $number_of_result = 1, $args = [])
             'frequency_penalty' => (int) $frequency_penalty,
             'presence_penalty' => (int) $presence_penalty,
         ]);
-    }
+    } */
 
     return json_decode($complete);
     // return $davinci_command

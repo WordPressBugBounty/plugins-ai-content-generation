@@ -293,6 +293,10 @@
                 $(e).siblings('#wpwand_max_tokens').attr('max', 14000).change();
                 $(e).slider('option', "max", 14000).change();
                 break;
+            case 'gpt-3.5-turbo':
+                $(e).siblings('#wpwand_max_tokens').attr('max', 14000).change();
+                $(e).slider('option', "max", 14000).change();
+                break;
             case 'gpt-4':
                 $(e).siblings('#wpwand_max_tokens').attr('max', 7200).change();
                 $(e).slider('option', "max", 7200).change();
@@ -300,9 +304,9 @@
 
             default:
                 // handle other cases
-                $(e).siblings('#wpwand_max_tokens').attr('max', 3600).change();
+                $(e).siblings('#wpwand_max_tokens').attr('max', 12800).change();
 
-                $(e).slider('option', "max", 3600).change();
+                $(e).slider('option', "max", 128000).change();
 
                 break;
         }

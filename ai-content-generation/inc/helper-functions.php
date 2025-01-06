@@ -27,7 +27,7 @@ function wpwand_admin_scripts()
     wp_enqueue_script('jquery-showdown', WPWAND_PLUGIN_URL . 'assets/js/showdown.min.js', ['jquery'], WPWAND_VERSION, true);
 
     wp_enqueue_script('sweetalert2', WPWAND_PLUGIN_URL . 'assets/js/sweetalert2.all.min.js', ['jquery'], WPWAND_VERSION, true);
-    wp_enqueue_script('wpwand-admin', WPWAND_PLUGIN_URL . 'assets/js/admin.js', ['jquery', 'jquery-ui-slider'], WPWAND_VERSION, true);
+    wp_enqueue_script('wpwand-admin', WPWAND_PLUGIN_URL . 'assets/js/admin.js', ['jquery', 'jquery-ui-slider', 'jquery-showdown'], WPWAND_VERSION, true);
     wp_localize_script(
         'wpwand-admin',
         'wpwand_glb',
@@ -778,7 +778,7 @@ function wpwand_get_custom_prpompts($type = '') {
             $wpdb->prepare(
                 "SELECT * FROM `" . esc_sql($table_name) . "` WHERE type = %s",
                 $type
-            )
+            ), ARRAY_A
         ); 
 
         if ($results) {

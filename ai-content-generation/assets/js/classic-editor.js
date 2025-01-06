@@ -62,7 +62,7 @@
             data: {
                 action: 'wpwand_editor_request',
                 prompt: prompt,
-                // nonce: wpwand_editor_wp_nonce
+                nonce: wpwand_glb.nonce,
             },
             dataType: 'JSON',
             type: 'POST',

@@ -45,47 +45,7 @@
 
 
         });
-        /*   $('#wdelmtr-form-prompt').on('submit', function (e) {
-              e.preventDefault();
-
-              const $this = $(this);
-              const topic = $this.find('#wdelmtr_topic').val();
-
-              $promt_wrapper.find('.wdelmtr-result').html('Submitting...') //.css('background-color', 'gray')
-
-              // Use $.post instead of $.ajax for simpler code
-              $.post({
-                  url: wdelmtr_glb.ajax_url,
-                  data: {
-                      action: 'wdelmtr_api_set',
-                      topic
-                  },
-                  success: function (response) {
-                      console.log(response)
-                      $promt_wrapper.hide();
-                      var editorId = panel.$el.find('.elementor-wp-editor').attr('id'); // Replace with the ID of your TinyMCE editor
-                      var textToAdd = response; // Replace with the text you want to add
-
-                      var editor = tinymce.get(editorId);
-                      if (editor) {
-                          editor.setContent(textToAdd);
-                      }
-
-                      $promt_wrapper.find('.wdelmtr-result').html('')
-                  }
-              });
-          }); */
-
-
-
-
-        // var hellow = function (e, t) {
-
-        //     var i = t.options.model.get("type");
-        //     console.log(i);
-        //     return e;
-        // }
-        // elementor.hooks.addFilter("controls/base/behaviors", hellow)
+       
 
 
 

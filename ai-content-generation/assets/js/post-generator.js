@@ -199,7 +199,7 @@
             faq_include,
           },
           success: function (response) {
-            console.log(response);
+            // console.log(response);
             // $this.find('button[type=submit]').css('opacity', '1')
             window.location =
               wpwand_glb.admin_url +
@@ -237,46 +237,48 @@
 
     function wpwandCheckProgress(id, $this) {
       $.post({
-        url: wpwand_glb.ajax_url,
-        data: {
-          action: "wpwand_post_generation_progress",
-          nonce: wpwand_glb.nonce,
-          id,
-        },
-        success: function (response) {
-          if (response == "complete") {
-            $this.removeClass("pending");
-            $this.removeClass("failed");
-            $this.addClass("done");
-            $this.text("Complete");
-          }
-          if (response == "failed") {
-            $this.removeClass("pending");
-            $this.addClass("failed");
-            $this.text("Failed");
-          }
-          if (response == "in-progress") {
-            $this.removeClass("failed");
-            $this.text("On Progress");
-          }
-          console.log(response);
-        },
-        complete: function () {
-          // Call the function again after a certain interval
-          if ($this.hasClass("pending") || $this.hasClass("failed")) {
-            setTimeout(wpwandCheckProgress(id, $this), 3000); // Adjust the interval as needed
-          }
-          if (
-            !$parent
-              .find(".wpwand-pgdc-page table.wp-list-table td span.status")
-              .hasClass("pending")
-          ) {
-            $parent.find(".wpwand-pgdc-page .wpwand-pgdc-header").hide();
-          }
-        },
-        error: function (msg) {},
+          url: wpwand_glb.ajax_url,
+          data: {
+              action: "wpwand_post_generation_progress",
+              nonce: wpwand_glb.nonce,
+              id,
+          },
+          success: function (response) {
+              if (response == "complete") {
+                  $this.removeClass("pending");
+                  $this.removeClass("failed");
+                  $this.addClass("done");
+                  $this.text("Complete");
+              }
+              if (response == "failed") {
+                  $this.removeClass("pending");
+                  $this.addClass("failed");
+                  $this.text("Failed");
+              }
+              if (response == "in-progress") {
+                  $this.removeClass("failed");
+                  $this.text("On Progress");
+              }
+              console.log(response);
+          },
+          complete: function () {
+              // Call the function again after a certain interval
+              if ($this.hasClass("pending") || $this.hasClass("failed")) {
+                  // Wait for 10 seconds then recall 
+                  setTimeout(() => wpwandCheckProgress(id, $this), 5000); // Adjust the interval as needed
+              }
+              if (
+                  !$parent
+                      .find(".wpwand-pgdc-page table.wp-list-table td span.status")
+                      .hasClass("pending")
+              ) {
+                  $parent.find(".wpwand-pgdc-page .wpwand-pgdc-header").hide();
+              }
+          },
+          error: function (msg) {},
       });
-    }
+  }
+  
 
     // Call the function to start updating the current item
 
