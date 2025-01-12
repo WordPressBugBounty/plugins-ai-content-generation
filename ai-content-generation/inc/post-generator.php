@@ -61,7 +61,7 @@ class Post_Generator_FR
         $is_table_format_prompt = $rawResponse ? '' : 'You must give output with html tags';
 
 
-        $content = wpwand_openAi(
+        $content = wpwand_generate_ai_content(
             "I will give a topic and you will write one high converting blog title. This title should have a hook and high potential to go viral on social media. My topic is" . $topic . ". You must write in $language.",
             (int) $count
         );
@@ -90,7 +90,7 @@ class Post_Generator_FR
             }
         } elseif (isset($content->error)) {
             $text .= '<div class="wpwand-content wpwand-prompt-error">';
-            $text .= wpwand_openAi_error($content->error);
+            $text .= wpwand_ai_error($content->error);
             $text .= '  </div>';
         }
         wp_send_json($text);

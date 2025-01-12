@@ -255,9 +255,14 @@
                   $this.addClass("failed");
                   $this.text("Failed");
               }
+              if (response == "pending") {
+                  $this.removeClass("failed");
+                  $this.addClass("pending");
+                  $this.text("Pending");
+              }
               if (response == "in-progress") {
                   $this.removeClass("failed");
-                  $this.text("On Progress");
+                  $this.text("In Progress");
               }
               console.log(response);
           },

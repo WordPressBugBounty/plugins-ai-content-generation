@@ -57,7 +57,7 @@ function wpwand_get_data($sync = false)
         // Build the request
         $url = "https://updates.finestwp.co/demo-import/wp-wand/import-files.php?fdth";
 
-        $response = wp_remote_get($url);
+        $response = wp_safe_remote_get($url);
         $response_body = wp_remote_retrieve_body($response);
         $response_body = json_decode($response_body, true);
         // Send the request with warnings supressed
@@ -233,4 +233,3 @@ function wpwand_editor_prompts($locked = true)
     ];
 }
 
-// add_filter( 'wpwand_editor_prompts','wpwand_editor_prompt' );

@@ -65,10 +65,7 @@ final class WDELMTR_Extension
     {
 
         // Check if Elementor installed and activated
-        if (!has_action('init', 'wpwand_init')) {
-            add_action('admin_notices', [$this, 'admin_notice_missing_main_plugin']);
-            return;
-        }
+
         // Check for required Elementor version
         if (!version_compare(ELEMENTOR_VERSION, self::MINIMUM_ELEMENTOR_VERSION, '>=')) {
             add_action('admin_notices', [$this, 'admin_notice_minimum_elementor_version']);

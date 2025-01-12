@@ -391,14 +391,15 @@ function wpwand_geneeral_locked_content()
         <th scope="row">
             <label for="wpwand_frequency">
                 <?php esc_html_e('Sync Plugin Data', 'wp-wand'); ?>
-                <?php wpwand_upgrade_to_pro_button() ?>
+                <?php // wpwand_upgrade_to_pro_button() 
+                ?>
             </label>
             <span class="wpwand-field-desc">We often update our data for higher quality results.
                 By clicking sync button you can get updated data instantly.</span>
         </th>
         <td>
             <div class="wpwand-slider-input-wrap">
-                <span class="wpwand-sync-prompt">Sync</span>
+                <a href="" class="wpwand-sync-prompt-data">Sync</a>
             </div>
         </td>
     </tr>
@@ -513,14 +514,15 @@ function wpwand_welcome_screen()
             <?php // if ( !WPWAND_OPENAI_KEY ): 
             ?>
             <div class="wpwand-welcome-screen-footer">
+                <h4>Start by connecting your API key</h4>
 
-                <h4>Start by connecting your free OpenAI Key</h4>
+                <!-- <h4>Start by connecting your free OpenAI Key</h4> -->
                 <!-- wp wand api missing notice  -->
 
                 <div class="wpwand-api-missing-notice-wrap">
 
                     <div class="wpwand-api-missing-form-wrap">
-                        <form action="" class="wpwand-api-missing-form">
+                        <!-- <form action="" class="wpwand-api-missing-form">
                             <div class="wpwand-form-group">
                                 <div class="wpwand-form-field">
                                     <input type="text" id="wpwand-api-key" name="wpwand-api-key"
@@ -537,8 +539,10 @@ function wpwand_welcome_screen()
                                     <?php echo WPWAND_OPENAI_KEY ? esc_html__('Connected!', 'wp-wand') : esc_html__('Connect API', 'wp-wand'); ?>
                                 </button>
                             </div>
-                        </form>
+                        </form> -->
+
                     </div>
+                    <a href="<?php echo esc_url(admin_url('admin.php?page=wpwand')); ?>" class="wpwand-big-button">Setup your API key</a>
                 </div>
 
             </div>
@@ -581,7 +585,7 @@ if (!function_exists('wpwand_pro_init')) {
 
 function wpwand_dismiss_notice()
 {
-    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpwand_global_nonce')) {
         wp_send_json_error('Nonce verification failed.', 403);
     }
 
@@ -759,7 +763,8 @@ function wpwangd_get_max_token($command, $selected_model = '')
     return $max_token;
 }
 
-function wpwand_get_custom_prpompts($type = '') {
+function wpwand_get_custom_prpompts($type = '')
+{
     global $wpdb;
 
     // Check if the result is already cached
@@ -774,12 +779,13 @@ function wpwand_get_custom_prpompts($type = '') {
     if (!empty($type)) {
         $table_name = $wpdb->prefix . 'wpwand_custom_prompts';
         // Use WPDB's built-in method to properly escape the table name
-        $results = $wpdb->get_results(// phpcs:ignore
+        $results = $wpdb->get_results( // phpcs:ignore
             $wpdb->prepare(
                 "SELECT * FROM `" . esc_sql($table_name) . "` WHERE type = %s",
                 $type
-            ), ARRAY_A
-        ); 
+            ),
+            ARRAY_A
+        );
 
         if ($results) {
             // Cache the results for future use
@@ -790,3 +796,169 @@ function wpwand_get_custom_prpompts($type = '') {
 
     return false;
 }
+
+
+
+
+function wpwand_make_api_request($api_type, $endpoint, $args = array()) {
+    // Get API key based on type
+    $api_key = $api_type === 'openai' ? WPWAND_OPENAI_KEY : WPWAND_CLAUDE_KEY;
+    
+    if (empty($api_key)) {
+        return new WP_Error('missing_api_key', sprintf(
+            esc_html__('%s API key is missing', 'wp-wand'),
+            ucfirst($api_type)
+        ));
+    }
+
+    // Set base URLs
+    $base_urls = array(
+        'openai' => 'https://api.openai.com/v1',
+        'claude' => 'https://api.anthropic.com/v1'
+    );
+
+    // Set default headers based on API type
+    $headers = array(
+        'openai' => array(
+            'Authorization' => 'Bearer ' . $api_key,
+            'Content-Type' => 'application/json'
+        ),
+        'claude' => array(
+            'x-api-key' => $api_key,
+            'anthropic-version' => '2023-06-01',
+            'Content-Type' => 'application/json'
+        )
+    );
+
+    // Merge default args with provided args
+    $default_args = array(
+        'timeout' => 15,
+        'headers' => $headers[$api_type]
+    );
+    
+    $request_args = wp_parse_args($args, $default_args);
+
+    // Make the API request
+    $response = wp_safe_remote_request(
+        $base_urls[$api_type] . $endpoint,
+        $request_args
+    );
+
+    // Handle response
+    if (is_wp_error($response)) {
+        return $response;
+    }
+
+    $response_code = wp_remote_retrieve_response_code($response);
+    $body = json_decode(wp_remote_retrieve_body($response), true);
+
+    if ($response_code !== 200) {
+        $error_message = isset($body['error']['message']) 
+            ? $body['error']['message'] 
+            : sprintf(
+                esc_html__('%s API Error: Unexpected response code %d', 'wp-wand'),
+                ucfirst($api_type),
+                $response_code
+            );
+        
+        return new WP_Error('api_error', $error_message, array(
+            'status' => $response_code,
+            'body' => $body
+        ));
+    }
+
+    return $body;
+}
+
+function wpwand_get_openai_models() {
+    if (!WPWAND_OPENAI_KEY) {
+        return array();
+    }
+
+    // Try to get cached models first
+    $cached_models = get_transient('wpwand_openai_models');
+    if ($cached_models !== false) {
+        return $cached_models;
+    }
+
+    // Define allowed models for content generation
+    $allowed_models = array(
+        'chatgpt-4o-latest' => 'GPT-4 Latest',
+        'gpt-4o-mini' => 'GPT-4 Mini',
+        'gpt-4o' => 'GPT-4',
+        'gpt-4-turbo' => 'GPT-4 Turbo',
+        'gpt-4' => 'GPT-4',
+        'gpt-3.5-turbo' => 'GPT-3.5 Turbo',
+        'gpt-3.5-turbo-16k' => 'GPT-3.5 Turbo 16K'
+    );
+
+    // Make API request using common function
+    $response = wpwand_make_api_request('openai', '/models');
+    
+    if (is_wp_error($response)) {
+        return $allowed_models; // Return predefined models if API call fails
+    }
+
+    $models = array();
+    if (!empty($response['data'])) {
+        foreach ($response['data'] as $model) {
+            if (array_key_exists($model['id'], $allowed_models)) {
+                $models[$model['id']] = $allowed_models[$model['id']];
+            }
+        }
+    }
+
+    // If no models were found from API, use the predefined list
+    if (empty($models)) {
+        $models = $allowed_models;
+    }
+
+    // Cache the results for 12 hours
+    set_transient('wpwand_openai_models', $models, 12 * HOUR_IN_SECONDS);
+
+    return $models;
+}
+
+function wpwand_get_claude_models() {
+    if (!WPWAND_CLAUDE_KEY) {
+        return array();
+    }
+
+    // Try to get cached models first
+    $cached_models = get_transient('wpwand_claude_models');
+    if ($cached_models !== false) {
+        return $cached_models;
+    }
+
+    // Make API request using common function
+    $response = wpwand_make_api_request('claude', '/models');
+    
+    if (is_wp_error($response)) {
+        return array(); // Return empty array if API call fails
+    }
+
+    $models = array();
+    if (!empty($response['data'])) {
+        foreach ($response['data'] as $model) {
+            // Filter for content generation models only
+            if (strpos($model['id'], 'claude-3') === 0) {
+                $models[$model['id']] = $model['display_name'];
+            }
+        }
+    }
+
+    // Cache the results for 12 hours
+    set_transient('wpwand_claude_models', $models, 12 * HOUR_IN_SECONDS);
+
+    return $models;
+}
+
+// Replace the existing select options code with:
+
+function wpwand_clear_model_cache()
+{
+    delete_transient('wpwand_openai_models');
+    delete_transient('wpwand_claude_models');
+}
+add_action('update_option_wpwand_api_key', 'wpwand_clear_model_cache');
+add_action('update_option_wpwand_claude_api_key', 'wpwand_clear_model_cache');

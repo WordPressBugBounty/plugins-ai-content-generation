@@ -12,18 +12,25 @@ function wpwand_frontend_callback()
     <!-- <button><?php esc_html_e('Generate content', 'wp-wand') ?></button> -->
     <?php if ('side' == wpwand_get_option('toggler_position', 'top')): ?>
         <button class="wpwand-trigger wpwand-open">
-            <img src="<?php echo esc_url(wpwand_loago_icon_url());   // phpcs:ignore?>">
+            <img src="<?php echo esc_url(wpwand_loago_icon_url());   // phpcs:ignore
+                        ?>">
         </button>
     <?php endif; ?>
     <div class="wpwand-floating">
+        <button class="wpwand-trigger wpwand-close-button"><svg width="12" height="12" viewBox="0 0 12 12"
+                fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.5 10.5L10.5 1.5M1.5 1.5L10.5 10.5" stroke="white" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+            </svg></button>
         <div class="wpwand-floating-wraper">
             <div class="wpwand-floating-header">
-                <h4> <img src="<?php echo esc_url(wpwand_loago_icon_url());  // phpcs:ignore?>">
+                <h4> <img src="<?php echo esc_url(wpwand_loago_icon_url());  // phpcs:ignore
+                                ?>">
                     <?php echo esc_html(wpwand_brand_name()) ?> - Your Personal Content Creator</h4>
             </div>
 
 
-            <?php if (!WPWAND_OPENAI_KEY): ?>
+            <?php if (!WPWAND_OPENAI_KEY && !WPWAND_CLAUDE_KEY): ?>
                 <!-- wp wand api missing notice  -->
 
                 <div class="wpwand-api-missing-notice-wrap">
@@ -37,7 +44,7 @@ function wpwand_frontend_callback()
                     </div>
 
                     <div class="wpwand-api-missing-form-wrap">
-                        <form action="" class="wpwand-api-missing-form">
+                        <!-- <form action="" class="wpwand-api-missing-form">
                             <div class="wpwand-form-group">
                                 <div class="wpwand-form-field">
                                     <label for="wpwand-api-key">OpenAI API Key</label>
@@ -50,7 +57,8 @@ function wpwand_frontend_callback()
                             <div class="wpwand-form-submit">
                                 <button class="wpwand-submit-button">Connect API</button>
                             </div>
-                        </form>
+                        </form> -->
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=wpwand')); ?>" class="wpwand-big-button">Setup your API key</a>
                     </div>
                 </div>
 
@@ -69,11 +77,7 @@ function wpwand_frontend_callback()
                 </div>
 
                 <div class="wpwand-prompt-from-wrap">
-                    <button class="wpwand-trigger wpwand-close-button"><svg width="12" height="12" viewBox="0 0 12 12"
-                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1.5 10.5L10.5 1.5M1.5 1.5L10.5 10.5" stroke="white" stroke-width="1.5"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg></button>
+
 
                     <div class="wpwand-screen-expander"><i class="dashicons dashicons-editor-expand"></i></div>
 

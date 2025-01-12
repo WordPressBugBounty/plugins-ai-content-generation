@@ -2,6 +2,10 @@
     --wpwand-brand-color: #3767FB;
 }
 
+a {
+    text-decoration: none;
+}
+
 .wpwand-settings .notice {
     margin-left: 20px;
     max-width: 60%;
@@ -130,7 +134,7 @@ button.wpwand-trigger.wpwand-open.active {
     background: #EAEDF0;
 }
 
-button.wpwand-trigger.wpwand-close-button.active {
+button.wpwand-trigger.wpwand-close-button {
     position: absolute;
     top: 0;
     left: 0;
@@ -142,6 +146,14 @@ button.wpwand-trigger.wpwand-close-button.active {
     align-items: center;
     justify-content: center;
     border: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: .3s;
+}
+
+button.wpwand-trigger.wpwand-close-button.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 button {
@@ -298,7 +310,8 @@ form.wpwand-prompt-form select:focus {
 }
 
 button.wpwand-submit-button,
-a.wpwand-submit-pro {
+a.wpwand-submit-pro,
+a.wpwand-big-button {
     width: 100%;
     display: flex;
     background: #46B90F;
@@ -386,7 +399,7 @@ h4 {}
     margin-bottom: 15px;
 }
 
-.admin-bar:Not(.block-editor-page) button.wpwand-trigger.wpwand-close-button.active {
+.admin-bar:Not(.block-editor-page) button.wpwand-trigger.wpwand-close-button {
     top: 30px;
 }
 
@@ -3180,4 +3193,23 @@ a.wpwand-table-btn.delete {
 
 .wpwand-content.wpwand-prompt-error {
     color: red;
+}
+
+.wpwand-history-btn.approve {
+    background-color: var(--wpwand-brand-color);
+}
+
+.wpwand-model-error {
+    margin: 5px 0 15px;
+    padding: 8px 12px;
+}
+
+.wpwand-model-error p {
+    margin: 0;
+    padding: 0;
+}
+
+select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }

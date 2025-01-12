@@ -1000,7 +1000,7 @@ class Insights
      */
     private function get_user_ip_address()
     {
-        $response = wp_remote_get('https://icanhazip.com/');
+        $response = wp_safe_remote_get('https://icanhazip.com/');
 
         if (is_wp_error($response)) {
             return '';

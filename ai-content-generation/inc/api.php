@@ -1,6 +1,8 @@
 <?php
 // restrict direct access
 
+use ElliotJReed\AI\ClaudeAI\Prompt;
+use ElliotJReed\AI\Entity\Request;
 use Orhanerday\OpenAi\OpenAi;
 
 if (!defined('ABSPATH')) {
@@ -44,10 +46,15 @@ function wpwand_request()
     );
 
     $args = [
-        'language' => $language
+        'language' => $language,
+        'model' => $selected_model
     ];
 
-    $content = wpwand_openAi("$command. $person_cmd ", (int) $fields['no_of_results'], $args);
+    // var_dump(wpwand_api_source($selected_model)); 
+    // die();
+
+    $content = wpwand_generate_ai_content("$command. $person_cmd ", (int) $fields['no_of_results'], $args);
+
 
     $text = '';
     if (isset($content->choices)) {
@@ -55,7 +62,6 @@ function wpwand_request()
             $reply = isset($choice->message) ? $choice->message->content : $choice->text;
 
             $text .= '<div class="wpwand-content">
-
             <button class="wpwand-copy-button" >
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3.66659 3.08333V7.75C3.66659 8.39433 4.18892 8.91667 4.83325 8.91667H8.33325M3.66659 3.08333V1.91667C3.66659 1.27233 4.18892 0.75 4.83325 0.75H7.50829C7.663 0.75 7.81138 0.811458 7.92077 0.920854L10.4957 3.49581C10.6051 3.60521 10.6666 3.75358 10.6666 3.90829V7.75C10.6666 8.39433 10.1443 8.91667 9.49992 8.91667H8.33325M3.66659 3.08333H3.33325C2.22868 3.08333 1.33325 3.97876 1.33325 5.08333V10.0833C1.33325 10.7277 1.85559 11.25 2.49992 11.25H6.33325C7.43782 11.25 8.33325 10.3546 8.33325 9.25V8.91667" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -67,8 +73,7 @@ function wpwand_request()
         }
     } elseif (isset($content->error)) {
         $text .= '<div class="wpwand-content wpwand-prompt-error">';
-        $text .= wpwand_openAi_error($content->error);
-
+        $text .= wpwand_ai_error($content->error);
         $text .= '  </div>';
     }
     wp_send_json($text);
@@ -139,7 +144,7 @@ function wpwand_api_set()
 
     if ($set_api_key || get_option('wpwand_api_key') == $_POST['api_key']) {
 
-        $content = wpwand_openAi('Just check the openai key is valid');
+        $content = wpwand_generate_ai_content('Just check the openai key is valid');
         if (!wpwand_check_api_key()) {
             delete_option('wpwand_api_key');
             // wp_send_json_error($content->error);
@@ -158,7 +163,7 @@ add_action('wp_ajax_nopriv_wpwand_api_set', 'wpwand_api_set');
 
 function wpwand_check_api_key()
 {
-    $content = wpwand_openAi('Just check the openai key is valid');
+    $content = wpwand_generate_ai_content('Just check the openai key is valid');
     if (isset($content->error)) {
         return false;
     }
@@ -188,7 +193,7 @@ function wpwand_only_prompt()
 
 
 
-    $content = wpwand_openAi($prompt . $is_table_format_prompt, 1, ['language' => $language]);
+    $content = wpwand_generate_ai_content($prompt . $is_table_format_prompt, 1, ['language' => $language]);
 
     $text = '';
     if (isset($content->choices)) {
@@ -207,7 +212,7 @@ function wpwand_only_prompt()
         }
     } elseif (isset($content->error)) {
         $text .= '<div class="wpwand-content wpwand-prompt-error">';
-        $text .= wpwand_openAi_error($content->error);
+        $text .= wpwand_ai_error($content->error);
         $text .= '  </div>';
     }
     wp_send_json($text);
@@ -286,7 +291,7 @@ function wpwand_dall_e_request($prompt, $args = [])
         }
     } elseif (isset($content->error)) {
         $text .= '<div class="wpwand-content wpwand-prompt-error">';
-        $text .= wpwand_openAi_error($content->error);
+        $text .= wpwand_ai_error($content->error);
         $text .= '  </div>';
     }
     wp_send_json($text);
@@ -321,63 +326,80 @@ function wpwand_insert_media($url, $file_name = 'ai-generated-image')
 }
 
 
+function wpwand_api_source($model = '')
+{
+    if ($model && strpos($model, 'claude') !== false) {
+        return 'claude';
+    }
+    return 'openai';
+}
+
+function wpwand_ai_error($error)
+{
+    $source = isset($error->type) && strpos($error->type, 'claude') !== false ? 'claude' : 'openai';
+    $provider = ucfirst($source);
+    return "{$provider} Error: " . $error->message;
+}
+
+
+
+function wpwand_claude($prompt, $number_of_result = 1, $args = [])
+{
+    try {
+        $selected_model = isset($args['model']) ? $args['model'] : wpwand_get_option('wpwand_model', 'gpt-3.5-turbo');
+
+        $biz_details = isset($args['biz_details']) && !empty($args['biz_details']) ? "Write this based on our business details, which this: " . $args['biz_details'] : '';
+        $targated_customer = isset($args['targated_customer']) && !empty($args['targated_customer']) ? "Write this focusing the benefits of our targeted customer, which this:" . $args['targated_customer'] : '';
+
+        $language = isset($args['language']) && !empty($args['language']) ? $args['language'] : wpwand_get_option('wpwand_language', 'English');
+
+        $temperature = isset($args['temperature']) ? $args['temperature'] : (int) wpwand_get_option('wpwand_temperature', 1.0);
+        $max_tokens = isset($args['max_tokens']) ? $args['max_tokens'] : wpwangd_get_max_token($prompt, $selected_model);
+
+        if ('claude' == wpwand_api_source($selected_model)) {
+            $wpwand_api = new Prompt(WPWAND_CLAUDE_KEY, 'claude-3-haiku-20240307');
+        } else {
+            $wpwand_api = new Prompt(WPWAND_OPENAI_KEY, $selected_model);
+        }
+
+        $choices = [];
+        for ($i = 0; $i < $number_of_result; $i++) {
+            $request = (new Request())
+                ->setRole('system')
+                ->setInstructions("You must write in $language. $biz_details $targated_customer")
+                ->setInput("$prompt")
+                ->setTemperature($temperature)
+                ->setMaximumTokens($max_tokens);
+
+            $response = $wpwand_api->send($request);
+
+            $choices[] = (object) [
+                'message' => (object) [
+                    'content' => $response->getContent() . \PHP_EOL
+                ]
+            ];
+        }
+
+        return (object) [
+            'choices' => $choices
+        ];
+    } catch (\Exception $e) {
+        return (object) [
+            'error' => (object) [
+                'message' => $e->getMessage(),
+                'type' => 'claude_error',
+                'code' => $e->getCode()
+            ]
+        ];
+    }
+}
 
 
 
 function wpwand_openAi($prompt, $number_of_result = 1, $args = [])
 {
-
-    $selected_model = isset($args['model']) ? $args['model'] : wpwand_get_option('wpwand_model', 'gpt-3.5-turbo');
-
-    $biz_details = isset($args['biz_details']) && !empty($args['biz_details']) ? "Write this based on our business details, which this: " . $args['biz_details'] : '';
-    $targated_customer = isset($args['targated_customer']) && !empty($args['targated_customer']) ? "Write this focusing the benefits of our targeted customer, which this:" . $args['targated_customer'] : '';
-
-
-    // $ai_character = isset($args['ai_character']) && !empty($args['ai_character']) ?  $args['ai_character'] : '';
-
-
-    $language = isset($args['language']) && !empty($args['language']) ? $args['language'] : wpwand_get_option('wpwand_language', 'English');
-
-    $davinci_command = "You must write in $language. $prompt $biz_details  $targated_customer";
-
-    $temperature = isset($args['temperature']) ? $args['temperature'] : (int) wpwand_get_option('wpwand_temperature', 1.0);
-    $max_tokens = isset($args['max_tokens']) ? $args['max_tokens'] : wpwangd_get_max_token($davinci_command, $selected_model);
-    $frequency_penalty = isset($args['frequency_penalty']) ? $args['frequency_penalty'] : (int) wpwand_get_option('wpwand_frequency', 0);
-    $presence_penalty = isset($args['presence_penalty']) ? $args['presence_penalty'] : (int) wpwand_get_option('wpwand_presence_penalty', 0);
-
-
-    // Call OpenAI API to generate content
-    $openAI = new OpenAi(get_option('wpwand_api_key'));
-
-    // if ('gpt-3.5-turbo' == $selected_model || 'gpt-3.5-turbo-16k' == $selected_model || 'gpt-4' == $selected_model || 'gpt-4o' == $selected_model) {
-
-        $complete = $openAI->chat([
-            'model' => $selected_model,
-            'messages' => [
-                [
-                    'role' => 'system',
-                    'content' => " $prompt You must write in $language. $biz_details $targated_customer"
-                ]
-            ],
-            'n' => $number_of_result < 1 ? 1 : $number_of_result,
-            'temperature' => (int) $temperature,
-            'max_tokens' => (int) $max_tokens,
-            'frequency_penalty' => (int) $frequency_penalty,
-            'presence_penalty' => (int) $presence_penalty,
-        ]);
-/*     } else {
-        $complete = $openAI->completion([
-            'n' => $number_of_result < 1 ? 1 : $number_of_result,
-            'model' => $selected_model,
-            'prompt' => $davinci_command,
-            'temperature' => (int) $temperature,
-            'max_tokens' => (int) $max_tokens,
-            'frequency_penalty' => (int) $frequency_penalty,
-            'presence_penalty' => (int) $presence_penalty,
-        ]);
-    } */
-
-    return json_decode($complete);
+    // return json_decode($complete);
+    return wpwand_generate_ai_content($prompt, $number_of_result, $args);
     // return $davinci_command
 
 }
@@ -390,4 +412,175 @@ function wpwand_openAi_error($error)
     $text .= 'OpenAI Error: ' . $error->message;
 
     return $text;
+}
+
+function wpwand_generate_claude_content($prompt, $number_of_result, $args, $request_config)
+{
+
+    $endpoint = 'https://api.anthropic.com/v1/messages';
+    $request_config['headers'] = array_merge($request_config['headers'], array(
+        'x-api-key' => WPWAND_CLAUDE_KEY,
+        'anthropic-version' => '2023-06-01'
+    ));
+
+    // Base variations for multiple results
+    $variations = array(
+        "Provide a unique perspective on this: ",
+        "Give a different take on this topic: ",
+        "Approach this from another angle: ",
+        "Offer an alternative view on this: ",
+        "Present a fresh perspective on this: "
+    );
+
+    // Make multiple requests for multiple results
+    $responses = array();
+    for ($i = 0; $i < $number_of_result; $i++) {
+        // Add variation prefix for multiple results
+        $variation_prefix = $number_of_result > 1 ? ($variations[$i % count($variations)] ?? '') : '';
+
+        $body = array(
+            'model' => $args['model'],
+            'max_tokens' => $args['max_tokens'],
+            'messages' => array(
+                array(
+                    'role' => 'user',
+                    'content' => "{$variation_prefix}{$prompt} You must write in {$args['language']}. {$args['biz_details']} {$args['targated_customer']} and don't add any other text"
+                )
+            ),
+            // Slightly vary temperature for each request to increase diversity
+            'temperature' => min(1.0, $args['temperature'] + ($i * 0.1))
+        );
+
+        $response = wp_safe_remote_post($endpoint, array_merge(
+            $request_config,
+            array('body' => json_encode($body))
+        ));
+
+        if (is_wp_error($response)) {
+            throw new Exception($response->get_error_message());
+        }
+
+        $response_body = json_decode(wp_remote_retrieve_body($response));
+
+        if (isset($response_body->error)) {
+            throw new Exception($response_body->error->message);
+        }
+
+        $responses[] = $response_body;
+    }
+
+    // Format responses to match OpenAI structure
+    $combined_response = new stdClass();
+    $combined_response->choices = array();
+    foreach ($responses as $resp) {
+        $combined_response->choices[] = (object) [
+            'message' => (object) [
+                'content' => isset($resp->content[0]->text) ? $resp->content[0]->text : ''
+            ]
+        ];
+    }
+
+    return $combined_response;
+}
+
+function wpwand_generate_openai_content($prompt, $number_of_result, $args, $request_config)
+{
+    $endpoint = 'https://api.openai.com/v1/chat/completions';
+    $request_config['headers']['Authorization'] = 'Bearer ' . WPWAND_OPENAI_KEY;
+
+    $model = isset($args['model']) && !empty($args['model']) ? $args['model'] :  'gpt-3.5-turbo';
+    $body = array(
+        'model' => $model,
+        'messages' => array(
+            array(
+                'role' => 'system',
+                'content' => "{$prompt} You must write in {$args['language']}. {$args['biz_details']} {$args['targated_customer']}"
+            )
+        ),
+        'n' => max(1, $number_of_result),
+        'temperature' => $args['temperature'],
+        'max_tokens' => $args['max_tokens'],
+        'frequency_penalty' => (float) wpwand_get_option('wpwand_frequency', 0),
+        'presence_penalty' => (float) wpwand_get_option('wpwand_presence_penalty', 0)
+    );
+
+    $response = wp_safe_remote_post($endpoint, array_merge(
+        $request_config,
+        array('body' => json_encode($body))
+    ));
+
+    if (is_wp_error($response)) {
+        throw new Exception($response->get_error_message());
+    }
+
+    $response_body = json_decode(wp_remote_retrieve_body($response));
+
+    if (isset($response_body->error)) {
+        throw new Exception($response_body->error->message);
+    }
+
+    return $response_body;
+}
+
+function wpwand_generate_ai_content($prompt, $number_of_result = 1, $args = [])
+{
+
+    try {
+        // Prepare and normalize arguments
+        $args = wp_parse_args($args, array(
+            'model' => wpwand_get_option('wpwand_model', 'gpt-3.5-turbo'),
+            'language' => wpwand_get_option('wpwand_language', 'English'),
+            'biz_details' => '',
+            'targated_customer' => '',
+            'temperature' => (float) wpwand_get_option('wpwand_temperature', 1.0),
+            'max_tokens' => null
+        ));
+
+        $model = isset($args['model']) && !empty($args['model']) ? $args['model'] :  'claude-3-5-sonnet-20241022';
+
+        // Set max tokens if not provided
+        if (null === $args['max_tokens']) {
+            $args['max_tokens'] = wpwangd_get_max_token($prompt, $model);
+        }
+
+        // Format business details and target customer if provided
+        $args['biz_details'] = !empty($args['biz_details']) ? "Write this based on our business details, which this: {$args['biz_details']}" : '';
+        $args['targated_customer'] = !empty($args['targated_customer']) ? "Write this focusing the benefits of our targeted customer, which this: {$args['targated_customer']}" : '';
+
+        // Base request configuration
+        $request_config = array(
+            'timeout' => 60,
+            'data_format' => 'body',
+            'headers' => array(
+                'Content-Type' => 'application/json'
+            )
+        );
+
+        $is_claude = 'claude' === wpwand_api_source($args['model']);
+
+        // Generate content based on the model type
+        if ($is_claude) {
+            if (WPWAND_CLAUDE_KEY && !empty(WPWAND_CLAUDE_KEY)) {
+                $response = wpwand_generate_claude_content($prompt, $number_of_result, $args, $request_config);
+            } else {
+                throw new Exception('Claude API key is missing');
+            }
+        } else {
+            if (WPWAND_OPENAI_KEY && !empty(WPWAND_OPENAI_KEY)) {
+                $response = wpwand_generate_openai_content($prompt, $number_of_result, $args, $request_config);
+            } else {
+                throw new Exception('OpenAI API key is missing');
+            }
+        }
+
+        return apply_filters('wpwand_api_response', $response, $is_claude);
+    } catch (Exception $e) {
+        return (object) [
+            'error' => (object) [
+                'message' => $e->getMessage(),
+                'type' => $is_claude ? 'claude_error' : 'openai_error',
+                'code' => 500
+            ]
+        ];
+    }
 }

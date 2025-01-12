@@ -65,8 +65,36 @@ function wpwand_settings_page()
                                     </div>
                                 </td>
                             </tr>
+                            <tr valign="top">
+                                <th scope="row">
+                                    <label for="wpwand_claude_api_key">
+                                        <?php esc_html_e('Claude API Key', 'wp-wand'); ?>
+                                        <span class="wpwand-field-desc">Add your Claude API key to activate
+                                            <?php echo esc_html(wpwand_brand_name()) ?>
+                                        </span>
+                                    </label>
+                                </th>
+                                <td class="wpwand-field">
+                                    <input type="text" id="wpwand_claude_api_key" name="wpwand_claude_api_key" class="regular-text"
+                                        value="<?php echo esc_attr(wpwand_get_option('wpwand_claude_api_key')); ?>" />
+                                    <div class="wpwand_api_key_status">
 
-                            <?php if (WPWAND_OPENAI_KEY): ?>
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM11.7071 6.70711C12.0976 6.31658 12.0976 5.68342 11.7071 5.29289C11.3166 4.90237 10.6834 4.90237 10.2929 5.29289L7 8.58579L5.70711 7.29289C5.31658 6.90237 4.68342 6.90237 4.29289 7.29289C3.90237 7.68342 3.90237 8.31658 4.29289 8.70711L6.29289 10.7071C6.68342 11.0976 7.31658 11.0976 7.70711 10.7071L11.7071 6.70711Z"
+                                                fill="<?php echo esc_attr(WPWAND_CLAUDE_KEY) ? '#3BCB38' : '#D1D6DB' ?>" />
+                                        </svg>
+
+                                        <span>
+                                            <?php printf($activate_text) // phpcs:ignore 
+                                            ?>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <?php if ((WPWAND_OPENAI_KEY) || (WPWAND_CLAUDE_KEY)): ?>
                                 <tr>
                                     <th scope="row">
                                         <label for="wpwand_model">
@@ -78,23 +106,33 @@ function wpwand_settings_page()
                                     </th>
                                     <td>
                                         <select id="wpwand_model" name="wpwand_model">
-                                            <!-- <option value="o1" <?php //selected(wpwand_get_option('wpwand_model', 'gpt-3.5-turbo'), 'o1'); ?>>
-                                                <?php esc_html_e('o1', 'wp-wand'); ?></option> -->
-                                            <option value="chatgpt-4o-latest" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'chatgpt-4o-latest'); ?>>
-                                                <?php esc_html_e('chatgpt-4o-latest', 'wp-wand'); ?></option>
-                                            <option value="gpt-4o-mini" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-4o-mini'); ?>>
-                                                <?php esc_html_e('gpt-4o-mini', 'wp-wand'); ?></option>
-                                            <option value="gpt-4o" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-4o'); ?>>
-                                                <?php esc_html_e('gpt-4o', 'wp-wand'); ?></option>
-                                            <option value="gpt-4-turbo" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-4-turbo'); ?>>
-                                                <?php esc_html_e('gpt-4-turbo', 'wp-wand'); ?></option>
-                                            <option value="gpt-4" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-4'); ?>>
-                                                <?php esc_html_e('gpt-4', 'wp-wand'); ?></option>
-                                            <option value="gpt-3.5-turbo" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-3.5-turbo'); ?>>
-                                                <?php esc_html_e('gpt-3.5-turbo', 'wp-wand'); ?></option>
-                                            <option value="gpt-3.5-turbo-16k" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-3.5-turbo-16k'); ?>>
-                                                <?php esc_html_e('gpt-3.5-turbo-16k', 'wp-wand'); ?></option>
+                                            <?php if (WPWAND_OPENAI_KEY): ?>
+                                                <optgroup label="OpenAI Models">
+                                                    <option value="chatgpt-4o-latest" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'chatgpt-4o-latest'); ?>>
+                                                        <?php esc_html_e('ChatGPT 4o Latest', 'wp-wand'); ?></option>
+                                                    <option value="gpt-4o-mini" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-4o-mini'); ?>>
+                                                        <?php esc_html_e('GPT 4o Mini', 'wp-wand'); ?></option>
+                                                    <option value="gpt-4o" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-4o'); ?>>
+                                                        <?php esc_html_e('GPT 4o', 'wp-wand'); ?></option>
+                                                    <option value="gpt-4-turbo" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-4-turbo'); ?>>
+                                                        <?php esc_html_e('GPT 4 Turbo', 'wp-wand'); ?></option>
+                                                    <option value="gpt-4" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-4'); ?>>
+                                                        <?php esc_html_e('GPT 4', 'wp-wand'); ?></option>
+                                                    <option value="gpt-3.5-turbo" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-3.5-turbo'); ?>>
+                                                        <?php esc_html_e('GPT 3.5 Turbo', 'wp-wand'); ?></option>
+                                                    <option value="gpt-3.5-turbo-16k" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-3.5-turbo-16k'); ?>>
+                                                        <?php esc_html_e('GPT 3.5 Turbo 16k', 'wp-wand'); ?></option>
+                                                </optgroup>
+                                            <?php endif; ?>
+                                            <?php if (WPWAND_CLAUDE_KEY): ?>
+                                                <optgroup label="Claude Models">
+                                                    <option value="claude-3-5-sonnet-latest" <?php selected(wpwand_get_option('wpwand_model', 'claude-3-5-sonnet-latest'), 'claude-3-5-sonnet-latest'); ?>>
+                                                        <?php esc_html_e('Claude 3.5 Sonnet Latest', 'wp-wand'); ?></option>
+                                                    <option value="claude-3-5-haiku-latest" <?php selected(wpwand_get_option('wpwand_model', 'claude-3-5-sonnet-latest'), 'claude-3-5-haiku-latest'); ?>>
+                                                        <?php esc_html_e('Claude 3.5 Haiku Latest', 'wp-wand'); ?></option>
+                                                </optgroup>
 
+                                            <?php endif; ?>
                                         </select>
                                     </td>
                                 </tr>
@@ -261,6 +299,7 @@ add_action('admin_init', 'wpwand_register_settings');
 // Register WP Wand settings
 function wpwand_register_settings()
 {
+
     register_setting(
         'wpwand_settings_group',
         'wpwand_api_key',
@@ -268,9 +307,22 @@ function wpwand_register_settings()
             'type' => 'string',
             'description' => esc_html__('OpenAI API Key', 'wp-wand'),
             'sanitize_callback' => 'sanitize_text_field',
-            'validate_callback' => 'wpwand_validate_api_key',
+            'validate_callback' => 'wpwand_validate_openai_api_key',
         )
     );
+    register_setting(
+        'wpwand_settings_group',
+        'wpwand_claude_api_key',
+        array(
+            'type' => 'string',
+            'description' => esc_html__('Claude API Key', 'wp-wand'),
+            'sanitize_callback' => 'sanitize_text_field',
+            'validate_callback' => 'wpwand_validate_claude_api_key',
+        )
+    );
+
+
+
 
     register_setting(
         'wpwand_settings_group',
@@ -356,7 +408,8 @@ function wpwand_register_settings()
 }
 
 // Validate WP Wand API key
-function wpwand_validate_api_key($input)
+
+function  wpwand_validate_api_key($input)
 {
     $error = false;
 
@@ -380,6 +433,33 @@ function wpwand_validate_api_key($input)
 
     return $input;
 }
+
+/**
+ * Validate OpenAI API Key
+ */
+function wpwand_validate_openai_api_key($input)
+{
+    if (!preg_match('/^sk-/', $input)) {
+        add_settings_error('wpwand_api_key', 'wpwand_api_key_invalid', esc_html__('Invalid OpenAI API key format.', 'wp-wand'));
+        return get_option('wpwand_api_key');
+    }
+
+    return $input;
+}
+
+/**
+ * Validate Claude API Key
+ */
+function wpwand_validate_claude_api_key($input)
+{
+    if (!preg_match('/^[a-zA-Z0-9_\-]+$/i', $input)) {
+        add_settings_error('wpwand_claude_api_key', 'wpwand_claude_api_key_invalid', esc_html__('Invalid Claude API key format.', 'wp-wand'));
+        return get_option('wpwand_claude_api_key');
+    }
+
+    return $input;
+}
+
 
 // Validate WP Wand AI character
 function wpwand_validate_input_field($input)

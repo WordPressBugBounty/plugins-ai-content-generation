@@ -54,11 +54,14 @@ function wpwand_editor_request()
         $language = wpwand_get_option('wpwand_language', 'English');
 
 
-        $content = wpwand_openAi($command);
+        $content = wpwand_generate_ai_content($command);
 
         if (!$content->choices) {
 
-            $wpaicg_result['msg'] = 'Something went wrong';
+            $wpaicg_result['msg'] = wpwand_ai_error($content->error);
+            $wpaicg_result['status'] = 'error';
+            $wpaicg_result['data'] = wpwand_ai_error($content->error);
+            wp_send_json($wpaicg_result);
         } else {
             foreach ($content->choices as $choice) {
 
