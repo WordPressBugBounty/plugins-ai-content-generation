@@ -93,6 +93,35 @@ function wpwand_settings_page()
                                     </div>
                                 </td>
                             </tr>
+                            <tr valign="top">
+                                <th scope="row">
+                                    <label for="wpwand_deepseek_api_key">
+                                        <?php esc_html_e('DeepSeek API Key', 'wp-wand'); ?>
+                                        <span class="wpwand-field-desc">Add your DeepSeek API key to activate
+                                            <?php echo esc_html(wpwand_brand_name()) ?>
+                                        </span>
+                                    </label>
+                                </th>
+                                <td class="wpwand-field">
+                                    <input type="text" id="wpwand_deepseek_api_key" name="wpwand_deepseek_api_key" class="regular-text"
+                                        value="<?php echo esc_attr(wpwand_get_option('wpwand_deepseek_api_key')); ?>" />
+                                    <div class="wpwand_api_key_status">
+
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM11.7071 6.70711C12.0976 6.31658 12.0976 5.68342 11.7071 5.29289C11.3166 4.90237 10.6834 4.90237 10.2929 5.29289L7 8.58579L5.70711 7.29289C5.31658 6.90237 4.68342 6.90237 4.29289 7.29289C3.90237 7.68342 3.90237 8.31658 4.29289 8.70711L6.29289 10.7071C6.68342 11.0976 7.31658 11.0976 7.70711 10.7071L11.7071 6.70711Z"
+                                                fill="<?php echo esc_attr(WPWAND_DEEPSEEK_KEY) ? '#3BCB38' : '#D1D6DB' ?>" />
+                                        </svg>
+
+                                        <span>
+                                            <?php printf($activate_text) // phpcs:ignore 
+                                            ?>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+
 
                             <?php if ((WPWAND_OPENAI_KEY) || (WPWAND_CLAUDE_KEY)): ?>
                                 <tr>
@@ -130,6 +159,15 @@ function wpwand_settings_page()
                                                         <?php esc_html_e('Claude 3.5 Sonnet Latest', 'wp-wand'); ?></option>
                                                     <option value="claude-3-5-haiku-latest" <?php selected(wpwand_get_option('wpwand_model', 'claude-3-5-sonnet-latest'), 'claude-3-5-haiku-latest'); ?>>
                                                         <?php esc_html_e('Claude 3.5 Haiku Latest', 'wp-wand'); ?></option>
+                                                </optgroup>
+
+                                            <?php endif; ?>
+                                            <?php if (WPWAND_DEEPSEEK_KEY): ?>
+                                                <optgroup label="DeepSeek Models">
+                                                    <option value="deepseek-reasoner" <?php selected(wpwand_get_option('wpwand_model', 'deepseek-reasoner'), 'deepseek-reasoner'); ?>>
+                                                        <?php esc_html_e('DeepSeek Reasoner (R1)', 'wp-wand'); ?></option>
+                                                    <option value="deepseek-chat" <?php selected(wpwand_get_option('wpwand_model', 'deepseek-chat'), 'deepseek-chat'); ?>>
+                                                        <?php esc_html_e('DeepSeek Chat', 'wp-wand'); ?></option>
                                                 </optgroup>
 
                                             <?php endif; ?>
@@ -320,6 +358,16 @@ function wpwand_register_settings()
             'validate_callback' => 'wpwand_validate_claude_api_key',
         )
     );
+    register_setting(
+        'wpwand_settings_group',
+        'wpwand_deepseek_api_key',
+        array(
+            'type' => 'string',
+            'description' => esc_html__('DeepSeek API Key', 'wp-wand'),
+            'sanitize_callback' => 'sanitize_text_field',
+            'validate_callback' => 'wpwand_validate_deepseek_api_key',
+        )
+    );
 
 
 
@@ -441,7 +489,7 @@ function wpwand_validate_openai_api_key($input)
 {
     if (!preg_match('/^sk-/', $input)) {
         add_settings_error('wpwand_api_key', 'wpwand_api_key_invalid', esc_html__('Invalid OpenAI API key format.', 'wp-wand'));
-        return get_option('wpwand_api_key');
+        return wpwand_get_option('wpwand_api_key');
     }
 
     return $input;
@@ -454,11 +502,25 @@ function wpwand_validate_claude_api_key($input)
 {
     if (!preg_match('/^[a-zA-Z0-9_\-]+$/i', $input)) {
         add_settings_error('wpwand_claude_api_key', 'wpwand_claude_api_key_invalid', esc_html__('Invalid Claude API key format.', 'wp-wand'));
-        return get_option('wpwand_claude_api_key');
+        return wpwand_get_option('wpwand_claude_api_key');
     }
 
     return $input;
 }
+
+/**
+ * Validate DeepSeek API Key
+ */
+function wpwand_validate_deepseek_api_key($input)
+{
+    if (!preg_match('/^sk-/', $input)) {
+        add_settings_error('wpwand_deepseek_api_key', 'wpwand_deepseek_api_key_invalid', esc_html__('Invalid DeepSeek API key format.', 'wp-wand'));
+        return wpwand_get_option('wpwand_deepseek_api_key');
+    }
+
+    return $input;
+}
+
 
 
 // Validate WP Wand AI character

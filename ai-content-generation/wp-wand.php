@@ -4,7 +4,7 @@
  * Plugin Name: WP Wand - AI Writer, AI Content Generator & AI Assistant by ChatGPT, OpenAI | Generate SEO Friendly AI Blog Post & Article with 20X Speed
  * Plugin URI: https://wpwand.com/
  * Description: WP Wand is a AI content generation plugin for WordPress that helps your team create high quality content 10X faster and 50x cheaper. No monthly subscription required.
- * Version: 1.2.8
+ * Version: 1.2.9
  * Author: WP Wand
  * Author URI: https://wpwand.com/
  * Text Domain: wp-wand
@@ -36,6 +36,9 @@ if (!defined('WPWAND_OPENAI_KEY')) {
 }
 if (!defined('WPWAND_CLAUDE_KEY')) {
     define('WPWAND_CLAUDE_KEY', get_option('wpwand_claude_api_key', false));
+}
+if (!defined('WPWAND_DEEPSEEK_KEY')) {
+    define('WPWAND_DEEPSEEK_KEY', get_option('wpwand_deepseek_api_key', false));
 }
 define('WPWAND_AI_CHARACTER', '');
 

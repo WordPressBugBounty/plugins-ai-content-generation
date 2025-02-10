@@ -248,39 +248,38 @@
 (function ($) {
 
     $(document).ready(function ($) {
+        let isEventBound = false;
+
         wp.data.subscribe(function () {
             if ('top' == wpwand_glb.toggler_positions && $('body').hasClass('block-editor-page')) {
-
                 if (!$('.edit-post-header-toolbar').find('.wpwand-trigger').length) {
-
                     $('.edit-post-header-toolbar').append('<a class="wpwand-trigger" href="#"><img src="' + wpwand_glb.logo + '">AI Assistant</a>')
-
                 }
             }
             if (0 == wpwand_glb.hide_ai_bar) {
-
                 if (!$('.editor-styles-wrapper').find('.wpwand-prompt-form').length) {
                     let prompt_form = '<div class="wpwand-prompt-form" id="wpwand-prompt-form"><div class="wpwand-dr-prompt-input"><img src="' + wpwand_glb.logo + '">  <a class="wpwand-ai-bar-hiw" href="https://wpwand.com/how-ai-assistant-work" target="_blank">See how it works</a>      <input type="text" placeholder="Ask AI to write anything..."></div></div>';
                     $('.editor-styles-wrapper').append(prompt_form);
 
-
-                    $('#wpwand-prompt-form input').keypress(function (event) {
-
-                        var keycode = (event.keyCode ? event.keyCode : event.which);
-                        if (keycode == '13') {
-                            const $this = $(this);
-
-
-                            wpwand_prompt_ajax($this);
-                        }
-
-                    });
+                    // Only bind event if not already bound
+                    if (!isEventBound) {
+                        $(document).on('keydown', '#wpwand-prompt-form input', function(event) {
+                            if (event.keyCode === 13 || event.which === 13) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                                const $this = $(this);
+                                if ($this.val().trim()) {
+                                    wpwand_prompt_ajax($this);
+                                }
+                                return false;
+                            }
+                        });
+                        isEventBound = true;
+                    }
                 }
             }
-
-
         });
-    })
+    });
 
 
     function wpwand_prompt_ajax($this) {

@@ -60,14 +60,21 @@ function wpwand_request()
     if (isset($content->choices)) {
         foreach ($content->choices as $choice) {
             $reply = isset($choice->message) ? $choice->message->content : $choice->text;
+            $reasoning_content = isset($choice->message->reasoning_content) ? $choice->message->reasoning_content : '';
+
+            // <div class="wpwand-ai-reasoning">
+            // ' . $reasoning_content . '
+            // </div>
 
             $text .= '<div class="wpwand-content">
+        
             <button class="wpwand-copy-button" >
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3.66659 3.08333V7.75C3.66659 8.39433 4.18892 8.91667 4.83325 8.91667H8.33325M3.66659 3.08333V1.91667C3.66659 1.27233 4.18892 0.75 4.83325 0.75H7.50829C7.663 0.75 7.81138 0.811458 7.92077 0.920854L10.4957 3.49581C10.6051 3.60521 10.6666 3.75358 10.6666 3.90829V7.75C10.6666 8.39433 10.1443 8.91667 9.49992 8.91667H8.33325M3.66659 3.08333H3.33325C2.22868 3.08333 1.33325 3.97876 1.33325 5.08333V10.0833C1.33325 10.7277 1.85559 11.25 2.49992 11.25H6.33325C7.43782 11.25 8.33325 10.3546 8.33325 9.25V8.91667" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             Copy to Clipboard
             </button>
+        
             ' . $is_elementor . $is_gutenberg . '<div class="wpwand-ai-response">' . wpautop($reply) . '
             </div></div>';
         }
@@ -331,19 +338,26 @@ function wpwand_api_source($model = '')
     if ($model && strpos($model, 'claude') !== false) {
         return 'claude';
     }
+    if ($model && strpos($model, 'deepseek') !== false) {
+        return 'deepseek';
+    }
     return 'openai';
 }
 
 function wpwand_ai_error($error)
 {
-    $source = isset($error->type) && strpos($error->type, 'claude') !== false ? 'claude' : 'openai';
+    $source = isset($error->type) && strpos($error->type, 'claude') !== false ? 'claude' : (isset($error->type) && strpos($error->type, 'deepseek') !== false ? 'deepseek' : 'openai');
     $provider = ucfirst($source);
+    // if curl error then add server error / server is not responding
+    if (isset($error->message) && strpos($error->message, 'curl') !== false) {
+        return "{$provider} Error: Server is not responding";
+    }
     return "{$provider} Error: " . $error->message;
 }
 
-
-
-function wpwand_claude($prompt, $number_of_result = 1, $args = [])
+/* 
+// deprecated 
+function wpwand_claude($prompt, $number_of_result = 1, $args = []) 
 {
     try {
         $selected_model = isset($args['model']) ? $args['model'] : wpwand_get_option('wpwand_model', 'gpt-3.5-turbo');
@@ -394,7 +408,7 @@ function wpwand_claude($prompt, $number_of_result = 1, $args = [])
     }
 }
 
-
+ */
 
 function wpwand_openAi($prompt, $number_of_result = 1, $args = [])
 {
@@ -444,7 +458,7 @@ function wpwand_generate_claude_content($prompt, $number_of_result, $args, $requ
             'messages' => array(
                 array(
                     'role' => 'user',
-                    'content' => "{$variation_prefix}{$prompt} You must write in {$args['language']}. {$args['biz_details']} {$args['targated_customer']} and don't add any other text"
+                    'content' => "{$variation_prefix}{$prompt} You must write in {$args['language']}. {$args['biz_details']} {$args['targated_customer']}"
                 )
             ),
             // Slightly vary temperature for each request to increase diversity
@@ -483,12 +497,21 @@ function wpwand_generate_claude_content($prompt, $number_of_result, $args, $requ
     return $combined_response;
 }
 
+function wpwand_generate_deepseek_content($prompt, $number_of_result, $args, $request_config)
+{
+    $endpoint = 'https://api.deepseek.com/v1/chat/completions';
+
+
+    return wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result, $args, $request_config);
+}
+
 function wpwand_generate_openai_content($prompt, $number_of_result, $args, $request_config)
 {
     $endpoint = 'https://api.openai.com/v1/chat/completions';
-    $request_config['headers']['Authorization'] = 'Bearer ' . WPWAND_OPENAI_KEY;
 
-    $model = isset($args['model']) && !empty($args['model']) ? $args['model'] :  'gpt-3.5-turbo';
+
+
+    /*     $model = isset($args['model']) && !empty($args['model']) ? $args['model'] :  'gpt-3.5-turbo';
     $body = array(
         'model' => $model,
         'messages' => array(
@@ -517,9 +540,85 @@ function wpwand_generate_openai_content($prompt, $number_of_result, $args, $requ
 
     if (isset($response_body->error)) {
         throw new Exception($response_body->error->message);
+    } */
+
+    return wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result, $args, $request_config);
+}
+
+
+
+function wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result, $args, $request_config)
+{
+    $model = isset($args['model']) && !empty($args['model']) ? $args['model'] : 'gpt-3.5-turbo';
+    $request_config['headers']['Authorization'] = wpwand_api_source($model) == 'deepseek' ? 'Bearer ' . WPWAND_DEEPSEEK_KEY : 'Bearer ' . WPWAND_OPENAI_KEY;
+    
+    // Base variations for multiple results
+    $variations = array(
+        "Provide a unique perspective on this: ",
+        "Give a different take on this topic: ",
+        "Approach this from another angle: ",
+        "Offer an alternative view on this: ",
+        "Present a fresh perspective on this: "
+    );
+
+    $responses = array();
+    
+    // Make multiple requests for multiple results
+    for ($i = 0; $i < $number_of_result; $i++) {
+        // Add variation prefix for multiple results
+        $variation_prefix = $number_of_result > 1 ? ($variations[$i % count($variations)] ?? '') : '';
+        
+        $body = [
+            'model' => $model,
+            'messages' => [
+                [
+                    'role' => 'system',
+                    'content' => "You are a professional content writer. You must follow the system instructions strictly."
+                ],
+                [
+                    'role' => 'system',
+                    'content' => "You must write in {$args['language']}. {$args['biz_details']} {$args['targated_customer']}"
+                ],
+                [
+                    'role' => 'user',
+                    'content' => "{$variation_prefix}{$prompt} . You must follow this instructions strictly. Don't add any other text/explanation/multiple results. Just write the content."
+                ]
+            ],
+            'temperature' => $args['temperature'] + ($i * 0.1), // Slightly vary temperature for diversity
+            'max_tokens' => $args['max_tokens'],
+            'frequency_penalty' => (float) wpwand_get_option('wpwand_frequency', 0),
+            'presence_penalty' => (float) wpwand_get_option('wpwand_presence_penalty', 0)
+        ];
+
+        $response = wp_safe_remote_post($endpoint, array_merge(
+            $request_config,
+            array('body' => json_encode($body))
+        ));
+
+        if (is_wp_error($response)) {
+            throw new Exception($response->get_error_message());
+        }
+
+        $response_body = json_decode(wp_remote_retrieve_body($response));
+
+        if (isset($response_body->error)) {
+            throw new Exception($response_body->error->message);
+        }
+
+        $responses[] = $response_body;
     }
 
-    return $response_body;
+    // Combine all responses into a single response object
+    $combined_response = new stdClass();
+    $combined_response->choices = array();
+    
+    foreach ($responses as $resp) {
+        if (isset($resp->choices) && !empty($resp->choices)) {
+            $combined_response->choices[] = $resp->choices[0];
+        }
+    }
+
+    return $combined_response;
 }
 
 function wpwand_generate_ai_content($prompt, $number_of_result = 1, $args = [])
@@ -557,6 +656,7 @@ function wpwand_generate_ai_content($prompt, $number_of_result = 1, $args = [])
         );
 
         $is_claude = 'claude' === wpwand_api_source($args['model']);
+        $is_deepseek = 'deepseek' === wpwand_api_source($args['model']);
 
         // Generate content based on the model type
         if ($is_claude) {
@@ -564,6 +664,12 @@ function wpwand_generate_ai_content($prompt, $number_of_result = 1, $args = [])
                 $response = wpwand_generate_claude_content($prompt, $number_of_result, $args, $request_config);
             } else {
                 throw new Exception('Claude API key is missing');
+            }
+        } else if ($is_deepseek) {
+            if (WPWAND_DEEPSEEK_KEY && !empty(WPWAND_DEEPSEEK_KEY)) {
+                $response = wpwand_generate_deepseek_content($prompt, $number_of_result, $args, $request_config);
+            } else {
+                throw new Exception('DeepSeek API key is missing');
             }
         } else {
             if (WPWAND_OPENAI_KEY && !empty(WPWAND_OPENAI_KEY)) {
@@ -578,7 +684,7 @@ function wpwand_generate_ai_content($prompt, $number_of_result = 1, $args = [])
         return (object) [
             'error' => (object) [
                 'message' => $e->getMessage(),
-                'type' => $is_claude ? 'claude_error' : 'openai_error',
+                'type' => $is_claude ? 'claude_error' : ($is_deepseek ? 'deepseek_error' : 'openai_error'),
                 'code' => 500
             ]
         ];
