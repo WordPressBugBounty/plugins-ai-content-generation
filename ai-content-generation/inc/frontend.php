@@ -26,7 +26,7 @@ function wpwand_frontend_callback()
             <div class="wpwand-floating-header">
                 <h4> <img src="<?php echo esc_url(wpwand_loago_icon_url());  // phpcs:ignore
                                 ?>">
-                    <?php echo esc_html(wpwand_brand_name()) ?> - Your Personal Content Creator</h4>
+                    <?php echo esc_html(wpwand_brand_name()) ?> - <?php esc_html_e('Your Personal Content Creator', 'wp-wand'); ?></h4>
             </div>
 
 
@@ -40,7 +40,7 @@ function wpwand_frontend_callback()
                                     d="M8.21895 5.78105C7.17755 4.73965 5.48911 4.73965 4.44772 5.78105L1.78105 8.44772C0.73965 9.48911 0.73965 11.1776 1.78105 12.219C2.82245 13.2603 4.51089 13.2603 5.55228 12.219L6.28666 11.4846M5.78105 8.21895C6.82245 9.26035 8.51089 9.26035 9.55228 8.21895L12.219 5.55228C13.2603 4.51089 13.2603 2.82245 12.219 1.78105C11.1776 0.73965 9.48911 0.73965 8.44772 1.78105L7.71464 2.51412"
                                     stroke="#EE2626" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            Your API is not connected. Connect now to generate awesome contents.</span>
+                            <?php esc_html_e('Your API is not connected. Connect now to generate awesome contents.', 'wp-wand'); ?></span>
                     </div>
 
                     <div class="wpwand-api-missing-form-wrap">
@@ -58,7 +58,7 @@ function wpwand_frontend_callback()
                                 <button class="wpwand-submit-button">Connect API</button>
                             </div>
                         </form> -->
-                        <a href="<?php echo esc_url(admin_url('admin.php?page=wpwand')); ?>" class="wpwand-big-button">Setup your API key</a>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=wpwand')); ?>" class="wpwand-big-button"><?php esc_html_e('Setup your API key', 'wp-wand'); ?></a>
                     </div>
                 </div>
 
@@ -67,12 +67,12 @@ function wpwand_frontend_callback()
 
                 <div class="wpwand-prompts-tabs-wrap">
                     <div class="wpwand-prompts-tabs">
-                        <button class="wpwand-tab-item active" data-prompt-id="templates">Text Generation</button>
-                        <button class="wpwand-tab-item " data-prompt-id="wpwand-image-generation">Image Generation</button>
+                        <button class="wpwand-tab-item active" data-prompt-id="templates"><?php esc_html_e('Text Generation', 'wp-wand'); ?></button>
+                        <button class="wpwand-tab-item " data-prompt-id="wpwand-image-generation"><?php esc_html_e('Image Generation', 'wp-wand'); ?></button>
                         <!-- <button class="wpwand-tab-item" data-prompt-id="prompt-poem">Saved</button> -->
                     </div>
                     <div class="wpwand-template-filter">
-                        <input type="text" id="wpwand-search-input" placeholder="Search for a template...">
+                        <input type="text" id="wpwand-search-input" placeholder="<?php esc_html_e('Search for a template...', 'wp-wand'); ?>">
                     </div>
                 </div>
 
@@ -83,8 +83,8 @@ function wpwand_frontend_callback()
 
                     <div class="wpwand-prompt-item active" id="templates">
 
-                        <div class="wpwand-total-templates-count"><span>Total
-                                <?php echo esc_html(count(wpwand_templates())) ?> templates
+                        <div class="wpwand-total-templates-count"><span><strong><?php esc_html_e('Total', 'wp-wand'); ?></strong>
+                                <?php echo esc_html(count(wpwand_templates())) ?> <?php esc_html_e('templates', 'wp-wand'); ?>
                             </span></div>
                         <div class="wpwand-template-list">
                             <?php if (is_array(wpwand_templates())):
@@ -108,13 +108,13 @@ function wpwand_frontend_callback()
                             ?>
                                     <div class="wpwand-tiemplate-item">
                                         <h4>
-                                            <?php echo esc_html($template['title']) ?>
+                                            <?php echo esc_html__($template['title'], 'wp-wand') ?>
                                             <?php if (true == $template['is_pro']): ?>
                                                 <span class="wpwand-pro-tag">PRO</span>
                                             <?php endif; ?>
                                         </h4>
                                         <p>
-                                            <?php echo esc_html($template['description']) ?>
+                                            <?php echo esc_html__($template['description'], 'wp-wand') ?>
                                         </p>
 
                                         <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -129,15 +129,14 @@ function wpwand_frontend_callback()
                                                 <path
                                                     d="M4.83333 9.08332L0.75 4.99999M0.75 4.99999L4.83333 0.916656M0.75 4.99999L11.25 4.99999"
                                                     stroke="#7C838A" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg> Back to
-                                            all templates</span>
+                                            </svg> <?php esc_html_e('Back to all templates', 'wp-wand'); ?></span>
 
                                         <div class="wpwand-template-details">
                                             <h4>
-                                                <?php echo esc_html($template['title']) ?>
+                                                <?php echo esc_html__($template['title'], 'wp-wand') ?>
                                             </h4>
                                             <p>
-                                                <?php echo esc_html($template['description']) ?>
+                                                <?php echo esc_html__($template['description'], 'wp-wand') ?>
                                             </p>
                                         </div>
                                         <form action="" class="wpwand-prompt-form">
@@ -151,9 +150,9 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Topic', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-topic">Topic</label>
+                                                        <label for="wpwand-topic"><?php esc_html_e('Topic', 'wp-wand'); ?></label>
                                                         <input type="text" id="wpwand-topic" name="wpwand-topic"
-                                                            placeholder="Write in detail about your topic">
+                                                            placeholder="<?php esc_html_e('Write in detail about your topic', 'wp-wand'); ?>">
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -162,9 +161,9 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Name', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-product-name">Name</label>
+                                                        <label for="wpwand-product-name"><?php esc_html_e('Name', 'wp-wand'); ?></label>
                                                         <input type="text" id="wpwand-product-name" name="wpwand-product-name"
-                                                            placeholder="Write your product name">
+                                                            placeholder="<?php esc_html_e('Write your product name', 'wp-wand'); ?>">
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -173,9 +172,9 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Comment', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-comment">Comment</label>
+                                                        <label for="wpwand-comment"><?php esc_html_e('Comment', 'wp-wand'); ?></label>
                                                         <input type="text" id="wpwand-comment" name="wpwand-comment"
-                                                            placeholder="Write your comment">
+                                                            placeholder="<?php esc_html_e('Write your comment', 'wp-wand'); ?>">
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -184,9 +183,9 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Question', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-question">Question</label>
+                                                        <label for="wpwand-question"><?php esc_html_e('Question', 'wp-wand'); ?></label>
                                                         <input type="text" id="wpwand-question" name="wpwand-question"
-                                                            placeholder="Write your Question">
+                                                            placeholder="<?php esc_html_e('Write your Question', 'wp-wand'); ?>">
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -195,9 +194,9 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Subject', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-subject">Subject</label>
+                                                        <label for="wpwand-subject"><?php esc_html_e('Subject', 'wp-wand'); ?></label>
                                                         <input type="text" id="wpwand-subject" name="wpwand-subject"
-                                                            placeholder="Write your Subject">
+                                                            placeholder="<?php esc_html_e('Write your Subject', 'wp-wand'); ?>">
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -206,9 +205,9 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Comment', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-comment">Comment</label>
+                                                        <label for="wpwand-comment"><?php esc_html_e('Comment', 'wp-wand'); ?></label>
                                                         <input type="text" id="wpwand-comment" name="wpwand-comment"
-                                                            placeholder="Write your comment">
+                                                            placeholder="<?php esc_html_e('Write your comment', 'wp-wand'); ?>">
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -217,9 +216,9 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Product 1', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-product-1">Product 1</label>
+                                                        <label for="wpwand-product-1"><?php esc_html_e('Product 1', 'wp-wand'); ?></label>
                                                         <input type="text" id="wpwand-product-1" name="wpwand-product-1"
-                                                            placeholder="Product 1">
+                                                            placeholder="<?php esc_html_e('Product 1', 'wp-wand'); ?>">
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -228,9 +227,9 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Product 2', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-product-2">Product 2</label>
+                                                        <label for="wpwand-product-2"><?php esc_html_e('Product 2', 'wp-wand'); ?></label>
                                                         <input type="text" id="wpwand-product-2" name="wpwand-product-2"
-                                                            placeholder="Product 2">
+                                                            placeholder="<?php esc_html_e('Product 2', 'wp-wand'); ?>">
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -238,9 +237,9 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Description', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-description">Description</label>
+                                                        <label for="wpwand-description"><?php esc_html_e('Description', 'wp-wand'); ?></label>
                                                         <input type="text" id="wpwand-description" name="wpwand-description"
-                                                            placeholder="Write a meaningful description to generate better result.">
+                                                            placeholder="<?php esc_html_e('Write a meaningful description to generate better result.', 'wp-wand'); ?>">
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -249,9 +248,9 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Product 1 Description', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-description-1">Product 1 Description</label>
+                                                        <label for="wpwand-description-1"><?php esc_html_e('Product 1 Description', 'wp-wand'); ?></label>
                                                         <input type="text" id="wpwand-description-1" name="wpwand-description-1"
-                                                            placeholder="Write a meaningful description to generate better result.">
+                                                            placeholder="<?php esc_html_e('Write a meaningful description to generate better result.', 'wp-wand'); ?>">
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -259,9 +258,9 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Product 2 Description', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-description-2">Product 2 Description</label>
+                                                        <label for="wpwand-description-2"><?php esc_html_e('Product 2 Description', 'wp-wand'); ?></label>
                                                         <input type="text" id="wpwand-description-2" name="wpwand-description-2"
-                                                            placeholder="Write a meaningful description to generate better result.">
+                                                            placeholder="<?php esc_html_e('Write a meaningful description to generate better result.', 'wp-wand'); ?>">
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -271,8 +270,8 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Content', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-content">Content</label>
-                                                        <input name="wpwand-content" id="wpwand-content" placeholder="Write your content" />
+                                                        <label for="wpwand-content"><?php esc_html_e('Content', 'wp-wand'); ?></label>
+                                                        <input name="wpwand-content" id="wpwand-content" placeholder="<?php esc_html_e('Write your content', 'wp-wand'); ?>" />
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -282,9 +281,9 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Content Text Area', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-content-textarea">Content</label>
+                                                        <label for="wpwand-content-textarea"><?php esc_html_e('Content', 'wp-wand'); ?></label>
                                                         <textarea name="wpwand-content-textarea" id="wpwand-content-textarea" cols="30"
-                                                            rows="10" placeholder="Write your content"></textarea>
+                                                            rows="10" placeholder="<?php esc_html_e('Write your content', 'wp-wand'); ?>"></textarea>
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -292,9 +291,9 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('custom_textarea', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-custom_textarea">Write Anything</label>
+                                                        <label for="wpwand-custom_textarea"><?php esc_html_e('Write Anything', 'wp-wand'); ?></label>
                                                         <textarea name="wpwand-custom_textarea" id="wpwand-custom_textarea" cols="30"
-                                                            rows="10" placeholder="Write Anything"></textarea>
+                                                            rows="10" placeholder="<?php esc_html_e('Write Anything', 'wp-wand'); ?>"></textarea>
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -302,10 +301,10 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Keywords', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-keyword">Keyword to Include <span
-                                                                class="wpwand-optional">(Optional)</span></label>
+                                                        <label for="wpwand-keyword"><?php esc_html_e('Keyword to Include', 'wp-wand'); ?> <span
+                                                                class="wpwand-optional">(<?php esc_html_e('Optional', 'wp-wand'); ?>)</span></label>
                                                         <input type="text" id="wpwand-keyword" name="wpwand-keyword"
-                                                            placeholder="Write keyword and separate using comma">
+                                                            placeholder="<?php esc_html_e('Write keyword and separate using comma', 'wp-wand'); ?>">
                                                     </div>
                                                 </div>
 
@@ -314,17 +313,17 @@ function wpwand_frontend_callback()
 
                                                 <?php /*  if ( 
                                                                                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                                                                                 'Full Blog Post' != $template['title'] 
-                                                                                                                                                                                                                                                                                                 && 'Comparison Blog Post Between 2 Products' != $template['title']
-                                                                                                                                                                                                                                                                                                 && 'Amazon Product Review' != $template['title']
-                                                                                                                                                                                                                                                                                                 && 'Review Blog Post' != $template['title']
-                                                                                                                                                                                                                                                                                                 && 'WooCommerce Product Description' != $template['title']
-                                                                                                                                                                                                                                                                                                 ):  */
+                                                                                                                                                                                                                                'Full Blog Post' != $template['title'] 
+                                                                                                                                                                                                                                && 'Comparison Blog Post Between 2 Products' != $template['title']
+                                                                                                                                                                                                                                && 'Amazon Product Review' != $template['title']
+                                                                                                                                                                                                                                && 'Review Blog Post' != $template['title']
+                                                                                                                                                                                                                                && 'WooCommerce Product Description' != $template['title']
+                                                                                                                                                                                                                                ):  */
 
                                                 if (true == $template['number_of_results']):
                                                 ?>
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-result-number">Number of Results</label>
+                                                        <label for="wpwand-result-number"><?php esc_html_e('Number of Results', 'wp-wand'); ?></label>
                                                         <input type="number" id="wpwand-result-number" min="1" max="10"
                                                             name="wpwand-result-number" value="1">
                                                     </div>
@@ -332,30 +331,30 @@ function wpwand_frontend_callback()
 
                                                 <?php if (in_array('Tone', $fields)): ?>
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-tone">Tone</label>
+                                                        <label for="wpwand-tone"><?php esc_html_e('Tone', 'wp-wand'); ?></label>
                                                         <select name="wpwand-tone" id="wpwand-tone">
-                                                            <option value="friendly"> Friendly</option>
-                                                            <option value="helpful"> Helpful</option>
-                                                            <option value="informative"> Informative</option>
-                                                            <option value="aggressive"> Aggressive</option>
-                                                            <option value="professional"> Professional</option>
-                                                            <option value="Formal"> Formal</option>
-                                                            <option value="Informal"> Informal</option>
-                                                            <option value="Conversational"> Conversational</option>
-                                                            <option value="Persuasive"> Persuasive</option>
-                                                            <option value="Witty"> Witty</option>
-                                                            <option value="Descriptive"> Descriptive</option>
-                                                            <option value="Expository"> Expository</option>
-                                                            <option value="Humorous"> Humorous</option>
-                                                            <option value="Inspirational"> Inspirational</option>
-                                                            <option value="Funny"> Funny</option>
-                                                            <option value="Poetic"> Poetic</option>
-                                                            <option value="Technical"> Technical</option>
-                                                            <option value="Argumentative"> Argumentative</option>
-                                                            <option value="Instructional"> Instructional</option>
-                                                            <option value="Sarcastic"> Sarcastic</option>
-                                                            <option value="Urgent"> Urgent</option>
-                                                            <option value="Optimistic"> Optimistic</option>
+                                                            <option value="friendly"> <?php esc_html_e('Friendly', 'wp-wand'); ?></option>
+                                                            <option value="helpful"><?php esc_html_e('Helpful', 'wp-wand'); ?></option>
+                                                            <option value="informative"><?php esc_html_e('Informative', 'wp-wand'); ?></option>
+                                                            <option value="aggressive"><?php esc_html_e('Aggressive', 'wp-wand'); ?></option>
+                                                            <option value="professional"><?php esc_html_e('Professional', 'wp-wand'); ?></option>
+                                                            <option value="Formal"><?php esc_html_e('Formal', 'wp-wand'); ?></option>
+                                                            <option value="Informal"><?php esc_html_e('Informal', 'wp-wand'); ?></option>
+                                                            <option value="Conversational"><?php esc_html_e('Conversational', 'wp-wand'); ?></option>
+                                                            <option value="Persuasive"><?php esc_html_e('Persuasive', 'wp-wand'); ?></option>
+                                                            <option value="Witty"><?php esc_html_e('Witty', 'wp-wand'); ?></option>
+                                                            <option value="Descriptive"><?php esc_html_e('Descriptive', 'wp-wand'); ?></option>
+                                                            <option value="Expository"><?php esc_html_e('Expository', 'wp-wand'); ?></option>
+                                                            <option value="Humorous"><?php esc_html_e('Humorous', 'wp-wand'); ?></option>
+                                                            <option value="Inspirational"><?php esc_html_e('Inspirational', 'wp-wand'); ?></option>
+                                                            <option value="Funny"><?php esc_html_e('Funny', 'wp-wand'); ?></option>
+                                                            <option value="Poetic"><?php esc_html_e('Poetic', 'wp-wand'); ?></option>
+                                                            <option value="Technical"><?php esc_html_e('Technical', 'wp-wand'); ?></option>
+                                                            <option value="Argumentative"><?php esc_html_e('Argumentative', 'wp-wand'); ?></option>
+                                                            <option value="Instructional"><?php esc_html_e('Instructional', 'wp-wand'); ?></option>
+                                                            <option value="Sarcastic"><?php esc_html_e('Sarcastic', 'wp-wand'); ?></option>
+                                                            <option value="Urgent"><?php esc_html_e('Urgent', 'wp-wand'); ?></option>
+                                                            <option value="Optimistic"><?php esc_html_e('Optimistic', 'wp-wand'); ?></option>
                                                         </select>
                                                     </div>
                                                 <?php endif; ?>
@@ -365,7 +364,7 @@ function wpwand_frontend_callback()
                                             <?php if (in_array('Word Count', $fields)): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-word-limit">Minimum Word</label>
+                                                        <label for="wpwand-word-limit"><?php esc_html_e('Minimum Word', 'wp-wand'); ?></label>
                                                         <input type="number" id="wpwand-word-limit" name="wpwand-word-limit" value="100">
                                                     </div>
                                                 </div>
@@ -373,12 +372,12 @@ function wpwand_frontend_callback()
 
                                             <?php if ($template['point_of_view']): ?>
                                                 <div class="wpwand-form-field">
-                                                    <label for="wpwand-point-of-view">Point of View</label>
+                                                    <label for="wpwand-point-of-view"><?php esc_html_e('Point of View', 'wp-wand'); ?></label>
                                                     <select name="wpwand-point-of-view" id="wpwand-point-of-view">
                                                         <!-- <option value="">Select a</option> -->
-                                                        <option value="1st-person">1st Person</option>
-                                                        <option value="2nd-person">2nd Person</option>
-                                                        <option value="3rd-person">3rd Person</option>
+                                                        <option value="1st-person"><?php esc_html_e('1st Person', 'wp-wand'); ?></option>
+                                                        <option value="2nd-person"><?php esc_html_e('2nd Person', 'wp-wand'); ?></option>
+                                                        <option value="3rd-person"><?php esc_html_e('3rd Person', 'wp-wand'); ?></option>
                                                     </select>
                                                 </div>
                                             <?php endif; ?>
@@ -387,8 +386,7 @@ function wpwand_frontend_callback()
 
                                             <div class="wpwand-form-group wpwand-col-2">
                                                 <div class="wpwand-form-field">
-                                                    <label for="wpwand-Language">Language
-                                                    </label>
+                                                    <label for="wpwand-Language"><?php esc_html_e('Language', 'wp-wand'); ?></label>
                                                     <select name="wpwand-Language" id="wpwand-Language">
                                                         <?php
                                                         if (is_array(wpwand_language_array())) {
@@ -403,9 +401,9 @@ function wpwand_frontend_callback()
                                                 <?php
                                                 if (function_exists('wpwand_pro_tala_check') && wpwand_pro_tala_check()): ?>
                                                     <div class="wpwand-form-field">
-                                                        <label for="wpwand-aichar">AI Character</label>
+                                                        <label for="wpwand-aichar"><?php esc_html_e('AI Character', 'wp-wand'); ?></label>
                                                         <select name="wpwand-aichar" id="wpwand-aichar">
-                                                            <option>No Character</option>
+                                                            <option><?php esc_html_e('No Character', 'wp-wand'); ?></option>
                                                             <?php
                                                             if ($custom_prompt) {
 
@@ -427,7 +425,7 @@ function wpwand_frontend_callback()
                                             <?php if (function_exists('wpwand_pro_tala_check') && wpwand_pro_tala_check()): ?>
                                                 <div class="wpwand-form-group">
                                                     <div class="wpwand-form-field wpwand-radio-field-wrap">
-                                                        <h4>Include Info </h4>
+                                                        <h4><?php esc_html_e('Include Info', 'wp-wand'); ?></h4>
 
                                                         <!-- <label class="wpwand-radio-label" for="wpwand_ai_inf">
                                                         <input type="checkbox" id="wpwand_ai_inf" name="wpwand_ai_inf"
@@ -437,12 +435,12 @@ function wpwand_frontend_callback()
                                                         <label for="wpwand_biz_inf" class="wpwand-radio-label">
                                                             <input type="checkbox" id="wpwand_biz_inf" name="wpwand_biz_inf"
                                                                 class="wpwand-radio">
-                                                            Business Details
+                                                            <?php esc_html_e('Business Details', 'wp-wand'); ?>
                                                         </label>
                                                         <label for="wpwand_tgdc_inf" class="wpwand-radio-label">
                                                             <input type="checkbox" id="wpwand_tgdc_inf" name="wpwand_tgdc_inf"
                                                                 class="wpwand-radio">
-                                                            Targeted Customer
+                                                            <?php esc_html_e('Targeted Customer', 'wp-wand'); ?>
                                                         </label>
 
                                                     </div>
@@ -459,15 +457,15 @@ function wpwand_frontend_callback()
                                                                 d="M7 10.25V11.75M2.5 14.75H11.5C12.3284 14.75 13 14.0784 13 13.25V8.75C13 7.92157 12.3284 7.25 11.5 7.25H2.5C1.67157 7.25 1 7.92157 1 8.75V13.25C1 14.0784 1.67157 14.75 2.5 14.75ZM10 7.25V4.25C10 2.59315 8.65685 1.25 7 1.25C5.34315 1.25 4 2.59315 4 4.25V7.25H10Z"
                                                                 stroke="white" stroke-width="1.5" stroke-linecap="round" />
                                                         </svg>
-                                                        Get Pro to Use This Template</a>
+                                                        <?php esc_html_e('Get Pro to Use This Template', 'wp-wand'); ?></a>
                                                 <?php else: ?>
-                                                    <button class="wpwand-submit-button">Generate Content</button>
+                                                    <button class="wpwand-submit-button"><?php esc_html_e('Generate Content', 'wp-wand'); ?></button>
                                                 <?php endif; ?>
                                             </div>
                                         </form>
 
                                         <div class="wpwand-result-box" style="display: none;">
-                                            <h4>AI Generated Content</h4>
+                                            <h4><?php esc_html_e('AI Generated Content', 'wp-wand'); ?></h4>
                                             <div class="wpwand-content-wrap"></div>
 
                                         </div>
@@ -487,10 +485,10 @@ function wpwand_frontend_callback()
 
                                 <div class="wpwand-template-details">
                                     <h4>
-                                        <?php echo esc_html('Generate Image') ?>
+                                        <?php echo esc_html__('Generate Image', 'wp-wand'); ?>
                                     </h4>
                                     <p>
-                                        <?php echo esc_html('Get beautiful AI generated images in seconds') ?>
+                                        <?php echo esc_html__('Get beautiful AI generated images in seconds', 'wp-wand'); ?>
                                     </p>
                                 </div>
                                 <form action="" class="wpwand-prompt-form">
@@ -502,22 +500,22 @@ function wpwand_frontend_callback()
 
                                     <div class="wpwand-form-group">
                                         <div class="wpwand-form-field">
-                                            <label for="wpwand-image-prompt">Image Description</label>
+                                            <label for="wpwand-image-prompt"><?php esc_html_e('Image Description', 'wp-wand'); ?></label>
                                             <input type="text" id="wpwand-image-prompt" name="wpwand-image-prompt"
-                                                placeholder="Write in details about your image">
+                                                placeholder="<?php esc_html_e('Write in details about your image', 'wp-wand'); ?>">
                                         </div>
                                     </div>
                                     <?php do_action('wpwand_dall_e_frontend_fields') ?>
                                     <div class="wpwand-form-submit">
 
-                                        <button class="wpwand-submit-button">Generate Image</button>
+                                        <button class="wpwand-submit-button"><?php esc_html_e('Generate Image', 'wp-wand'); ?></button>
 
                                     </div>
 
                                 </form>
 
                                 <div class="wpwand-result-box wpwand-image-result-box" style="display: none;">
-                                    <h4>AI Generated Image</h4>
+                                    <h4><?php esc_html_e('AI Generated Image', 'wp-wand'); ?></h4>
                                     <div class="wpwand-content-wrap"></div>
 
                                 </div>

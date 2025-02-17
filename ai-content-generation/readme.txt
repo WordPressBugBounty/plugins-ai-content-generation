@@ -3,8 +3,8 @@
 Contributors: wpgrids, ashrafuddin765
 Tags: ChatGPT, GPT4, Elementor AI, Gutenberg AI, AI Writer, wpwand, Bulk Post, AI Content, GPT3, Content Generator, Content Writer, AI Post Generator, AI Blog Post Writer, AI Article, AI Image Generator, Dall-e
 Requires at least: 5.0
-Tested up to:  6.7.1
-Stable Tag: 1.2.9
+Tested up to:  6.7.2
+Stable Tag: 1.2.91
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -306,6 +306,10 @@ No, you don't have to purchase any monthly or yearly subscription to use WP Wand
 5. Advanced Settings to Improve Content Quality
 
 == Changelog ==
+
+= 1.2.91 =
+* Fixed: Translation issues.
+* Fixed: Minor issues.
 
 = 1.2.9 =
 * New: Deepseek R1 Added.

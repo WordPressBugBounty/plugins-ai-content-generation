@@ -36,11 +36,17 @@ function wpwand_block_editor()
 
 function wpwand_editor_request()
 {
-    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
-        wp_send_json_error('Nonce verification failed.', 403);
+    if (
+        !isset($_POST['nonce'])
+        || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpwand_global_nonce')
+    ) {
+        wp_send_json_error(__('Nonce verification failed.', 'wp-wand'), 403);
     }
 
-    $wpaicg_result = array('status' => 'error', 'msg' => 'Missing request parameters');
+    $wpaicg_result = array(
+        'status' => 'error',
+        'msg' => __('Missing request parameters', 'wp-wand')
+    );
     // if ( !wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
     //     $wpaicg_result['status'] = 'error';
     //     $wpaicg_result['msg']    = WPAICG_NONCE_ERROR;

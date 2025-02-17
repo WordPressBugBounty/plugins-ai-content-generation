@@ -13,7 +13,7 @@ function wpwand_request()
 {
 
     if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpwand_global_nonce')) {
-        wp_send_json_error('Nonce verification failed.', 403);
+        wp_send_json_error(__('Nonce verification failed.', 'wp-wand'), 403);
     }
 
     // Check if prompt parameter exists
@@ -21,7 +21,7 @@ function wpwand_request()
         return wpwand_dall_e_request(sanitize_text_field(wp_unslash($_POST['wpwand_image_prompt'])), $_POST);
     }
     if (empty($_POST['prompt'])) {
-        wp_send_json_error('error');
+        wp_send_json_error(__('error', 'wp-wand'));
     }
 
     $selected_model = get_option('wpwand_model', 'gpt-3.5-turbo');
@@ -663,19 +663,19 @@ function wpwand_generate_ai_content($prompt, $number_of_result = 1, $args = [])
             if (WPWAND_CLAUDE_KEY && !empty(WPWAND_CLAUDE_KEY)) {
                 $response = wpwand_generate_claude_content($prompt, $number_of_result, $args, $request_config);
             } else {
-                throw new Exception('Claude API key is missing');
+                throw new Exception(__('Claude API key is missing', 'wp-wand'));
             }
         } else if ($is_deepseek) {
             if (WPWAND_DEEPSEEK_KEY && !empty(WPWAND_DEEPSEEK_KEY)) {
                 $response = wpwand_generate_deepseek_content($prompt, $number_of_result, $args, $request_config);
             } else {
-                throw new Exception('DeepSeek API key is missing');
+                throw new Exception(__('DeepSeek API key is missing', 'wp-wand'));
             }
         } else {
             if (WPWAND_OPENAI_KEY && !empty(WPWAND_OPENAI_KEY)) {
                 $response = wpwand_generate_openai_content($prompt, $number_of_result, $args, $request_config);
             } else {
-                throw new Exception('OpenAI API key is missing');
+                throw new Exception(__('OpenAI API key is missing', 'wp-wand'));
             }
         }
 

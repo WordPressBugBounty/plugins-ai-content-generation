@@ -180,106 +180,101 @@ function wpwand_model_details_card()
     <div class="wpwand-model-card-wrapper">
         <div class="wpwand-model-card" id="wpwand-gpt-3-5">
             <div class="wpwand-model-card-header">
-                <h3>gpt-3.5-turbo</h3>
-                <p>Most capable GPT-3.5 model at 1/10th the cost of text-davinci-003. Will be updated with OpenAI’s latest
-                    model iteration.</p>
+                <h3><?php esc_html_e('gpt-3.5-turbo', 'wp-wand'); ?></h3>
+                <p><?php esc_html_e('Most capable GPT-3.5 model at 1/10th the cost of text-davinci-003. Will be updated with OpenAI’s latest
+                    model iteration.', 'wp-wand'); ?></p>
             </div>
             <div class="wpwand-model-card-content">
-                <h4>Cost Estimation</h4>
+                <h4><?php esc_html_e('Cost Estimation', 'wp-wand'); ?></h4>
                 <ul>
-                    <li>$0.01 for approx. 1000 words</li>
-                    <li>$0.1 for approx. 10,000 words</li>
-                    <li>$1 for approx. 100,000 words</li>
+                    <li><?php esc_html_e('$0.01 for approx. 1000 words', 'wp-wand'); ?></li>
+                    <li><?php esc_html_e('$0.1 for approx. 10,000 words', 'wp-wand'); ?></li>
+                    <li><?php esc_html_e('$1 for approx. 100,000 words', 'wp-wand'); ?></li>
                 </ul>
             </div>
             <div class="wpwand-model-card-footer">
-                <h4>Pricing Fact</h4>
-                <p>Using this model, you can write approximately 65 blog posts, each containing ~1500 words, for just $1.
-                </p>
+                <h4><?php esc_html_e('Pricing Fact', 'wp-wand'); ?></h4>
+                <p><?php esc_html_e('Using this model, you can write approximately 65 blog posts, each containing ~1500 words, for just $1.', 'wp-wand'); ?></p>
 
             </div>
         </div>
         <div class="wpwand-model-card" id="wpwand-text-davinci-003">
             <div class="wpwand-model-card-header">
-                <h3>text-davinci-003</h3>
-                <p>Most capable GPT-3.5 model at 1/10th the cost of text-davinci-003. Will be updated with OpenAI’s latest
-                    model iteration.</p>
+                <h3><?php esc_html_e('text-davinci-003', 'wp-wand'); ?></h3>
+                <p><?php esc_html_e('Most capable GPT-3.5 model at 1/10th the cost of text-davinci-003. Will be updated with OpenAI’s latest
+                    model iteration.', 'wp-wand'); ?></p>
             </div>
             <div class="wpwand-model-card-content">
                 <h4>Cost Estimation</h4>
                 <ul>
-                    <li>$0.01 for approx. 1000 words</li>
-                    <li>$0.1 for approx. 10,000 words</li>
-                    <li>$1 for approx. 100,000 words</li>
+                    <li><?php esc_html_e('$0.01 for approx. 1000 words', 'wp-wand'); ?></li>
+                    <li><?php esc_html_e('$0.1 for approx. 10,000 words', 'wp-wand'); ?></li>
+                    <li><?php esc_html_e('$1 for approx. 100,000 words', 'wp-wand'); ?></li>
                 </ul>
             </div>
             <div class="wpwand-model-card-footer">
-                <h4>Pricing Fact</h4>
-                <p>Using this model, you can write approximately 65 blog posts, each containing ~1500 words, for just $1.
-                </p>
+                <h4><?php esc_html_e('Pricing Fact', 'wp-wand'); ?></h4>
+                <p><?php esc_html_e('Using this model, you can write approximately 65 blog posts, each containing ~1500 words, for just $1.', 'wp-wand'); ?></p>
 
             </div>
         </div>
         <div class="wpwand-model-card" id="wpwand-text-curie-001">
             <div class="wpwand-model-card-header">
-                <h3>text-curie-001</h3>
-                <p>Most capable GPT-3.5 model at 1/10th the cost of text-davinci-003. Will be updated with OpenAI’s latest
-                    model iteration.</p>
+                <h3><?php esc_html_e('text-curie-001', 'wp-wand'); ?></h3>
+                <p><?php esc_html_e('Most capable GPT-3.5 model at 1/10th the cost of text-davinci-003. Will be updated with OpenAI’s latest
+                    model iteration.', 'wp-wand'); ?></p>
             </div>
             <div class="wpwand-model-card-content">
-                <h4>Cost Estimation</h4>
+                <h4><?php esc_html_e('Cost Estimation', 'wp-wand'); ?></h4>
                 <ul>
-                    <li>$0.01 for approx. 1000 words</li>
-                    <li>$0.1 for approx. 10,000 words</li>
-                    <li>$1 for approx. 100,000 words</li>
+                    <li><?php esc_html_e('$0.01 for approx. 1000 words', 'wp-wand'); ?></li>
+                    <li><?php esc_html_e('$0.1 for approx. 10,000 words', 'wp-wand'); ?></li>
+                    <li><?php esc_html_e('$1 for approx. 100,000 words', 'wp-wand'); ?></li>
                 </ul>
             </div>
             <div class="wpwand-model-card-footer">
-                <h4>Pricing Fact</h4>
-                <p>Using this model, you can write approximately 65 blog posts, each containing ~1500 words, for just $1.
-                </p>
+                <h4><?php esc_html_e('Pricing Fact', 'wp-wand'); ?></h4>
+                <p><?php esc_html_e('Using this model, you can write approximately 65 blog posts, each containing ~1500 words, for just $1.', 'wp-wand'); ?></p>
 
             </div>
         </div>
         <div class="wpwand-model-card" id="wpwand-text-babbage-001">
             <div class="wpwand-model-card-header">
-                <h3>text-babbage-001</h3>
-                <p>Most capable GPT-3.5 model at 1/10th the cost of text-davinci-003. Will be updated with OpenAI’s latest
-                    model iteration.</p>
+                <h3><?php esc_html_e('text-babbage-001', 'wp-wand'); ?></h3>
+                <p><?php esc_html_e('Most capable GPT-3.5 model at 1/10th the cost of text-davinci-003. Will be updated with OpenAI’s latest
+                    model iteration.', 'wp-wand'); ?></p>
             </div>
             <div class="wpwand-model-card-content">
-                <h4>Cost Estimation</h4>
+                <h4><?php esc_html_e('Cost Estimation', 'wp-wand'); ?></h4>
                 <ul>
-                    <li>$0.01 for approx. 1000 words</li>
-                    <li>$0.1 for approx. 10,000 words</li>
-                    <li>$1 for approx. 100,000 words</li>
+                    <li><?php esc_html_e('$0.01 for approx. 1000 words', 'wp-wand'); ?></li>
+                    <li><?php esc_html_e('$0.1 for approx. 10,000 words', 'wp-wand'); ?></li>
+                    <li><?php esc_html_e('$1 for approx. 100,000 words', 'wp-wand'); ?></li>
                 </ul>
             </div>
             <div class="wpwand-model-card-footer">
-                <h4>Pricing Fact</h4>
-                <p>Using this model, you can write approximately 65 blog posts, each containing ~1500 words, for just $1.
-                </p>
+                <h4><?php esc_html_e('Pricing Fact', 'wp-wand'); ?></h4>
+                <p><?php esc_html_e('Using this model, you can write approximately 65 blog posts, each containing ~1500 words, for just $1.', 'wp-wand'); ?></p>
 
             </div>
         </div>
         <div class="wpwand-model-card" id="wpwand-text-ada-001">
             <div class="wpwand-model-card-header">
                 <h3>text-ada-001</h3>
-                <p>Most capable GPT-3.5 model at 1/10th the cost of text-davinci-003. Will be updated with OpenAI’s latest
-                    model iteration.</p>
+                <p><?php esc_html_e('Most capable GPT-3.5 model at 1/10th the cost of text-davinci-003. Will be updated with OpenAI’s latest
+                    model iteration.', 'wp-wand'); ?></p>
             </div>
             <div class="wpwand-model-card-content">
-                <h4>Cost Estimation</h4>
+                <h4><?php esc_html_e('Cost Estimation', 'wp-wand'); ?></h4>
                 <ul>
-                    <li>$0.01 for approx. 1000 words</li>
-                    <li>$0.1 for approx. 10,000 words</li>
-                    <li>$1 for approx. 100,000 words</li>
+                    <li><?php esc_html_e('$0.01 for approx. 1000 words', 'wp-wand'); ?></li>
+                    <li><?php esc_html_e('$0.1 for approx. 10,000 words', 'wp-wand'); ?></li>
+                    <li><?php esc_html_e('$1 for approx. 100,000 words', 'wp-wand'); ?></li>
                 </ul>
             </div>
             <div class="wpwand-model-card-footer">
-                <h4>Pricing Fact</h4>
-                <p>Using this model, you can write approximately 65 blog posts, each containing ~1500 words, for just $1.
-                </p>
+                <h4><?php esc_html_e('Pricing Fact', 'wp-wand'); ?></h4>
+                <p><?php esc_html_e('Using this model, you can write approximately 65 blog posts, each containing ~1500 words, for just $1.', 'wp-wand'); ?></p>
 
             </div>
         </div>
@@ -315,8 +310,8 @@ function wpwand_add_advanced_tab_content()
             <h4>
                 <?php esc_html_e('Advanced Features', 'wp-wand'); ?>
             </h4>
-            <p class="wpwand-field-desc">Improve your content quality 5x with these premium options. Generate
-                targeted, high quality unique content fast.</p>
+            <p class="wpwand-field-desc"><?php esc_html_e('Improve your content quality 5x with these premium options. Generate
+                targeted, high quality unique content fast.', 'wp-wand'); ?></p>
         </div>
         <table class="form-table">
 
@@ -326,12 +321,12 @@ function wpwand_add_advanced_tab_content()
                         <?php esc_html_e('A.I Character', 'wp-wand'); ?>
                         <?php wpwand_upgrade_to_pro_button() ?>
                     </label>
-                    <span class="wpwand-field-desc">Tell your A.I what character it contains while writing for
-                        you. It will highly improve your content output.</span>
+                    <span class="wpwand-field-desc"><?php esc_html_e('Tell your A.I what character it contains while writing for
+                        you. It will highly improve your content output.', 'wp-wand'); ?></span>
                 </th>
                 <td>
                     <textarea disabled id="wpwand_ai_character" name="wpwand_ai_character" rows="5" cols="30"
-                        placeholder="Example: You are an expert in SEO copywriting and specializing in Amazon product review article writing."><?php echo esc_attr(wpwand_get_option('wpwand_ai_character',)); ?></textarea>
+                        placeholder="Example: You are an expert in SEO copywriting and specializing in Amazon product review article writing."><?php echo esc_attr(wpwand_get_option('wpwand_ai_character')); ?></textarea>
                 </td>
             </tr>
             <tr>
@@ -341,8 +336,8 @@ function wpwand_add_advanced_tab_content()
                         <?php wpwand_upgrade_to_pro_button() ?>
 
                     </label>
-                    <span class="wpwand-field-desc">Write about your business in detail so that AI can
-                        understand and create better content based your business. </span>
+                    <span class="wpwand-field-desc"><?php esc_html_e('Write about your business in detail so that AI can
+                        understand and create better content based your business.', 'wp-wand'); ?></span>
                 </th>
                 <td>
                     <textarea disabled id="wpwand_busines_details" name="wpwand_busines_details" rows="5" cols="30"
@@ -356,9 +351,9 @@ function wpwand_add_advanced_tab_content()
                         <?php wpwand_upgrade_to_pro_button() ?>
 
                     </label>
-                    <span class="wpwand-field-desc">Write about your target customers in details. Give as much
+                    <span class="wpwand-field-desc"><?php esc_html_e('Write about your target customers in details. Give as much
                         information as possible like who are your targeted customers, where are they from, what
-                        are there demographic etc.</span>
+                        are there demographic etc.', 'wp-wand'); ?></span>
                 </th>
                 <td>
                     <textarea disabled id="wpwand_targated_customer" name="wpwand_targated_customer" rows="5" cols="30"
@@ -367,8 +362,7 @@ function wpwand_add_advanced_tab_content()
             </tr>
 
         </table>
-        <a href="https://wpwand.com/pro-plugin" target="_blank" class="wpwand-submit-pro-btn wpwand-get-pro-button">Get Pro
-            Version</a>
+        <a href="https://wpwand.com/pro-plugin" target="_blank" class="wpwand-submit-pro-btn wpwand-get-pro-button"><?php esc_html_e('Get Pro Version', 'wp-wand'); ?></a>
 
 
     </div>
@@ -394,12 +388,12 @@ function wpwand_geneeral_locked_content()
                 <?php // wpwand_upgrade_to_pro_button() 
                 ?>
             </label>
-            <span class="wpwand-field-desc">We often update our data for higher quality results.
-                By clicking sync button you can get updated data instantly.</span>
+            <span class="wpwand-field-desc"><?php esc_html_e('We often update our data for higher quality results.
+                By clicking sync button you can get updated data instantly.', 'wp-wand'); ?></span>
         </th>
         <td>
             <div class="wpwand-slider-input-wrap">
-                <a href="" class="wpwand-sync-prompt-data">Sync</a>
+                <a href="" class="wpwand-sync-prompt-data"><?php esc_html_e('Sync', 'wp-wand'); ?></a>
             </div>
         </td>
     </tr>
@@ -432,10 +426,10 @@ function wpwand_welcome_screen()
                             d="M25.412 18.4938L25.9789 16.5718C26.0342 16.392 25.9789 16.1985 25.8544 16.0602C25.7161 15.9219 25.5226 15.8804 25.3428 15.9358L23.4208 16.5027L21.4989 15.9358C21.3191 15.8804 21.1255 15.9358 20.9873 16.0602C20.849 16.1985 20.8075 16.392 20.8628 16.5718L21.4297 18.4938L20.8628 20.4158C20.8075 20.5955 20.8628 20.7891 20.9873 20.9274C21.1255 21.0656 21.3191 21.1071 21.4989 21.0518L23.4208 20.4849L25.3428 21.0518C25.3843 21.0656 25.4396 21.0656 25.4949 21.0656C25.6332 21.0656 25.7576 21.0103 25.8682 20.9135C26.0065 20.7753 26.048 20.5817 25.9927 20.4019L25.412 18.4938Z"
                             fill="white" />
                     </svg></div>
-                <h3>Welcome to
-                    <?php echo esc_html(wpwand_brand_name()) ?>
+                <h3><?php esc_html_e('Welcome to ' . wpwand_brand_name(), 'wp-wand'); ?>
+
                 </h3>
-                <p>Your ultimate AI content generation assistant.</p>
+                <p><?php esc_html_e('Your ultimate AI content generation assistant.', 'wp-wand'); ?></p>
 
                 <iframe width="560" src="https://www.youtube.com/embed/CJkraHhSsZ8" title="YouTube video player"
                     frameborder="0"
@@ -461,52 +455,52 @@ function wpwand_welcome_screen()
                                 d="M17.5 17H3.5C2.39543 17 1.5 16.1046 1.5 15L1.5 3C1.5 1.89543 2.39543 1 3.5 1L13.5 1C14.6046 1 15.5 1.89543 15.5 3V4M17.5 17C16.3954 17 15.5 16.1046 15.5 15L15.5 4M17.5 17C18.6046 17 19.5 16.1046 19.5 15V6C19.5 4.89543 18.6046 4 17.5 4L15.5 4M11.5 1L7.5 1M5.5 13H11.5M5.5 5H11.5V9H5.5V5Z"
                                 stroke="#080E13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        Read Our Documentation
+                        <?php esc_html_e('Read Our Documentation', 'wp-wand'); ?>
                     </a>
                 </div>
-                <h4>What are you getting for free?</h4>
+                <h4><?php esc_html_e('What are you getting for free?', 'wp-wand'); ?></h4>
                 <ul>
                     <li>
                         <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1.16663 6.375L4.49996 9.875L12.8333 1.125" stroke="#3BCB38" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        No Monthly or Yearly Subscription Required
+                        <?php esc_html_e('No Monthly or Yearly Subscription Required', 'wp-wand'); ?>
                     </li>
                     <li>
                         <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1.16663 6.375L4.49996 9.875L12.8333 1.125" stroke="#3BCB38" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        No Limit on Content Generation
+                        <?php esc_html_e('No Limit on Content Generation', 'wp-wand'); ?>
                     </li>
                     <li>
                         <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1.16663 6.375L4.49996 9.875L12.8333 1.125" stroke="#3BCB38" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        12+ Free Prompt Templates
+                        <?php esc_html_e('12+ Free Prompt Templates', 'wp-wand'); ?>
                     </li>
                     <li>
                         <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1.16663 6.375L4.49996 9.875L12.8333 1.125" stroke="#3BCB38" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        Access to AI Assistant (Limited for Free Version)
+                        <?php esc_html_e('Access to AI Assistant (Limited for Free Version)', 'wp-wand'); ?>
                     </li>
                     <li>
                         <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1.16663 6.375L4.49996 9.875L12.8333 1.125" stroke="#3BCB38" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        Free Plugin Update
+                        <?php esc_html_e('Free Plugin Update', 'wp-wand'); ?>
                     </li>
                     <li>
                         <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1.16663 6.375L4.49996 9.875L12.8333 1.125" stroke="#3BCB38" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        Free Support
+                        <?php esc_html_e('Free Support', 'wp-wand'); ?>
                     </li>
 
                 </ul>
@@ -514,7 +508,7 @@ function wpwand_welcome_screen()
             <?php // if ( !WPWAND_OPENAI_KEY ): 
             ?>
             <div class="wpwand-welcome-screen-footer">
-                <h4>Start by connecting your API key</h4>
+                <h4><?php esc_html_e('Start by connecting your API key', 'wp-wand'); ?></h4>
 
                 <!-- <h4>Start by connecting your free OpenAI Key</h4> -->
                 <!-- wp wand api missing notice  -->
@@ -542,7 +536,9 @@ function wpwand_welcome_screen()
                         </form> -->
 
                     </div>
-                    <a href="<?php echo esc_url(admin_url('admin.php?page=wpwand')); ?>" class="wpwand-big-button">Setup your API key</a>
+                    <a href="<?php echo esc_url(admin_url('admin.php?page=wpwand')); ?>" class="wpwand-big-button">
+                        <?php esc_html_e('Setup your API key', 'wp-wand'); ?>
+                    </a>
                 </div>
 
             </div>
@@ -563,15 +559,20 @@ function wpwand_promo_notice()
 
     <div class="wpwand-promo-notice notice wpwand-notice-<?php echo esc_attr($notice_id); ?>"">
             <div class=" wpwand-promo-notice-content">
-        <span>DEAL ALERT</span>
-        <h4>Get
-            <?php echo esc_html(wpwand_brand_name()) ?> Pro for Lifetime with limited 50% discount
+        <span><?php esc_html_e('DEAL ALERT', 'wp-wand'); ?></span>
+        <h4>
+            <?php esc_html_e('Get', 'wp-wand'); ?>
+            <?php echo esc_html(wpwand_brand_name()) ?> <?php esc_html_e('Pro for Lifetime with limited 50% discount', 'wp-wand'); ?>
         </h4>
     </div>
     <div class="wpwand-promo-notice-action">
-        <a target="_blank" href="https://wpwand.com/pricing-plan/" class="wpwand-promo-notice-link">Get Lifetime Access</a>
+        <a target="_blank" href="https://wpwand.com/pricing-plan/" class="wpwand-promo-notice-link">
+            <?php esc_html_e('Get Lifetime Access', 'wp-wand'); ?>
+        </a>
         <a href="" class="wpwand-promo-notice-Hide" data-notice-id="<?php echo esc_attr($notice_id); ?>"
-            data-nonce="<?php echo esc_attr(wp_create_nonce('dismiss-notice-' . $notice_id)); ?>">Hide</a>
+            data-nonce="<?php echo esc_attr(wp_create_nonce('dismiss-notice-' . $notice_id)); ?>">
+            <?php esc_html_e('Hide', 'wp-wand'); ?>
+        </a>
     </div>
     </div>
 
@@ -586,7 +587,7 @@ if (!function_exists('wpwand_pro_init')) {
 function wpwand_dismiss_notice()
 {
     if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpwand_global_nonce')) {
-        wp_send_json_error('Nonce verification failed.', 403);
+        wp_send_json_error(__('Nonce verification failed.', 'wp-wand'), 403);
     }
 
     $dismiss = update_option('wpwand_promo_notice_dismiss', true);
@@ -600,11 +601,12 @@ function wpwand_frontend_language()
 ?>
     <div class="wpwand-form-group">
         <div class="wpwand-form-field">
-            <label for="wpwand-Language">Language
+            <label for="wpwand-Language">
+                <?php esc_html_e('Language', 'wp-wand'); ?>
                 <?php wpwand_upgrade_to_pro_button() ?>
             </label>
             <select name="wpwand-Language" id="wpwand-Language" disabled>
-                <option value="English">English</option>
+                <option value="English"><?php esc_html_e('English', 'wp-wand'); ?></option>
             </select>
         </div>
     </div>
@@ -619,7 +621,7 @@ function wpwand_admin_bar_menu($wp_admin_bar)
     $wp_admin_bar->add_menu(
         array(
             'id' => 'wpwand-trigger',
-            'title' => '<img style="width:25px" src="' . wpwand_loago_icon_url() . '" > AI Assistant',  // phpcs:ignore
+            'title' => '<img style="width:25px" src="' . wpwand_loago_icon_url() . '" > ' . __('AI Assistant', 'wp-wand'),  // phpcs:ignore
             'href' => '#',
             'meta' => array(
                 'class' => 'wpwand-trigger',
@@ -636,15 +638,15 @@ function wpwand_dall_e_image_field()
 ?>
     <div class="wpwand-form-group wpwand-col-2">
         <div class="wpwand-form-field">
-            <label for="wpwand-image-resulation">Select Resolution</label>
+            <label for="wpwand-image-resulation"><?php esc_html_e('Select Resolution', 'wp-wand'); ?></label>
             <select name="wpwand-image-resulation" id="wpwand-image-resulation">
-                <option value="256x256">256x256</option>
-                <option value="" disabled>512x512 [Available in pro]</option>
-                <option value="" disabled>1024x1024 [Available in pro]</option>
+                <option value="256x256"><?php esc_html_e('256x256', 'wp-wand'); ?></option>
+                <option value="" disabled><?php esc_html_e('512x512 [Available in pro]', 'wp-wand'); ?></option>
+                <option value="" disabled><?php esc_html_e('1024x1024 [Available in pro]', 'wp-wand'); ?></option>
             </select>
         </div>
         <div class="wpwand-form-field">
-            <label for="wpwand-result-number">Number of Results</label>
+            <label for="wpwand-result-number"><?php esc_html_e('Number of Results', 'wp-wand'); ?></label>
             <input type="number" id="wpwand-result-number" min="1" max="3" name="wpwand-result-number" value="1">
         </div>
     </div>
@@ -800,10 +802,11 @@ function wpwand_get_custom_prpompts($type = '')
 
 
 
-function wpwand_make_api_request($api_type, $endpoint, $args = array()) {
+function wpwand_make_api_request($api_type, $endpoint, $args = array())
+{
     // Get API key based on type
     $api_key = $api_type === 'openai' ? WPWAND_OPENAI_KEY : WPWAND_CLAUDE_KEY;
-    
+
     if (empty($api_key)) {
         return new WP_Error('missing_api_key', sprintf(
             esc_html__('%s API key is missing', 'wp-wand'),
@@ -835,7 +838,7 @@ function wpwand_make_api_request($api_type, $endpoint, $args = array()) {
         'timeout' => 15,
         'headers' => $headers[$api_type]
     );
-    
+
     $request_args = wp_parse_args($args, $default_args);
 
     // Make the API request
@@ -853,14 +856,14 @@ function wpwand_make_api_request($api_type, $endpoint, $args = array()) {
     $body = json_decode(wp_remote_retrieve_body($response), true);
 
     if ($response_code !== 200) {
-        $error_message = isset($body['error']['message']) 
-            ? $body['error']['message'] 
+        $error_message = isset($body['error']['message'])
+            ? $body['error']['message']
             : sprintf(
                 esc_html__('%s API Error: Unexpected response code %d', 'wp-wand'),
                 ucfirst($api_type),
                 $response_code
             );
-        
+
         return new WP_Error('api_error', $error_message, array(
             'status' => $response_code,
             'body' => $body
@@ -870,7 +873,8 @@ function wpwand_make_api_request($api_type, $endpoint, $args = array()) {
     return $body;
 }
 
-function wpwand_get_openai_models() {
+function wpwand_get_openai_models()
+{
     if (!WPWAND_OPENAI_KEY) {
         return array();
     }
@@ -894,7 +898,7 @@ function wpwand_get_openai_models() {
 
     // Make API request using common function
     $response = wpwand_make_api_request('openai', '/models');
-    
+
     if (is_wp_error($response)) {
         return $allowed_models; // Return predefined models if API call fails
     }
@@ -919,7 +923,8 @@ function wpwand_get_openai_models() {
     return $models;
 }
 
-function wpwand_get_claude_models() {
+function wpwand_get_claude_models()
+{
     if (!WPWAND_CLAUDE_KEY) {
         return array();
     }
@@ -932,7 +937,7 @@ function wpwand_get_claude_models() {
 
     // Make API request using common function
     $response = wpwand_make_api_request('claude', '/models');
-    
+
     if (is_wp_error($response)) {
         return array(); // Return empty array if API call fails
     }

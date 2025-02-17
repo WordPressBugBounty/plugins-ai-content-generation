@@ -26,9 +26,7 @@ class WooCommerce
             ?>
             <div class="wpwand-popup-prompt-wrap" style="display:none">
                 <div class="wpwand-wc-prompt-wrap">
-                    <span class="wpwand-wc-prompt-toggle" href="#"><img src="<?php echo esc_url(wpwand_loago_icon_url()) // phpcs:ignore ?>" alt="WPWAND Logo">Generate Content
-                        with
-                        AI</span>
+                    <span class="wpwand-wc-prompt-toggle" href="#"><img src="<?php echo esc_url(wpwand_loago_icon_url()) // phpcs:ignore ?>" alt="WPWAND Logo"><?php esc_html_e('Generate Content with AI', 'wp-wand'); ?></span>
                     <div class="wpwand-popup-prompt">
                         <span class="wpwand-wc-prompt-close"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -39,9 +37,9 @@ class WooCommerce
 
                             <div class="wpwand-form-group">
                                 <div class="wpwand-form-field">
-                                    <label for="wpwand-short_description">Short Description</label>
+                                    <label for="wpwand-short_description"><?php esc_html_e('Short Description', 'wp-wand'); ?></label>
                                     <textarea name="wpwand-short_description" id="wpwand-short_description" cols="30" rows="10"
-                                        placeholder="Write a short description of this product. Add what kind of product is this, how it can help customers etc."></textarea>
+                                        placeholder="<?php esc_html_e('Write a short description of this product. Add what kind of product is this, how it can help customers etc.', 'wp-wand'); ?>"></textarea>
                                 </div>
                             </div>
 
@@ -54,7 +52,7 @@ class WooCommerce
                                             d="M7 10.25V11.75M2.5 14.75H11.5C12.3284 14.75 13 14.0784 13 13.25V8.75C13 7.92157 12.3284 7.25 11.5 7.25H2.5C1.67157 7.25 1 7.92157 1 8.75V13.25C1 14.0784 1.67157 14.75 2.5 14.75ZM10 7.25V4.25C10 2.59315 8.65685 1.25 7 1.25C5.34315 1.25 4 2.59315 4 4.25V7.25H10Z"
                                             stroke="white" stroke-width="1.5" stroke-linecap="round" />
                                     </svg>
-                                    Get Pro to Generate Content</a>
+                                    <?php esc_html_e('Get Pro to Generate Content', 'wp-wand'); ?></a>
                                 <!-- <button class="wpwand-submit-button">Generate Content</button> -->
 
                             </div>

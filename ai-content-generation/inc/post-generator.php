@@ -83,7 +83,7 @@ class Post_Generator_FR
                         <label for="selected_headings' . $i . '">' . rtrim(ltrim($reply, '"'), '"') . '</label>
                     </div>
                     <div class="wpwand-pcgf-heading-action">
-                        <a class="remove" href="' . admin_url('admin.php?page=wpwand-post-generator&delete=') . '" onclick="return confirm(\'Are you sure you want to delete?\')">Remove</a>
+                        <a class="remove" href="' . admin_url('admin.php?page=wpwand-post-generator&delete=') . '" onclick="return confirm(\''.esc_html__('Are you sure you want to delete?', 'wp-wand').'\')">'.esc_html__('Remove', 'wp-wand').'</a>
                     </div>
                 </div>
                 ';

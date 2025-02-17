@@ -2,7 +2,16 @@
 
 function wpwand_settings_page()
 {
-    $activate_text = WPWAND_OPENAI_KEY ? 'Active' : 'Not active <a href="https://platform.openai.com/account/api-keys">Get your free OpenAI API key</a>';
+    $activate_text = WPWAND_OPENAI_KEY
+        ? esc_html__('Active', 'wp-wand')
+        : sprintf(
+            /* translators: %s: link to OpenAI API keys page */
+            wp_kses(
+                __('Not active <a href="%s">Get your free OpenAI API key</a>', 'wp-wand'),
+                array('a' => array('href' => array()))
+            ),
+            esc_url('https://platform.openai.com/account/api-keys')
+        );
 ?>
     <div class="wrap">
 
@@ -31,7 +40,7 @@ function wpwand_settings_page()
                     </a>
                     <?php do_action('wpwand_add_tab_link') ?>
                 </h2>
-                <a href="https://wpwand.com/pro-plugin" target="_blank" class="wpwand-get-pro-button">Get Pro Version</a>
+                <a href="https://wpwand.com/pro-plugin" target="_blank" class="wpwand-get-pro-button"><?php esc_html_e('Get Pro Version', 'wp-wand'); ?></a>
                 <form method="post" action="options.php">
                     <?php settings_fields('wpwand_settings_group'); ?>
                     <?php do_settings_sections('wpwand_settings_group'); ?>
@@ -41,7 +50,7 @@ function wpwand_settings_page()
                                 <th scope="row">
                                     <label for="wpwand_api_key">
                                         <?php esc_html_e('OpenAI API Key', 'wp-wand'); ?>
-                                        <span class="wpwand-field-desc">Add your OpenAI API key to activate
+                                        <span class="wpwand-field-desc"><?php esc_html_e('Add your OpenAI API key to activate', 'wp-wand'); ?>
                                             <?php echo esc_html(wpwand_brand_name()) ?>
                                         </span>
                                     </label>
@@ -69,7 +78,7 @@ function wpwand_settings_page()
                                 <th scope="row">
                                     <label for="wpwand_claude_api_key">
                                         <?php esc_html_e('Claude API Key', 'wp-wand'); ?>
-                                        <span class="wpwand-field-desc">Add your Claude API key to activate
+                                        <span class="wpwand-field-desc"><?php esc_html_e('Add your Claude API key to activate', 'wp-wand'); ?>
                                             <?php echo esc_html(wpwand_brand_name()) ?>
                                         </span>
                                     </label>
@@ -97,7 +106,7 @@ function wpwand_settings_page()
                                 <th scope="row">
                                     <label for="wpwand_deepseek_api_key">
                                         <?php esc_html_e('DeepSeek API Key', 'wp-wand'); ?>
-                                        <span class="wpwand-field-desc">Add your DeepSeek API key to activate
+                                        <span class="wpwand-field-desc"><?php esc_html_e('Add your DeepSeek API key to activate', 'wp-wand'); ?>
                                             <?php echo esc_html(wpwand_brand_name()) ?>
                                         </span>
                                     </label>
@@ -123,12 +132,12 @@ function wpwand_settings_page()
                             </tr>
 
 
-                            <?php if ((WPWAND_OPENAI_KEY) || (WPWAND_CLAUDE_KEY)): ?>
+                            <?php if ((WPWAND_OPENAI_KEY) || (WPWAND_CLAUDE_KEY) || (WPWAND_DEEPSEEK_KEY)): ?>
                                 <tr>
                                     <th scope="row">
                                         <label for="wpwand_model">
                                             <?php esc_html_e('Model', 'wp-wand'); ?>
-                                            <span class="wpwand-field-desc">Add your OpenAI API key to activate
+                                            <span class="wpwand-field-desc"><?php esc_html_e('Add your OpenAI API key to activate', 'wp-wand'); ?>
                                                 <?php echo esc_html(wpwand_brand_name()) ?>
                                             </span>
                                         </label>
@@ -178,7 +187,7 @@ function wpwand_settings_page()
                                     <th scope="row">
                                         <label for="wpwand_language">
                                             <?php esc_html_e('Default Content Language', 'wp-wand'); ?>
-                                            <span class="wpwand-field-desc">Select your language</span>
+                                            <span class="wpwand-field-desc"><?php esc_html_e('Select your language', 'wp-wand'); ?></span>
                                         </label>
                                     </th>
                                     <td>
@@ -198,8 +207,8 @@ function wpwand_settings_page()
                                     <th scope="row">
                                         <label for="wpwand_temperature">
                                             <?php esc_html_e('Temperature', 'wp-wand'); ?>
-                                            <span class="wpwand-field-desc">Controls randomness: If you lower the number, the
-                                                result will be repetitive & the output quality might gets lower.</span>
+                                            <span class="wpwand-field-desc"><?php esc_html_e('Controls randomness: If you lower the number, the
+                                                result will be repetitive & the output quality might gets lower. ', 'wp-wand'); ?></span>
                                         </label>
                                     </th>
                                     <td>
@@ -215,8 +224,8 @@ function wpwand_settings_page()
                                     <th scope="row">
                                         <label for="wpwand_max_tokens">
                                             <?php esc_html_e('Max Token', 'wp-wand'); ?>
-                                            <span class="wpwand-field-desc">The maximum number of tokens to generate. One token
-                                                is roughly 4 characters for normal English text.</span>
+                                            <span class="wpwand-field-desc"><?php esc_html_e('The maximum number of tokens to generate. One token
+                                                is roughly 4 characters for normal English text.', 'wp-wand'); ?></span>
                                         </label>
                                     </th>
                                     <td>
@@ -277,8 +286,8 @@ function wpwand_settings_page()
                                     <th scope="row">
                                         <label for="toggler_position">
                                             <?php esc_html_e('AI Button Position', 'wp-wand'); ?>
-                                            <span class="wpwand-field-desc">Change WP Wand’s AI button position based on your
-                                                preference</span>
+                                            <span class="wpwand-field-desc"><?php esc_html_e('Change WP Wand’s AI button position based on your
+                                                preference', 'wp-wand'); ?></span>
                                         </label>
                                     </th>
                                     <td>
