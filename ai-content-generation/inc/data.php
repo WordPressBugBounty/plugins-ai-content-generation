@@ -7,7 +7,8 @@ if (!defined('ABSPATH')) {
 // Add this at the beginning of the file, after the ABSPATH check
 add_action('plugins_loaded', 'wpwand_load_template_strings', 0);
 
-function wpwand_load_template_strings() {
+function wpwand_load_template_strings()
+{
     // Hardcode all possible template strings that could come from the API
     $template_strings = array(
         // Free Templates
@@ -35,7 +36,7 @@ function wpwand_load_template_strings() {
         __('Generate a highly engaging post for Linkedin', 'wp-wand'),
         __('Facebook Post', 'wp-wand'),
         __('Generate a highly engaging post for Facebook', 'wp-wand'),
-        
+
         // Pro Templates
         __('Meta Title', 'wp-wand'),
         __('Optimize your content for search engines with effective meta titles.', 'wp-wand'),
@@ -125,37 +126,25 @@ function wpwand_load_template_strings() {
 // var_dump(get_option('wpwand_pro_tala_key'));
 function wpwand_templates()
 {
-    wpwand_sync_transient();
+
     $all_prompts = get_option('wpwand_data');
     $custom_data = get_option('wpwand_custom_data', []);
-
+    wpwand_sync_transient();
     if (get_option('wpwand_pro_activated') == 'activation') {
         wpwand_sync_date();
         update_option('wpwand_pro_activated', 'data_initialized');
     }
     if (isset($all_prompts['free']) && isset($all_prompts['pro'])) {
-        // Translate the template strings
-        foreach ($all_prompts as $type => $templates) {
-            foreach ($templates as $key => $template) {
-                if (isset($template['title'])) {
-                    $all_prompts[$type][$key]['title'] = __($template['title'], 'wp-wand');
-                }
-                if (isset($template['description'])) {
-                    $all_prompts[$type][$key]['description'] = __($template['description'], 'wp-wand');
-                }
-                if (isset($template['prompt'])) {
-                    $all_prompts[$type][$key]['prompt'] = __($template['prompt'], 'wp-wand');
-                }
-            }
-        }
+
         return array_merge($custom_data, $all_prompts['free'], $all_prompts['pro']);
     }
     return [];
 }
+
 function wpwand_sync_date()
 {
-    if(defined('DOING_AJAX')){
-        if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpwand_global_nonce')) {
+    if (defined('DOING_AJAX')) {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpwand_global_nonce')) {
             wp_send_json_error('Nonce verification failed.', 403);
         }
     }
@@ -165,8 +154,6 @@ function wpwand_sync_date()
     } else {
         wpwand_get_data(true);
     }
-
-
 }
 add_action('wp_ajax_wpwand_sync_date', 'wpwand_sync_date');
 add_action('wp_ajax_nopriv_wpwand_sync_date', 'wpwand_sync_date');
@@ -179,36 +166,18 @@ function wpwand_sync_transient()
     }
     return false;
 }
-
 function wpwand_get_data($sync = false)
 {
+
     if (!get_option('wpwand_data') || $sync == true) {
+
         // Build the request
         $url = "https://updates.finestwp.co/demo-import/wp-wand/import-files.php?fdth";
 
         $response = wp_safe_remote_get($url);
         $response_body = wp_remote_retrieve_body($response);
         $response_body = json_decode($response_body, true);
-
-        // Store translatable strings with gettext format
-        if (is_array($response_body)) {
-            foreach ($response_body as $type => $templates) {
-                if (is_array($templates)) {
-                    foreach ($templates as $key => $template) {
-                        if (isset($template['title'])) {
-                            // Store with _x() context to ensure unique translations
-                            $response_body[$type][$key]['title'] = '_x:' . wp_slash($template['title']) . ':template_title';
-                        }
-                        if (isset($template['description'])) {
-                            $response_body[$type][$key]['description'] = '_x:' . wp_slash($template['description']) . ':template_description';
-                        }
-                        if (isset($template['prompt'])) {
-                            $response_body[$type][$key]['prompt'] = '_x:' . wp_slash($template['prompt']) . ':template_prompt';
-                        }
-                    }
-                }
-            }
-        }
+        // Send the request with warnings supressed
 
         return update_option('wpwand_data', $response_body) ? true : false;
     }
@@ -217,7 +186,8 @@ function wpwand_get_data($sync = false)
 }
 
 // Add a helper function to retrieve and translate the stored strings
-function wpwand_translate_template_string($string) {
+function wpwand_translate_template_string($string)
+{
     if (empty($string)) {
         return $string;
     }
@@ -229,7 +199,7 @@ function wpwand_translate_template_string($string) {
             return _x($parts[1], $parts[2], 'wp-wand');
         }
     }
-    
+
     return $string;
 }
 
@@ -292,7 +262,6 @@ function wpwand_language_array()
         'Urdu' => 'ur',
         'Vietnamese' => 'vi',
     ];
-
 }
 
 function wpwand_editor_prompts($locked = true)
@@ -396,9 +365,10 @@ function wpwand_editor_prompts($locked = true)
 }
 
 // Add this new function
-function wpwand_register_template_strings() {
+function wpwand_register_template_strings()
+{
     $templates = get_option('wpwand_data');
-    
+
     if (!empty($templates) && is_array($templates)) {
         foreach ($templates as $type => $type_templates) {
             if (is_array($type_templates)) {
@@ -416,8 +386,9 @@ function wpwand_register_template_strings() {
             }
         }
     }
+
+
 }
 
 // Add this action hook at the end of the file
 add_action('init', 'wpwand_register_template_strings');
-
