@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Plugin Name: WP Wand - AI Writer, AI Content Generator & AI Assistant by ChatGPT, OpenAI | Generate SEO Friendly AI Blog Post & Article with 20X Speed
+ * Plugin Name: WP Wand 
  * Plugin URI: https://wpwand.com/
  * Description: WP Wand is a AI content generation plugin for WordPress that helps your team create high quality content 10X faster and 50x cheaper. No monthly subscription required.
- * Version: 1.2.93
+ * Version: 1.2.94
  * Author: WP Wand
  * Author URI: https://wpwand.com/
  * Text Domain: wp-wand
@@ -20,39 +20,43 @@ use ElliotJReed\AI\ClaudeAI\Prompt;
  */
 function wpwand_load_plugin_textdomain()
 {
-    load_plugin_textdomain('wp-wand', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 }
-add_action('plugins_loaded', 'wpwand_load_plugin_textdomain');
+add_action('plugins_loaded', 'wpwand_load_plugin_textdomain', -5);
 
-if (!function_exists('get_plugin_data')) {
-    require_once ABSPATH . 'wp-admin/includes/plugin.php';
-}
-// Define constants
-
-define('WPWAND_PLUGIN_DIR', plugin_dir_path(__FILE__));
-define('WPWAND_PLUGIN_URL', plugin_dir_url(__FILE__));
-if (!defined('WPWAND_OPENAI_KEY')) {
-    define('WPWAND_OPENAI_KEY', get_option('wpwand_api_key', false));
-}
-if (!defined('WPWAND_CLAUDE_KEY')) {
-    define('WPWAND_CLAUDE_KEY', get_option('wpwand_claude_api_key', false));
-}
-if (!defined('WPWAND_DEEPSEEK_KEY')) {
-    define('WPWAND_DEEPSEEK_KEY', get_option('wpwand_deepseek_api_key', false));
-}
-define('WPWAND_AI_CHARACTER', '');
 
 
 
 function wpwand_init()
 {
+
+
+        load_plugin_textdomain('wp-wand', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+
+    if (!function_exists('get_plugin_data')) {
+        // require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+    // Define constants
+
+    define('WPWAND_PLUGIN_DIR', plugin_dir_path(__FILE__));
+    define('WPWAND_PLUGIN_URL', plugin_dir_url(__FILE__));
+    if (!defined('WPWAND_OPENAI_KEY')) {
+        define('WPWAND_OPENAI_KEY', get_option('wpwand_api_key', false));
+    }
+    if (!defined('WPWAND_CLAUDE_KEY')) {
+        define('WPWAND_CLAUDE_KEY', get_option('wpwand_claude_api_key', false));
+    }
+    if (!defined('WPWAND_DEEPSEEK_KEY')) {
+        define('WPWAND_DEEPSEEK_KEY', get_option('wpwand_deepseek_api_key', false));
+    }
+    define('WPWAND_AI_CHARACTER', '');
+
     if (!current_user_can('manage_options')) {
         return false;
     }
-    
+
     // Check if external requests are blocked before adding the filter
 
-        // add_filter('http_request_host_is_external', '__return_true');
+    // add_filter('http_request_host_is_external', '__return_true');
 
 
     // check if php version is 7.4 or higher
@@ -97,7 +101,7 @@ function wpwand_init()
     require_once WPWAND_PLUGIN_DIR . 'inc/gutenberg.php';
 
     // Add Elementor initialization hook
-    add_action('elementor/init', function() {
+    add_action('elementor/init', function () {
         require_once WPWAND_PLUGIN_DIR . 'inc/modules/elementor/wp-wand-elementor.php';
         WDELMTR_Extension::instance();
     });
@@ -105,10 +109,11 @@ function wpwand_init()
     do_action('wpwand_init');
 }
 
-add_action('plugins_loaded', 'wpwand_init', 100);
+add_action('init', 'wpwand_init', 10);
 
 
-function wpwand_pro_version_check() {
+function wpwand_pro_version_check()
+{
     if (!defined('WPWAND_PRO_VERSION')) {
         return;
     }
@@ -125,17 +130,17 @@ function wpwand_pro_version_check() {
     if (file_exists($pro_file)) {
         $pro_data = get_plugin_data($pro_file);
         $pro_version = $pro_data['Version'];
-        
+
         if (version_compare($pro_version, '1.2.3', '<')) {
 
-            add_action('admin_notices', function() {
+            add_action('admin_notices', function () {
                 $force_update_url = wp_nonce_url(admin_url('admin.php?page=wpwand-settings&force-check=1'), 'wpwand_pro_force_update_check');
 
                 echo '<div class="notice notice-warning is-dismissible">
                     <p>' . sprintf(
-                        __('Please update WP Wand Pro to version 1.2.3 or higher for full compatibility. <a href="%s">Update now</a>', 'wp-wand'),
-                        $force_update_url
-                    ) . '</p>
+                    __('Please update WP Wand Pro to version 1.2.3 or higher for full compatibility. <a href="%s">Update now</a>', 'wp-wand'),
+                    $force_update_url
+                ) . '</p>
                 </div>';
             });
         }
@@ -176,3 +181,13 @@ function wpwand_php_version_notice()
 {
     echo '<div class="error"><p>' . esc_html__('WP Wand requires PHP 7.4 or higher. Please upgrade your PHP version.', 'wp-wand') . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
+
+
+add_action(
+    'doing_it_wrong_run',
+    static function ($function_name) {
+        if ('_load_textdomain_just_in_time' === $function_name) {
+            debug_print_backtrace();
+        }
+    }
+);

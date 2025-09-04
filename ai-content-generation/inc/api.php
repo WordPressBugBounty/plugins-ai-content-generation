@@ -647,8 +647,9 @@ function wpwand_generate_ai_content($prompt, $number_of_result = 1, $args = [])
         $args['targated_customer'] = !empty($args['targated_customer']) ? "Write this focusing the benefits of our targeted customer, which this: {$args['targated_customer']}" : '';
 
         // Base request configuration
+        ini_set('max_execution_time', 300);
         $request_config = array(
-            'timeout' => 60,
+            'timeout' => 120,
             'data_format' => 'body',
             'headers' => array(
                 'Content-Type' => 'application/json'
