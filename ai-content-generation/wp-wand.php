@@ -4,7 +4,7 @@
  * Plugin Name: WP Wand 
  * Plugin URI: https://wpwand.com/
  * Description: WP Wand is a AI content generation plugin for WordPress that helps your team create high quality content 10X faster and 50x cheaper. No monthly subscription required.
- * Version: 1.2.94
+ * Version: 1.2.96
  * Author: WP Wand
  * Author URI: https://wpwand.com/
  * Text Domain: wp-wand
@@ -18,10 +18,6 @@ use ElliotJReed\AI\ClaudeAI\Prompt;
 /**
  * Load plugin textdomain.
  */
-function wpwand_load_plugin_textdomain()
-{
-}
-add_action('plugins_loaded', 'wpwand_load_plugin_textdomain', -5);
 
 
 
@@ -30,7 +26,7 @@ function wpwand_init()
 {
 
 
-        load_plugin_textdomain('wp-wand', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+    load_plugin_textdomain('wp-wand', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 
     if (!function_exists('get_plugin_data')) {
         // require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -181,13 +177,3 @@ function wpwand_php_version_notice()
 {
     echo '<div class="error"><p>' . esc_html__('WP Wand requires PHP 7.4 or higher. Please upgrade your PHP version.', 'wp-wand') . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
-
-
-add_action(
-    'doing_it_wrong_run',
-    static function ($function_name) {
-        if ('_load_textdomain_just_in_time' === $function_name) {
-            debug_print_backtrace();
-        }
-    }
-);
