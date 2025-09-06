@@ -226,6 +226,7 @@ button {
     visibility: hidden;
     overflow: auto;
     padding-bottom: 30px;
+    padding-bottom: 108px;
 }
 
 .wpwand-form-field label {
@@ -441,6 +442,7 @@ h4 {}
 .wpwand-prompt-from-wrap {
     height: calc(100vh - 169px);
     overflow-x: auto;
+    padding-bottom: 100px;
 }
 
 form.wpwand-prompt-form textarea {
@@ -1318,6 +1320,7 @@ span.wpwand-insert-to-gutenberg {
 .elementor-editor-active .wpwand-prompt-form-wrap,
 .block-editor-page .wpwand-prompt-form-wrap {
     top: 40px;
+    min-height: 100%;
 }
 
 .wpwand-template-filter input {
@@ -3212,4 +3215,9 @@ a.wpwand-table-btn.delete {
 select:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+#elementor-editor-wrapper .wpwand-floating {
+    top: 48px !important;
+    padding-bottom: 40px;
 }
