@@ -24,7 +24,7 @@ function wpwand_request()
         wp_send_json_error(__('error', 'wp-wand'));
     }
 
-    $selected_model = get_option('wpwand_model', 'gpt-3.5-turbo');
+    $selected_model = get_option('wpwand_model', 'chatgpt-4o-latest');
     $is_elementor = isset($_POST['is_elementor']) && 'true' == $_POST['is_elementor'] ? '<span class="wpwand-insert-to-widget" >Insert to Elementor</span>' : '';
     $is_gutenberg = isset($_POST['is_gutenberg']) && 'true' == $_POST['is_gutenberg'] ? '<span class="wpwand-insert-to-gutenberg" >Insert to Editor</span>' : '';
     $point_of_view = isset($_POST['point_of_view']) ? sanitize_text_field(wp_unslash($_POST['point_of_view'])) : false;
@@ -188,7 +188,7 @@ function wpwand_only_prompt()
         wp_send_json_error('error');
     }
 
-    $selected_model = get_option('wpwand_model', 'gpt-3.5-turbo');
+    $selected_model = get_option('wpwand_model', 'chatgpt-4o-latest');
     $biz_details = '';
     $targated_customer = '';
     $language = wpwand_get_option('wpwand_language', 'English');
@@ -348,67 +348,34 @@ function wpwand_ai_error($error)
 {
     $source = isset($error->type) && strpos($error->type, 'claude') !== false ? 'claude' : (isset($error->type) && strpos($error->type, 'deepseek') !== false ? 'deepseek' : 'openai');
     $provider = ucfirst($source);
-    // if curl error then add server error / server is not responding
+
     if (isset($error->message) && strpos($error->message, 'curl') !== false) {
-        return "{$provider} Error: Server is not responding";
+        return "<h4>{$provider} Error</h4><p>Server is not responding. Please try again later.</p>";
     }
-    return "{$provider} Error: " . $error->message;
+
+    $error_details = json_decode($error->message);
+
+    if (json_last_error() === JSON_ERROR_NONE && is_object($error_details)) {
+        $message = "<p><strong>{$provider} Error</strong></p>";
+        if (isset($error_details->type)) {
+            $message .= "<p><strong>Type:</strong> " . ucwords(str_replace('_', ' ', htmlspecialchars($error_details->type))) . "</p>";
+        }
+        if (isset($error_details->message)) {
+            $message_text = htmlspecialchars($error_details->message);
+            // make URL clickable
+            $message_text = preg_replace(
+                '/(https?:\/\/[^\s]+)/',
+                '<a href="$1" target="_blank" rel="noopener noreferrer" style="color:var(--wpwand-brand-color)">$1</a>',
+                $message_text
+            );
+            $message .= "<div>" . $message_text . "</div>";
+        }
+        return $message;
+    }
+
+    return "<h4>{$provider} Error</h4><div>" . htmlspecialchars($error->message) . "</div>";
 }
 
-/* 
-// deprecated 
-function wpwand_claude($prompt, $number_of_result = 1, $args = []) 
-{
-    try {
-        $selected_model = isset($args['model']) ? $args['model'] : wpwand_get_option('wpwand_model', 'gpt-3.5-turbo');
-
-        $biz_details = isset($args['biz_details']) && !empty($args['biz_details']) ? "Write this based on our business details, which this: " . $args['biz_details'] : '';
-        $targated_customer = isset($args['targated_customer']) && !empty($args['targated_customer']) ? "Write this focusing the benefits of our targeted customer, which this:" . $args['targated_customer'] : '';
-
-        $language = isset($args['language']) && !empty($args['language']) ? $args['language'] : wpwand_get_option('wpwand_language', 'English');
-
-        $temperature = isset($args['temperature']) ? $args['temperature'] : (int) wpwand_get_option('wpwand_temperature', 1.0);
-        $max_tokens = isset($args['max_tokens']) ? $args['max_tokens'] : wpwangd_get_max_token($prompt, $selected_model);
-
-        if ('claude' == wpwand_api_source($selected_model)) {
-            $wpwand_api = new Prompt(WPWAND_CLAUDE_KEY, 'claude-3-haiku-20240307');
-        } else {
-            $wpwand_api = new Prompt(WPWAND_OPENAI_KEY, $selected_model);
-        }
-
-        $choices = [];
-        for ($i = 0; $i < $number_of_result; $i++) {
-            $request = (new Request())
-                ->setRole('system')
-                ->setInstructions("You must write in $language. $biz_details $targated_customer")
-                ->setInput("$prompt")
-                ->setTemperature($temperature)
-                ->setMaximumTokens($max_tokens);
-
-            $response = $wpwand_api->send($request);
-
-            $choices[] = (object) [
-                'message' => (object) [
-                    'content' => $response->getContent() . \PHP_EOL
-                ]
-            ];
-        }
-
-        return (object) [
-            'choices' => $choices
-        ];
-    } catch (\Exception $e) {
-        return (object) [
-            'error' => (object) [
-                'message' => $e->getMessage(),
-                'type' => 'claude_error',
-                'code' => $e->getCode()
-            ]
-        ];
-    }
-}
-
- */
 
 function wpwand_openAi($prompt, $number_of_result = 1, $args = [])
 {
@@ -477,7 +444,7 @@ function wpwand_generate_claude_content($prompt, $number_of_result, $args, $requ
         $response_body = json_decode(wp_remote_retrieve_body($response));
 
         if (isset($response_body->error)) {
-            throw new Exception($response_body->error->message);
+            throw new Exception(json_encode($response_body->error));
         }
 
         $responses[] = $response_body;
@@ -511,37 +478,6 @@ function wpwand_generate_openai_content($prompt, $number_of_result, $args, $requ
 
 
 
-    /*     $model = isset($args['model']) && !empty($args['model']) ? $args['model'] :  'gpt-3.5-turbo';
-    $body = array(
-        'model' => $model,
-        'messages' => array(
-            array(
-                'role' => 'system',
-                'content' => "{$prompt} You must write in {$args['language']}. {$args['biz_details']} {$args['targated_customer']}"
-            )
-        ),
-        'n' => max(1, $number_of_result),
-        'temperature' => $args['temperature'],
-        'max_tokens' => $args['max_tokens'],
-        'frequency_penalty' => (float) wpwand_get_option('wpwand_frequency', 0),
-        'presence_penalty' => (float) wpwand_get_option('wpwand_presence_penalty', 0)
-    );
-
-    $response = wp_safe_remote_post($endpoint, array_merge(
-        $request_config,
-        array('body' => json_encode($body))
-    ));
-
-    if (is_wp_error($response)) {
-        throw new Exception($response->get_error_message());
-    }
-
-    $response_body = json_decode(wp_remote_retrieve_body($response));
-
-    if (isset($response_body->error)) {
-        throw new Exception($response_body->error->message);
-    } */
-
     return wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result, $args, $request_config);
 }
 
@@ -549,7 +485,7 @@ function wpwand_generate_openai_content($prompt, $number_of_result, $args, $requ
 
 function wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result, $args, $request_config)
 {
-    $model = isset($args['model']) && !empty($args['model']) ? $args['model'] : 'gpt-3.5-turbo';
+    $model = isset($args['model']) && !empty($args['model']) ? $args['model'] : 'chatgpt-4o-latest';
     $request_config['headers']['Authorization'] = wpwand_api_source($model) == 'deepseek' ? 'Bearer ' . WPWAND_DEEPSEEK_KEY : 'Bearer ' . WPWAND_OPENAI_KEY;
     
     // Base variations for multiple results
@@ -585,10 +521,15 @@ function wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result
                 ]
             ],
             'temperature' => $args['temperature'] + ($i * 0.1), // Slightly vary temperature for diversity
-            'max_tokens' => $args['max_tokens'],
             'frequency_penalty' => (float) wpwand_get_option('wpwand_frequency', 0),
             'presence_penalty' => (float) wpwand_get_option('wpwand_presence_penalty', 0)
         ];
+
+        if (strpos($model, 'gpt-5') !== false) {
+            $body['max_completion_tokens'] = $args['max_tokens'];
+        } else {
+            $body['max_tokens'] = $args['max_tokens'];
+        }
 
         $response = wp_safe_remote_post($endpoint, array_merge(
             $request_config,
@@ -602,7 +543,7 @@ function wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result
         $response_body = json_decode(wp_remote_retrieve_body($response));
 
         if (isset($response_body->error)) {
-            throw new Exception($response_body->error->message);
+            throw new Exception(json_encode($response_body->error));
         }
 
         $responses[] = $response_body;
@@ -627,7 +568,7 @@ function wpwand_generate_ai_content($prompt, $number_of_result = 1, $args = [])
     try {
         // Prepare and normalize arguments
         $args = wp_parse_args($args, array(
-            'model' => wpwand_get_option('wpwand_model', 'gpt-3.5-turbo'),
+            'model' => wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'),
             'language' => wpwand_get_option('wpwand_language', 'English'),
             'biz_details' => '',
             'targated_customer' => '',
@@ -637,6 +578,7 @@ function wpwand_generate_ai_content($prompt, $number_of_result = 1, $args = [])
 
         $model = isset($args['model']) && !empty($args['model']) ? $args['model'] :  'claude-3-5-sonnet-20241022';
 
+        $prompt .= ' You must need only answer the question. Do not write any other text/explanation or multiple answer.';
         // Set max tokens if not provided
         if (null === $args['max_tokens']) {
             $args['max_tokens'] = wpwangd_get_max_token($prompt, $model);

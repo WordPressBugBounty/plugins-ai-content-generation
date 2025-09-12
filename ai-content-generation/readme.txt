@@ -1,18 +1,19 @@
-=== WP Wand - AI Writer, AI Content Generator & AI Assistant by ChatGPT, OpenAI | Generate SEO Friendly AI Blog Post & Article with 20X Speed ===
+=== WP Wand – Unlimited Content Generation using AI – for OpenAI, Claude and Deepseek ===
 
 Contributors: wpgrids, ashrafuddin765
-Tags: ChatGPT, GPT4, Elementor AI, Gutenberg AI, AI Writer, wpwand, Bulk Post, AI Content, GPT3, Content Generator, Content Writer, AI Post Generator, AI Blog Post Writer, AI Article, AI Image Generator, Dall-e
+Tags: ChatGPT, AI Writer, Content Generator, GPT-4, DALL-E
 Requires at least: 5.0
+Requires PHP: 7.4
 Tested up to:  6.8.2
-Stable Tag: 1.2.97
+Stable Tag: 1.2.98
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-WP Wand is the powerful AI Content Writer and Generator for WordPress that works as your AI Co-Pilot. Powered by ChatGPT, OpenAI, GPT-3.5, GPT-4, Dall-E.
+WP Wand is a powerful AI Content Writer for WordPress. Your AI Co-Pilot for generating content, powered by OpenAI, Claude, and Deepseek.
 
 == Description ==
 
-WP Wand is the powrful AI content generation and AI writing assistant plugin for WordPress. It uses advanced algorithms and OpenAI’s popular models like ChatGPT, GPT-3.5, GPT-4, DaVinci and more to generate high-quality and engaging content effortlessly, without breaking your bank.
+WP Wand is the powerful AI content generation and AI writing assistant plugin for WordPress. It uses advanced algorithms and supports popular models from OpenAI (ChatGPT, GPT-3.5, GPT-4, GPT-5), Anthropic (Claude), and Deepseek to generate high-quality and engaging content effortlessly, without breaking your bank.
 
 WPWand is fully integrated with Gutenberg Editor, Classic Editor, Elementor Page Builder & WooCommerce to improve your writing experience much better. With it's seamless AI writing experience, you can create any type of article for your needs.
 
@@ -57,6 +58,32 @@ https://youtu.be/i7lUOW5e5Wc
 
 https://www.youtube.com/watch?v=CJkraHhSsZ8
 
+== Supported AI Models ==
+
+WP Wand supports a wide range of models from the leading AI providers.
+
+= OpenAI =
+* GPT-5
+* GPT-4.1 Mini
+* ChatGPT 4o Latest
+* GPT-4o Mini
+* GPT-4o
+* GPT-4 Turbo
+* GPT-4
+* GPT-3.5 Turbo
+* GPT-3.5 Turbo 16k
+
+= Anthropic (Claude) =
+* Claude 4 Opus
+* Claude 4 Sonnet
+* Claude 3 Opus (deprecated)
+* Claude 3.5 Sonnet Latest (deprecated)
+* Claude 3.5 Haiku Latest (deprecated)
+
+= Deepseek =
+* DeepSeek Chat
+* DeepSeek Reasoner (R1)
+
 
 == CORE FEATURES ==
 
@@ -68,18 +95,23 @@ https://www.youtube.com/watch?v=CJkraHhSsZ8
 * AI Image Generator
 * Powerful AI Assistant
 * 50x Cheaper Than Other AI Services
-* 50+ Highly Trained Prompt Templates [All Free]
+* 50+ Highly Trained Prompt Templates [All Free]. Some of our most popular templates include:
+    * One Click Blog Post Writer
+    * WooCommerce Product Description
+    * Content Rewriter
+    * AIDA Copywriting Formula
+    * Social Media Post Ideas
 * Basic AI Training
-* Bulk Post Generation [Pro]
-* Create Custom Prompt [Pro]
-* White Label for Agency [Pro]
-* Custom AI Character [Pro]
-* Custom Business Details Input [Pro]
-* Targeted Customer Profile [Pro]
-* One Click AI Blog Post Writer [Pro]
-* One Click WooCommerce Description Writer [Pro]
-* Integreated with Rank Math Plugin - Beta [Pro]
-* Integreated with Yoast SEO Plugin - Beta [Pro]
+* Bulk Post Generation
+* Create Custom Prompt
+* White Label for Agency
+* Custom AI Character
+* Custom Business Details Input
+* Targeted Customer Profile
+* One Click AI Blog Post Writer
+* One Click WooCommerce Description Writer
+* Integreated with Rank Math Plugin - Beta
+* Integreated with Yoast SEO Plugin - Beta
 * Option to Choose Different AI Models
 * Supports All Themes & Plugins
 * 42+ Language Support
@@ -235,15 +267,25 @@ Create product descriptions, category pages, and more for your eCommerce store. 
 * Ukrainian
 * Vietnamese
 
+== Fine-Tune Your Content ==
+
+For advanced users, WP Wand offers settings to fine-tune the AI's output:
+
+* **Temperature:** Control the randomness of the generated text. Higher values mean more creative but less predictable results.
+* **Max Tokens:** Set the maximum length of the generated content.
+* **Presence Penalty:** Increase the model's likelihood to talk about new topics.
+* **Frequency Penalty:** Decrease the model's likelihood to repeat the same line verbatim.
+
 Whether you're a business owner, digital agency owner, marketer, or website developer, WP Wand can help you unlock your creative potential and take your content game to the next level. 
 
 Install WP Wand today and experience the power of AI content creation.
 
 == Installation ==
 
-1. Upload the `wp-wand` folder to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Navigate to the WP Wand settings page to enter your OpenAI API key and validate it
+1. Upload the `ai-content-generation` folder to the `/wp-content/plugins/` directory.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. After activation, navigate to the "WP Wand" menu in your WordPress dashboard to access the settings.
+4. Enter your API key(s) from OpenAI, Anthropic (Claude), or Deepseek to get started.
 
 
 == Frequently Asked Questions ==
@@ -299,13 +341,21 @@ No, you don't have to purchase any monthly or yearly subscription to use WP Wand
 
 == Screenshots ==
 
-1. AI Assitant - Integrated with Gutenberg Editor
-2. One Click Accessible AI Templates
-3. Write A Full Blog Post with 1 Click
-4. Setting Page of WP Wand
-5. Advanced Settings to Improve Content Quality
+1. Our powerful AI Assistant seamlessly integrated within the Gutenberg editor.
+2. Access over 50 professionally crafted prompt templates with a single click.
+3. Generate a complete, high-quality blog post in under a minute.
+4. The main settings page for WP Wand, where you can configure your API keys.
+5. Fine-tune the AI's output with advanced settings for temperature, max tokens, and more.
 
 == Changelog ==
+
+= 1.2.98 =
+* New: GPT-5 Model Added.
+* New: GPT 4.1 Mini Model Added.
+* New: Claude 4 Opus Model Added.
+* New: Claude 4 Sonnet Model Added.
+* Improved: Error Handling.
+* Fixed: Minor Issues.
 
 = 1.2.97 =
 * Fixed: Elementor Compability Issue.

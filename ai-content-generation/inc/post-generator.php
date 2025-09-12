@@ -79,8 +79,8 @@ class Post_Generator_FR
                 $text .= '
                 <div class="wpwand-pcgf-heading-item">
                     <div class="wpwand-pcgf-heading-content">
-                        <input type="checkbox" id="selected_headings' . $i . '" name="selected_headings[]" value="' . $reply . '"> 
-                        <label for="selected_headings' . $i . '">' . rtrim(ltrim($reply, '"'), '"') . '</label>
+                        <input type="checkbox" id="selected_headings' . $i . '" name="selected_headings[]" value="' . esc_attr($reply) . '"> 
+                        <label for="selected_headings' . $i . '">' . esc_html(rtrim(ltrim($reply, '"'), '"')) . '</label>
                     </div>
                     <div class="wpwand-pcgf-heading-action">
                         <a class="remove" href="' . admin_url('admin.php?page=wpwand-post-generator&delete=') . '" onclick="return confirm(\''.esc_html__('Are you sure you want to delete?', 'wp-wand').'\')">'.esc_html__('Remove', 'wp-wand').'</a>

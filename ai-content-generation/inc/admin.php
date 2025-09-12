@@ -143,40 +143,53 @@ function wpwand_settings_page()
                                         </label>
                                     </th>
                                     <td>
+                                        <?php
+                                        $selected_model = wpwand_get_option('wpwand_model', 'chatgpt-4o-latest');
+                                        ?>
                                         <select id="wpwand_model" name="wpwand_model">
                                             <?php if (WPWAND_OPENAI_KEY): ?>
                                                 <optgroup label="OpenAI Models">
-                                                    <option value="chatgpt-4o-latest" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'chatgpt-4o-latest'); ?>>
+                                                    <option value="gpt-5" <?php selected($selected_model, 'gpt-5'); ?>>
+                                                        <?php esc_html_e('GPT 5', 'wp-wand'); ?></option>
+                                                    <option value="gpt-4.1-mini" <?php selected($selected_model, 'gpt-4.1-mini'); ?>>
+                                                        <?php esc_html_e('GPT 4.1 Mini', 'wp-wand'); ?></option>
+                                                    <option value="chatgpt-4o-latest" <?php selected($selected_model, 'chatgpt-4o-latest'); ?>>
                                                         <?php esc_html_e('ChatGPT 4o Latest', 'wp-wand'); ?></option>
-                                                    <option value="gpt-4o-mini" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-4o-mini'); ?>>
+                                                    <option value="gpt-4o-mini" <?php selected($selected_model, 'gpt-4o-mini'); ?>>
                                                         <?php esc_html_e('GPT 4o Mini', 'wp-wand'); ?></option>
-                                                    <option value="gpt-4o" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-4o'); ?>>
+                                                    <option value="gpt-4o" <?php selected($selected_model, 'gpt-4o'); ?>>
                                                         <?php esc_html_e('GPT 4o', 'wp-wand'); ?></option>
-                                                    <option value="gpt-4-turbo" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-4-turbo'); ?>>
+                                                    <option value="gpt-4-turbo" <?php selected($selected_model, 'gpt-4-turbo'); ?>>
                                                         <?php esc_html_e('GPT 4 Turbo', 'wp-wand'); ?></option>
-                                                    <option value="gpt-4" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-4'); ?>>
+                                                    <option value="gpt-4" <?php selected($selected_model, 'gpt-4'); ?>>
                                                         <?php esc_html_e('GPT 4', 'wp-wand'); ?></option>
-                                                    <option value="gpt-3.5-turbo" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-3.5-turbo'); ?>>
+                                                    <option value="gpt-3.5-turbo" <?php selected($selected_model, 'gpt-3.5-turbo'); ?>>
                                                         <?php esc_html_e('GPT 3.5 Turbo', 'wp-wand'); ?></option>
-                                                    <option value="gpt-3.5-turbo-16k" <?php selected(wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'), 'gpt-3.5-turbo-16k'); ?>>
+                                                    <option value="gpt-3.5-turbo-16k" <?php selected($selected_model, 'gpt-3.5-turbo-16k'); ?>>
                                                         <?php esc_html_e('GPT 3.5 Turbo 16k', 'wp-wand'); ?></option>
                                                 </optgroup>
                                             <?php endif; ?>
                                             <?php if (WPWAND_CLAUDE_KEY): ?>
                                                 <optgroup label="Claude Models">
-                                                    <option value="claude-3-5-sonnet-latest" <?php selected(wpwand_get_option('wpwand_model', 'claude-3-5-sonnet-latest'), 'claude-3-5-sonnet-latest'); ?>>
-                                                        <?php esc_html_e('Claude 3.5 Sonnet Latest', 'wp-wand'); ?></option>
-                                                    <option value="claude-3-5-haiku-latest" <?php selected(wpwand_get_option('wpwand_model', 'claude-3-5-sonnet-latest'), 'claude-3-5-haiku-latest'); ?>>
-                                                        <?php esc_html_e('Claude 3.5 Haiku Latest', 'wp-wand'); ?></option>
+                                                    <option value="claude-opus-4-20250514" <?php selected($selected_model, 'claude-opus-4-20250514'); ?>>
+                                                        <?php esc_html_e('Claude 4 Opus', 'wp-wand'); ?></option>
+                                                    <option value="claude-sonnet-4-20250514" <?php selected($selected_model, 'claude-sonnet-4-20250514'); ?>>
+                                                        <?php esc_html_e('Claude 4 Sonnet', 'wp-wand'); ?></option>
+                                                    <option value="claude-3-opus-20240229" <?php selected($selected_model, 'claude-3-opus-20240229'); ?>>
+                                                        <?php esc_html_e('Claude 3 Opus (deprecated)', 'wp-wand'); ?></option>
+                                                    <option value="claude-3-5-sonnet-20240620" <?php selected($selected_model, 'claude-3-5-sonnet-20240620'); ?>>
+                                                        <?php esc_html_e('Claude 3.5 Sonnet Latest (deprecated)', 'wp-wand'); ?></option>
+                                                    <option value="claude-3-5-haiku-20241022" <?php selected($selected_model, 'claude-3-5-haiku-20241022'); ?>>
+                                                        <?php esc_html_e('Claude 3.5 Haiku Latest (deprecated)', 'wp-wand'); ?></option>
                                                 </optgroup>
 
                                             <?php endif; ?>
                                             <?php if (WPWAND_DEEPSEEK_KEY): ?>
                                                 <optgroup label="DeepSeek Models">
-                                                    <option value="deepseek-reasoner" <?php selected(wpwand_get_option('wpwand_model', 'deepseek-reasoner'), 'deepseek-reasoner'); ?>>
-                                                        <?php esc_html_e('DeepSeek Reasoner (R1)', 'wp-wand'); ?></option>
-                                                    <option value="deepseek-chat" <?php selected(wpwand_get_option('wpwand_model', 'deepseek-chat'), 'deepseek-chat'); ?>>
+                                                    <option value="deepseek-chat" <?php selected($selected_model, 'deepseek-chat'); ?>>
                                                         <?php esc_html_e('DeepSeek Chat', 'wp-wand'); ?></option>
+                                                    <option value="deepseek-reasoner" <?php selected($selected_model, 'deepseek-reasoner'); ?>>
+                                                        <?php esc_html_e('DeepSeek Reasoner (R1)', 'wp-wand'); ?></option>
                                                 </optgroup>
 
                                             <?php endif; ?>

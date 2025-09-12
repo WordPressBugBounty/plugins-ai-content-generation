@@ -203,7 +203,7 @@
             // $this.find('button[type=submit]').css('opacity', '1')
             window.location =
               wpwand_glb.admin_url +
-              "/admin.php?page=wpwand-post-generator&generated-post";
+              "/admin.php?page=wpwand-post-generator&generated-post"
           },
         });
       });
@@ -264,7 +264,7 @@
                   $this.removeClass("failed");
                   $this.text("In Progress");
               }
-              console.log(response);
+
           },
           complete: function () {
               // Call the function again after a certain interval
@@ -276,6 +276,10 @@
                   !$parent
                       .find(".wpwand-pgdc-page table.wp-list-table td span.status")
                       .hasClass("pending")
+                      &&
+                      !$parent
+                      .find(".wpwand-pgdc-page table.wp-list-table td span.status")
+                      .hasClass("in-progress")
               ) {
                   $parent.find(".wpwand-pgdc-page .wpwand-pgdc-header").hide();
               }
