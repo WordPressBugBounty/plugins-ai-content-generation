@@ -3221,3 +3221,39 @@ select:disabled {
     top: 48px !important;
     padding-bottom: 40px;
 }
+
+.wpwand-settings .tab-panel .select2-container--default .select2-selection--single {
+    width: 350px;
+    height: 45px;
+    border: 1px solid #E4E4E7;
+    border-radius: 5px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #080E13;
+    padding: 15px;
+}
+
+.wpwand-settings .tab-panel .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #080E13;
+    line-height: 17px;
+}
+
+.wpwand-settings .tab-panel .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 43px;
+}
+
+.select2-container--default .select2-dropdown--below,
+.select2-container--default .select2-dropdown--above {
+    border-color: #E4E4E7;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border-color: #E4E4E7;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--wpwand-brand-color);
+}

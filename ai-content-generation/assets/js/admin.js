@@ -2,6 +2,8 @@
 
     jQuery(document).ready(function ($) {
 
+        $('#wpwand_model, #wpwand_language').select2();
+
         wpwand_media_upload();
         if (!wpwand_glb.is_pro) {
             $('#toplevel_page_wpwand ul').append('<li><a style="color:#FFDF35" href="https://wpwand.com/pricing-plan/" target="_blank">Upgrade to PRO</a></li>')

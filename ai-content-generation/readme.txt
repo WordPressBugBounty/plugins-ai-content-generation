@@ -1,19 +1,19 @@
-=== WP Wand – Unlimited Content Generation using AI – for OpenAI, Claude and Deepseek ===
+=== WP Wand – Unlimited Content Generation using AI – for OpenAI, Claude, Openrouter and Deepseek ===
 
 Contributors: wpgrids, ashrafuddin765
-Tags: ChatGPT, AI Writer, Content Generator, GPT-4, DALL-E
+Tags: Tags: ChatGPT, AI Writer, Content Generator, OpenAi, OpenRouter
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to:  6.8.2
-Stable Tag: 1.2.98
+Stable Tag: 1.3.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-WP Wand is a powerful AI Content Writer for WordPress. Your AI Co-Pilot for generating content, powered by OpenAI, Claude, and Deepseek.
+WP Wand is a powerful AI Content Writer for WordPress. Your AI Co-Pilot for generating content, powered by OpenAI, Claude, OpenRouter and Deepseek.
 
 == Description ==
 
-WP Wand is the powerful AI content generation and AI writing assistant plugin for WordPress. It uses advanced algorithms and supports popular models from OpenAI (ChatGPT, GPT-3.5, GPT-4, GPT-5), Anthropic (Claude), and Deepseek to generate high-quality and engaging content effortlessly, without breaking your bank.
+WP Wand is the powerful AI content generation and AI writing assistant plugin for WordPress. It uses advanced algorithms and supports popular models from OpenAI (ChatGPT, GPT-3.5, GPT-4, GPT-5), Anthropic (Claude), OpenRouter and Deepseek to generate high-quality and engaging content effortlessly, without breaking your bank.
 
 WPWand is fully integrated with Gutenberg Editor, Classic Editor, Elementor Page Builder & WooCommerce to improve your writing experience much better. With it's seamless AI writing experience, you can create any type of article for your needs.
 
@@ -84,6 +84,9 @@ WP Wand supports a wide range of models from the leading AI providers.
 * DeepSeek Chat
 * DeepSeek Reasoner (R1)
 
+= OpenRouter =
+* All text models are supported.
+
 
 == CORE FEATURES ==
 
@@ -94,6 +97,7 @@ WP Wand supports a wide range of models from the leading AI providers.
 * ChatGPT Assistant Inside WordPress Editor (Gutenberg)
 * AI Image Generator
 * Powerful AI Assistant
+* OpenRouter Support
 * 50x Cheaper Than Other AI Services
 * 50+ Highly Trained Prompt Templates [All Free]. Some of our most popular templates include:
     * One Click Blog Post Writer
@@ -348,6 +352,11 @@ No, you don't have to purchase any monthly or yearly subscription to use WP Wand
 5. Fine-tune the AI's output with advanced settings for temperature, max tokens, and more.
 
 == Changelog ==
+
+= 1.3.0 =
+* New: OpenRouter Added.
+* New: All OpenRouter text models are supported.
+* Improved: Setting page UI.
 
 = 1.2.98 =
 * New: GPT-5 Model Added.

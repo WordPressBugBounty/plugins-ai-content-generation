@@ -30,7 +30,7 @@ function wpwand_frontend_callback()
             </div>
 
 
-            <?php if (!WPWAND_OPENAI_KEY && !WPWAND_CLAUDE_KEY && !WPWAND_DEEPSEEK_KEY): ?>
+            <?php if (!WPWAND_OPENAI_KEY && !WPWAND_CLAUDE_KEY && !WPWAND_DEEPSEEK_KEY && !WPWAND_OPENROUTER_KEY): ?>
                 <!-- wp wand api missing notice  -->
 
                 <div class="wpwand-api-missing-notice-wrap">

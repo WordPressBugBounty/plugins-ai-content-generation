@@ -4,7 +4,7 @@
  * Plugin Name: WP Wand 
  * Plugin URI: https://wpwand.com/
  * Description: WP Wand is a AI content generation plugin for WordPress that helps your team create high quality content 10X faster and 50x cheaper. No monthly subscription required.
- * Version: 1.2.98
+ * Version: 1.3.0
  * Author: WP Wand
  * Author URI: https://wpwand.com/
  * Text Domain: wp-wand
@@ -43,6 +43,9 @@ function wpwand_init()
     }
     if (!defined('WPWAND_DEEPSEEK_KEY')) {
         define('WPWAND_DEEPSEEK_KEY', get_option('wpwand_deepseek_api_key', false));
+    }
+    if (!defined('WPWAND_OPENROUTER_KEY')) {
+        define('WPWAND_OPENROUTER_KEY', get_option('wpwand_openrouter_api_key', false));
     }
     define('WPWAND_AI_CHARACTER', '');
 

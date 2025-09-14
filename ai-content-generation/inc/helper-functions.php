@@ -15,6 +15,7 @@ function wpwand_admin_scripts()
     wp_enqueue_style('wpwand-inter-font', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap', [], WPWAND_VERSION);
     wp_enqueue_style('jquery-ui', WPWAND_PLUGIN_URL . 'assets/css/jquery-ui.css', [], WPWAND_VERSION);
     wp_enqueue_style('sweetalert2', WPWAND_PLUGIN_URL . 'assets/css/sweetalert2.min.css', [], WPWAND_VERSION);
+    wp_enqueue_style('select2-css', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', [], WPWAND_VERSION);
     wp_enqueue_style('wpwand-admin', WPWAND_PLUGIN_URL . 'assets/css/admin.css', [], WPWAND_VERSION);
     wp_add_inline_style('wpwand-admin', $custom_css);
 
@@ -27,6 +28,7 @@ function wpwand_admin_scripts()
     wp_enqueue_script('jquery-showdown', WPWAND_PLUGIN_URL . 'assets/js/showdown.min.js', ['jquery'], WPWAND_VERSION, true);
 
     wp_enqueue_script('sweetalert2', WPWAND_PLUGIN_URL . 'assets/js/sweetalert2.all.min.js', ['jquery'], WPWAND_VERSION, true);
+    wp_enqueue_script('select2-js', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', ['jquery'], WPWAND_VERSION, true);
     wp_enqueue_script('wpwand-admin', WPWAND_PLUGIN_URL . 'assets/js/admin.js', ['jquery', 'jquery-ui-slider', 'jquery-showdown'], WPWAND_VERSION, true);
     wp_localize_script(
         'wpwand-admin',
@@ -746,12 +748,12 @@ function wpwangd_get_max_token($command, $selected_model = '')
 {
     // Skip calculation for specific model
     if ($selected_model === 'gpt-3.5-turbo-16k') {
-        return wpwand_get_option('wpwand_max_token', 3600);
+        return wpwand_get_option('wpwand_max_tokens', 3600);
     }
 
     $total_word = str_word_count($command);
     $total_token = $total_word * 1.2;
-    $max_token = wpwand_get_option('wpwand_max_token', 3600);
+    $max_token = wpwand_get_option('wpwand_max_tokens', 3600);
 
     $sum_of_tokens = $total_token + $max_token;
     $excess = $sum_of_tokens - 4000;
@@ -805,7 +807,14 @@ function wpwand_get_custom_prpompts($type = '')
 function wpwand_make_api_request($api_type, $endpoint, $args = array())
 {
     // Get API key based on type
-    $api_key = $api_type === 'openai' ? WPWAND_OPENAI_KEY : WPWAND_CLAUDE_KEY;
+    $api_key = '';
+    if ($api_type === 'openai') {
+        $api_key = WPWAND_OPENAI_KEY;
+    } elseif ($api_type === 'claude') {
+        $api_key = WPWAND_CLAUDE_KEY;
+    } elseif ($api_type === 'openrouter') {
+        $api_key = WPWAND_OPENROUTER_KEY;
+    }
 
     if (empty($api_key)) {
         return new WP_Error('missing_api_key', sprintf(
@@ -817,7 +826,8 @@ function wpwand_make_api_request($api_type, $endpoint, $args = array())
     // Set base URLs
     $base_urls = array(
         'openai' => 'https://api.openai.com/v1',
-        'claude' => 'https://api.anthropic.com/v1'
+        'claude' => 'https://api.anthropic.com/v1',
+        'openrouter' => 'https://openrouter.ai/api/v1'
     );
 
     // Set default headers based on API type
@@ -829,6 +839,10 @@ function wpwand_make_api_request($api_type, $endpoint, $args = array())
         'claude' => array(
             'x-api-key' => $api_key,
             'anthropic-version' => '2023-06-01',
+            'Content-Type' => 'application/json'
+        ),
+        'openrouter' => array(
+            'Authorization' => 'Bearer ' . $api_key,
             'Content-Type' => 'application/json'
         )
     );
@@ -958,12 +972,50 @@ function wpwand_get_claude_models()
     return $models;
 }
 
+function wpwand_get_openrouter_models()
+{
+    if (!WPWAND_OPENROUTER_KEY) {
+        return array();
+    }
+    
+    // Try to get cached models first
+    $cached_models = get_transient('wpwand_openrouter_model_list');
+    if ($cached_models !== false) {
+        return $cached_models;
+    }
+
+    // Make API request using common function
+    $response = wpwand_make_api_request('openrouter', '/models');
+
+    if (is_wp_error($response)) {
+        return array(); // Return empty array if API call fails
+    }
+
+    $models = array();
+    if (!empty($response['data'])) {
+        foreach ($response['data'] as $model) {
+            // Filter out video and audio models
+            if (strpos($model['id'], 'video') === false && strpos($model['id'], 'audio') === false) {
+                $models['oprtr-'.$model['id']] = $model['name'];
+            }
+        }
+    }
+
+    // Cache the results for 12 hours
+    set_transient('wpwand_openrouter_model_list', $models, 12 * HOUR_IN_SECONDS);
+
+    return $models;
+}
+
 // Replace the existing select options code with:
 
 function wpwand_clear_model_cache()
 {
     delete_transient('wpwand_openai_models');
     delete_transient('wpwand_claude_models');
+    delete_transient('wpwand_openrouter_model_list');
+    // delete_transient('wpwand_openrouter_model_list');
 }
 add_action('update_option_wpwand_api_key', 'wpwand_clear_model_cache');
 add_action('update_option_wpwand_claude_api_key', 'wpwand_clear_model_cache');
+add_action('update_option_wpwand_openrouter_api_key', 'wpwand_clear_model_cache');

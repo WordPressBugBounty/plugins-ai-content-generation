@@ -59,7 +59,12 @@ function wpwand_request()
     $text = '';
     if (isset($content->choices)) {
         foreach ($content->choices as $choice) {
-            $reply = isset($choice->message) ? $choice->message->content : $choice->text;
+            $reply = '';
+            if (isset($choice->message->content)) {
+                $reply = $choice->message->content;
+            } elseif (isset($choice->text)) {
+                $reply = $choice->text;
+            }
             $reasoning_content = isset($choice->message->reasoning_content) ? $choice->message->reasoning_content : '';
 
             // <div class="wpwand-ai-reasoning">
@@ -82,6 +87,10 @@ function wpwand_request()
         $text .= '<div class="wpwand-content wpwand-prompt-error">';
         $text .= wpwand_ai_error($content->error);
         $text .= '  </div>';
+    }else{
+        $text .= '<div class="wpwand-content wpwand-prompt-error">';
+        $text .= '<p>'.__('No response from AI. Please try again.','wp-wand').'</p>';
+        $text .= 'ai response:'. $content;
     }
     wp_send_json($text);
 }
@@ -205,7 +214,12 @@ function wpwand_only_prompt()
     $text = '';
     if (isset($content->choices)) {
         foreach ($content->choices as $choice) {
-            $reply = isset($choice->message) ? $choice->message->content : $choice->text;
+            $reply = '';
+            if (isset($choice->message->content)) {
+                $reply = $choice->message->content;
+            } elseif (isset($choice->text)) {
+                $reply = $choice->text;
+            }
 
             if (!$rawResponse) {
 
@@ -341,12 +355,15 @@ function wpwand_api_source($model = '')
     if ($model && strpos($model, 'deepseek') !== false) {
         return 'deepseek';
     }
+    if ($model && strpos($model, 'oprtr') !== false) {
+        return 'openrouter';
+    }
     return 'openai';
 }
 
 function wpwand_ai_error($error)
 {
-    $source = isset($error->type) && strpos($error->type, 'claude') !== false ? 'claude' : (isset($error->type) && strpos($error->type, 'deepseek') !== false ? 'deepseek' : 'openai');
+    $source = str_replace('_error', '', $error->type);
     $provider = ucfirst($source);
 
     if (isset($error->message) && strpos($error->message, 'curl') !== false) {
@@ -472,6 +489,14 @@ function wpwand_generate_deepseek_content($prompt, $number_of_result, $args, $re
     return wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result, $args, $request_config);
 }
 
+function wpwand_generate_openrouter_content($prompt, $number_of_result, $args, $request_config)
+{
+    $endpoint = 'https://openrouter.ai/api/v1/chat/completions';
+
+
+    return wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result, $args, $request_config);
+}
+
 function wpwand_generate_openai_content($prompt, $number_of_result, $args, $request_config)
 {
     $endpoint = 'https://api.openai.com/v1/chat/completions';
@@ -486,8 +511,21 @@ function wpwand_generate_openai_content($prompt, $number_of_result, $args, $requ
 function wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result, $args, $request_config)
 {
     $model = isset($args['model']) && !empty($args['model']) ? $args['model'] : 'chatgpt-4o-latest';
-    $request_config['headers']['Authorization'] = wpwand_api_source($model) == 'deepseek' ? 'Bearer ' . WPWAND_DEEPSEEK_KEY : 'Bearer ' . WPWAND_OPENAI_KEY;
-    
+    $api_source = wpwand_api_source($model);
+
+    if ($api_source === 'openai') {
+        $api_key = WPWAND_OPENAI_KEY;
+    } elseif ($api_source === 'claude') {
+        $api_key = WPWAND_CLAUDE_KEY;
+    } elseif ($api_source === 'deepseek') {
+        $api_key = WPWAND_DEEPSEEK_KEY;
+    } elseif ($api_source === 'openrouter') {
+        $api_key = WPWAND_OPENROUTER_KEY;
+        $model = str_replace('oprtr-', '', $model); // Remove 'oprtr-' prefix for OpenRouter API
+    }
+
+    $request_config['headers']['Authorization'] = 'Bearer ' . $api_key;
+
     // Base variations for multiple results
     $variations = array(
         "Provide a unique perspective on this: ",
@@ -498,12 +536,12 @@ function wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result
     );
 
     $responses = array();
-    
+
     // Make multiple requests for multiple results
     for ($i = 0; $i < $number_of_result; $i++) {
         // Add variation prefix for multiple results
         $variation_prefix = $number_of_result > 1 ? ($variations[$i % count($variations)] ?? '') : '';
-        
+
         $body = [
             'model' => $model,
             'messages' => [
@@ -525,10 +563,10 @@ function wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result
             'presence_penalty' => (float) wpwand_get_option('wpwand_presence_penalty', 0)
         ];
 
-        if (strpos($model, 'gpt-5') !== false) {
-            $body['max_completion_tokens'] = $args['max_tokens'];
+        if ('gpt-5' == $model) {
+            $body['max_completion_tokens'] = (int)$args['max_tokens'];
         } else {
-            $body['max_tokens'] = $args['max_tokens'];
+            $body['max_tokens'] = (int)$args['max_tokens'];
         }
 
         $response = wp_safe_remote_post($endpoint, array_merge(
@@ -549,13 +587,19 @@ function wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result
         $responses[] = $response_body;
     }
 
+    error_log(print_r($args, true));
     // Combine all responses into a single response object
     $combined_response = new stdClass();
     $combined_response->choices = array();
-    
+
     foreach ($responses as $resp) {
+        $choice = null;
         if (isset($resp->choices) && !empty($resp->choices)) {
-            $combined_response->choices[] = $resp->choices[0];
+            $choice = $resp->choices[0];
+        }
+
+        if ($choice) {
+            $combined_response->choices[] = $choice;
         }
     }
 
@@ -573,7 +617,7 @@ function wpwand_generate_ai_content($prompt, $number_of_result = 1, $args = [])
             'biz_details' => '',
             'targated_customer' => '',
             'temperature' => (float) wpwand_get_option('wpwand_temperature', 1.0),
-            'max_tokens' => null
+            'max_tokens' => wpwand_get_option('wpwand_max_tokens', null),
         ));
 
         $model = isset($args['model']) && !empty($args['model']) ? $args['model'] :  'claude-3-5-sonnet-20241022';
@@ -598,21 +642,28 @@ function wpwand_generate_ai_content($prompt, $number_of_result = 1, $args = [])
             )
         );
 
-        $is_claude = 'claude' === wpwand_api_source($args['model']);
-        $is_deepseek = 'deepseek' === wpwand_api_source($args['model']);
+        $api_source = wpwand_api_source($args['model']);
+
+
 
         // Generate content based on the model type
-        if ($is_claude) {
+        if ($api_source === 'claude') {
             if (WPWAND_CLAUDE_KEY && !empty(WPWAND_CLAUDE_KEY)) {
                 $response = wpwand_generate_claude_content($prompt, $number_of_result, $args, $request_config);
             } else {
                 throw new Exception(__('Claude API key is missing', 'wp-wand'));
             }
-        } else if ($is_deepseek) {
+        } else if ($api_source === 'deepseek') {
             if (WPWAND_DEEPSEEK_KEY && !empty(WPWAND_DEEPSEEK_KEY)) {
                 $response = wpwand_generate_deepseek_content($prompt, $number_of_result, $args, $request_config);
             } else {
                 throw new Exception(__('DeepSeek API key is missing', 'wp-wand'));
+            }
+        } else if ($api_source === 'openrouter') {
+            if (WPWAND_OPENROUTER_KEY && !empty(WPWAND_OPENROUTER_KEY)) {
+                $response = wpwand_generate_openrouter_content($prompt, $number_of_result, $args, $request_config);
+            } else {
+                throw new Exception(__('OpenRouter API key is missing', 'wp-wand'));
             }
         } else {
             if (WPWAND_OPENAI_KEY && !empty(WPWAND_OPENAI_KEY)) {
@@ -622,12 +673,13 @@ function wpwand_generate_ai_content($prompt, $number_of_result = 1, $args = [])
             }
         }
 
-        return apply_filters('wpwand_api_response', $response, $is_claude);
+        return apply_filters('wpwand_api_response', $response, $api_source === 'claude');
     } catch (Exception $e) {
+        $api_source = wpwand_api_source($args['model']);
         return (object) [
             'error' => (object) [
                 'message' => $e->getMessage(),
-                'type' => $is_claude ? 'claude_error' : ($is_deepseek ? 'deepseek_error' : 'openai_error'),
+                'type' => $api_source . '_error',
                 'code' => 500
             ]
         ];
