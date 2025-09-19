@@ -2,15 +2,48 @@
 
 function wpwand_settings_page()
 {
-    $activate_text = WPWAND_OPENAI_KEY
+    $openai_activate_text = WPWAND_OPENAI_KEY
         ? esc_html__('Active', 'wp-wand')
         : sprintf(
             /* translators: %s: link to OpenAI API keys page */
             wp_kses(
-                __('Not active <a href="%s">Get your free OpenAI API key</a>', 'wp-wand'),
+                __('Not active <a href="%s">Get your OpenAI API key</a>', 'wp-wand'),
                 array('a' => array('href' => array()))
             ),
             esc_url('https://platform.openai.com/account/api-keys')
+        );
+
+    $claude_activate_text = WPWAND_CLAUDE_KEY
+        ? esc_html__('Active', 'wp-wand')
+        : sprintf(
+            /* translators: %s: link to Claude API keys page */
+            wp_kses(
+                __('Not active <a href="%s">Get your Claude API key</a>', 'wp-wand'),
+                array('a' => array('href' => array()))
+            ),
+            esc_url('https://console.anthropic.com/settings/keys')
+        );
+
+    $deepseek_activate_text = WPWAND_DEEPSEEK_KEY
+        ? esc_html__('Active', 'wp-wand')
+        : sprintf(
+            /* translators: %s: link to DeepSeek API keys page */
+            wp_kses(
+                __('Not active <a href="%s">Get your DeepSeek API key</a>', 'wp-wand'),
+                array('a' => array('href' => array()))
+            ),
+            esc_url('https://platform.deepseek.com/api_keys')
+        );
+
+    $openrouter_activate_text = WPWAND_OPENROUTER_KEY
+        ? esc_html__('Active', 'wp-wand')
+        : sprintf(
+            /* translators: %s: link to OpenRouter API keys page */
+            wp_kses(
+                __('Not active <a href="%s">Get your OpenRouter API key</a>', 'wp-wand'),
+                array('a' => array('href' => array()))
+            ),
+            esc_url('https://openrouter.ai/keys')
         );
 ?>
     <div class="wrap">
@@ -68,7 +101,7 @@ function wpwand_settings_page()
                                         </svg>
 
                                         <span>
-                                            <?php printf($activate_text) // phpcs:ignore 
+                                            <?php printf($openai_activate_text) // phpcs:ignore 
                                             ?>
                                         </span>
                                     </div>
@@ -96,7 +129,7 @@ function wpwand_settings_page()
                                         </svg>
 
                                         <span>
-                                            <?php printf($activate_text) // phpcs:ignore 
+                                            <?php printf($claude_activate_text) // phpcs:ignore 
                                             ?>
                                         </span>
                                     </div>
@@ -124,7 +157,7 @@ function wpwand_settings_page()
                                         </svg>
 
                                         <span>
-                                            <?php printf($activate_text) // phpcs:ignore 
+                                            <?php printf($deepseek_activate_text) // phpcs:ignore 
                                             ?>
                                         </span>
                                     </div>
@@ -152,7 +185,7 @@ function wpwand_settings_page()
                                         </svg>
 
                                         <span>
-                                            <?php printf($activate_text) // phpcs:ignore 
+                                            <?php printf($openrouter_activate_text) // phpcs:ignore 
                                             ?>
                                         </span>
                                     </div>

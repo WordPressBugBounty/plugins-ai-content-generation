@@ -5,7 +5,7 @@ Tags: Tags: ChatGPT, AI Writer, Content Generator, OpenAi, OpenRouter
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to:  6.8.2
-Stable Tag: 1.3.0
+Stable Tag: 1.3.02
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -352,6 +352,9 @@ No, you don't have to purchase any monthly or yearly subscription to use WP Wand
 5. Fine-tune the AI's output with advanced settings for temperature, max tokens, and more.
 
 == Changelog ==
+
+= 1.3.02 =
+* Fixed: Minor Issues.
 
 = 1.3.0 =
 * New: OpenRouter Added.
