@@ -3,7 +3,7 @@
 
 use ElliotJReed\AI\ClaudeAI\Prompt;
 use ElliotJReed\AI\Entity\Request;
-use Orhanerday\OpenAi\OpenAi;
+
 
 if (!defined('ABSPATH')) {
     exit('You are not allowed');
@@ -24,13 +24,6 @@ function wpwand_request()
         wp_send_json_error(__('error', 'wp-wand'));
     }
 
-    $selected_model = get_option('wpwand_model', 'chatgpt-4o-latest');
-    $is_elementor = isset($_POST['is_elementor']) && 'true' == $_POST['is_elementor'] ? '<span class="wpwand-insert-to-widget" >Insert to Elementor</span>' : '';
-    $is_gutenberg = isset($_POST['is_gutenberg']) && 'true' == $_POST['is_gutenberg'] ? '<span class="wpwand-insert-to-gutenberg" >Insert to Editor</span>' : '';
-    $point_of_view = isset($_POST['point_of_view']) ? sanitize_text_field(wp_unslash($_POST['point_of_view'])) : false;
-    $person_cmd = " The content must be written in $point_of_view ";
-    $biz_details = '';
-    $targated_customer = '';
     $language = isset($_POST['language']) ? wp_kses_post(sanitize_text_field(wp_unslash($_POST['language']))) : '';
     // Sanitize and validate input fields
     $fields = wpwand_api_fields_validate();
@@ -46,12 +39,8 @@ function wpwand_request()
     );
 
     $args = [
-        'language' => $language,
-        'model' => $selected_model
+        'language' => $language
     ];
-
-    // var_dump(wpwand_api_source($selected_model)); 
-    // die();
 
     $content = wpwand_generate_ai_content("$command. $person_cmd ", (int) $fields['no_of_results'], $args);
 
@@ -87,10 +76,10 @@ function wpwand_request()
         $text .= '<div class="wpwand-content wpwand-prompt-error">';
         $text .= wpwand_ai_error($content->error);
         $text .= '  </div>';
-    }else{
+    } else {
         $text .= '<div class="wpwand-content wpwand-prompt-error">';
-        $text .= '<p>'.__('No response from AI. Please try again.','wp-wand').'</p>';
-        $text .= 'ai response:'. $content;
+        $text .= '<p>' . __('No response from AI. Please try again.', 'wp-wand') . '</p>';
+        $text .= 'ai response:' . $content;
     }
     wp_send_json($text);
 }
@@ -197,9 +186,6 @@ function wpwand_only_prompt()
         wp_send_json_error('error');
     }
 
-    $selected_model = get_option('wpwand_model', 'chatgpt-4o-latest');
-    $biz_details = '';
-    $targated_customer = '';
     $language = wpwand_get_option('wpwand_language', 'English');
     // Sanitize and validate input fields
     $prompt = sanitize_text_field(wp_unslash($_POST['prompt'])) ?? '';
@@ -261,24 +247,51 @@ function wpwand_download_image()
 
 function wpwand_dall_e_request($prompt, $args = [])
 {
-
     if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpwand_global_nonce')) {
         wp_send_json_error('Nonce verification failed.', 403);
     }
-    // Call OpenAI API to generate content
-    $openAI = new OpenAi(WPWAND_OPENAI_KEY);
 
-    $no_of_result = isset($_POST['result_number']) ? sanitize_text_field(wp_unslash($_POST['result_number'])) : 1;
+    $api_key = WPWAND_OPENAI_KEY;
+    if (empty($api_key)) {
+        wp_send_json_error('OpenAI API key is not set.', 400);
+    }
+
+    $no_of_result = isset($_POST['result_number']) ? absint(wp_unslash($_POST['result_number'])) : 1;
     $image_resulation = isset($_POST['image_resulation']) ? sanitize_text_field(wp_unslash($_POST['image_resulation'])) : '256x256';
 
-    $complete = $openAI->image([
-        "prompt" => $prompt,
-        "n" => (int) $no_of_result,
-        "size" => $image_resulation,
-        "response_format" => "url",
-    ]);
+    $endpoint = 'https://api.openai.com/v1/images/generations';
 
-    $content = json_decode($complete);
+    $body = [
+        'prompt' => $prompt,
+        'n' => $no_of_result,
+        'size' => $image_resulation,
+        // 'response_format' => 'url',
+        'response_format' => 'b64_json', // instead of 'url'
+
+        // 'model' => 'dall-e-3',
+    ];
+
+    $request_args = [
+        'body' => json_encode($body),
+        'headers' => [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $api_key,
+        ],
+        'timeout' => 120,
+    ];
+
+    $response = wp_remote_post($endpoint, $request_args);
+
+    if (is_wp_error($response)) {
+        wp_send_json_error($response->get_error_message(), 500);
+    }
+
+    $response_body = wp_remote_retrieve_body($response);
+    $content = json_decode($response_body);
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        wp_send_json_error('Failed to decode API response.', 500);
+    }
 
     $text = '';
     if (isset($content->data)) {
@@ -286,65 +299,87 @@ function wpwand_dall_e_request($prompt, $args = [])
         $i = 0;
         foreach ($content->data as $image) {
             $i++;
-            // if grater then 1
             $version_info = $count > 1 ? "Version $i of $prompt" : $prompt;
-            // $download_url = isset(wpwand_insert_media($image->url)['url']) ? wpwand_insert_media($image->url)['url']: '';
 
             $text .= '<div class="wpwand-content">
-
-            <div class="wpwand-ai-response wpwand-dall-e">
-            <img src="' . $image->url /* // phpcs:ignore */ . '" > 
-            <div class="wpwand-ai-image-content">
-            <div class="wpwand-ai-image-result-content">
-            <h4> ' . $version_info . ' </h4>
-            <p>Resolution: ' . $image_resulation . '</p>
-            </div>
-            <div class="wpwand-ai-image-actions">
-            <button data-name="' . $prompt . '" data-url="' . $image->url . '" class="wpwand-image-action insert">
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 1.5V5M5 5V8.5M5 5H8.5M5 5L1.5 5" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>Add to Media</span>
-            </button>
-            </div>
-            </div>
-            </div></div>';  // phpcs:ignore
+                <div class="wpwand-ai-response wpwand-dall-e">
+                    <img src="data:image/png;base64,' . esc_attr($image->b64_json) . '" > 
+                    <div class="wpwand-ai-image-content">
+                        <div class="wpwand-ai-image-result-content">
+                            <h4> ' . esc_html($version_info) . ' </h4>
+                            <p>Resolution: ' . esc_html($image_resulation) . '</p>
+                        </div>
+                        <div class="wpwand-ai-image-actions">
+                            <button data-name="' . esc_attr($prompt) . '" data-url="' . esc_attr($image->b64_json) . '" class="wpwand-image-action wpwand-add-to-media">
+                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 1.5V5M5 5V8.5M5 5H8.5M5 5L1.5 5" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span>Add to Media</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>';
         }
     } elseif (isset($content->error)) {
         $text .= '<div class="wpwand-content wpwand-prompt-error">';
         $text .= wpwand_ai_error($content->error);
-        $text .= '  </div>';
+        $text .= '</div>';
+    } else {
+        $text .= '<div class="wpwand-content wpwand-prompt-error">';
+        $text .= '<p>' . __('No response from AI. Please try again.', 'wp-wand') . '</p>';
+        if (isset($response_body)) {
+            $text .= '<div>AI response: ' . esc_html($response_body) . '</div>';
+        }
+        $text .= '</div>';
     }
+
     wp_send_json($text);
 }
-
-function wpwand_insert_media($url, $file_name = 'ai-generated-image')
-{
-
+function wpwand_insert_media($data, $file_name = 'ai-generated-image') {
     require_once ABSPATH . 'wp-admin/includes/image.php';
     require_once ABSPATH . 'wp-admin/includes/file.php';
     require_once ABSPATH . 'wp-admin/includes/media.php';
 
-    $image_url = 'http://example.com/' . $file_name . '.jpg';
-
-    $tmp = download_url($url);
-
-    $file_array = array(
-        'name' => basename($image_url),
-        'tmp_name' => $tmp,
-    );
-
-    $id = media_handle_sideload($file_array, 0);
-
-    if (is_wp_error($id)) {
-        wp_delete_file($file_array['tmp_name']);
-        return $id;
+    // Detect base64 input
+    if (strpos($data, 'data:image') === 0) {
+        $data = explode(',', $data);
+        $data = base64_decode(end($data));
+    } elseif (preg_match('/^[A-Za-z0-9+\/=]+$/', $data)) {
+        // pure base64 string (b64_json)
+        $data = base64_decode($data);
+    } else {
+        // fallback: remote URL (if still used)
+        $response = wp_remote_get($data, ['timeout' => 30]);
+        if (is_wp_error($response)) return $response;
+        $data = wp_remote_retrieve_body($response);
     }
-    $attachment = array();
-    $attachment['id'] = $id;
-    $attachment['url'] = wp_get_attachment_url($id);
-    return $attachment;
+
+    if (empty($data)) return new WP_Error('empty_data', 'No image data found.');
+
+    $filename = sanitize_file_name($file_name) . '.png';
+    $upload = wp_upload_bits($filename, null, $data);
+    if ($upload['error']) return new WP_Error('upload_error', $upload['error']);
+
+    $filetype = wp_check_filetype($upload['file'], null);
+    $attachment = [
+        'post_mime_type' => $filetype['type'],
+        'post_title'     => $file_name,
+        'post_content'   => '',
+        'post_status'    => 'inherit',
+    ];
+
+    $attach_id = wp_insert_attachment($attachment, $upload['file']);
+    $attach_data = wp_generate_attachment_metadata($attach_id, $upload['file']);
+    wp_update_attachment_metadata($attach_id, $attach_data);
+
+    return [
+        'id'  => $attach_id,
+        'url' => wp_get_attachment_url($attach_id),
+    ];
 }
+
+
 
 
 function wpwand_api_source($model = '')
@@ -438,7 +473,7 @@ function wpwand_generate_claude_content($prompt, $number_of_result, $args, $requ
 
         $body = array(
             'model' => $args['model'],
-            'max_tokens' => $args['max_tokens'],
+            'max_tokens' => (int) $args['max_tokens'],
             'messages' => array(
                 array(
                     'role' => 'user',
@@ -510,7 +545,7 @@ function wpwand_generate_openai_content($prompt, $number_of_result, $args, $requ
 
 function wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result, $args, $request_config)
 {
-    $model = isset($args['model']) && !empty($args['model']) ? $args['model'] : 'chatgpt-4o-latest';
+    $model = $args['model'];
     $api_source = wpwand_api_source($model);
 
     if ($api_source === 'openai') {
@@ -563,7 +598,7 @@ function wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result
             'presence_penalty' => (float) wpwand_get_option('wpwand_presence_penalty', 0)
         ];
 
-        if ('gpt-5' == $model) {
+        if ('gpt-5' == $model || 'gpt-5-nano' == $model) {
             $body['max_completion_tokens'] = (int)$args['max_tokens'];
         } else {
             $body['max_tokens'] = (int)$args['max_tokens'];
@@ -606,13 +641,60 @@ function wpwand_generate_common_ai_content($endpoint, $prompt, $number_of_result
     return $combined_response;
 }
 
+function wpwand_get_validated_model($requested_model = '') {
+    if (empty($requested_model)) {
+        $requested_model = get_option('wpwand_model');
+    }
+
+    // If no model is set in options, try to find a default.
+    if (empty($requested_model)) {
+        if (WPWAND_OPENAI_KEY) return 'chatgpt-4o-latest';
+        if (WPWAND_CLAUDE_KEY) return 'claude-3-5-sonnet-20240620';
+        if (WPWAND_DEEPSEEK_KEY) return 'deepseek-chat';
+        if (WPWAND_OPENROUTER_KEY) return 'openrouter/google/gemini-flash-1.5';
+        // If still no model, return a default that will fail with a clear message.
+        return 'chatgpt-4o-latest';
+    }
+
+
+    $provider = wpwand_api_source($requested_model);
+
+    $key_is_active = false;
+    if ($provider === 'openai' && WPWAND_OPENAI_KEY) $key_is_active = true;
+    if ($provider === 'claude' && WPWAND_CLAUDE_KEY) $key_is_active = true;
+    if ($provider === 'deepseek' && WPWAND_DEEPSEEK_KEY) $key_is_active = true;
+    if ($provider === 'openrouter' && WPWAND_OPENROUTER_KEY) $key_is_active = true;
+
+    if ($key_is_active) {
+        return $requested_model;
+    }
+
+    // Key is not active, find a fallback.
+    if (WPWAND_OPENAI_KEY && !empty(WPWAND_OPENAI_KEY)) {
+        return 'chatgpt-4o-latest';
+    }
+    if (WPWAND_CLAUDE_KEY && !empty(WPWAND_CLAUDE_KEY)) {
+        return 'claude-opus-4-20250514';
+    }
+    if (WPWAND_DEEPSEEK_KEY && !empty(WPWAND_DEEPSEEK_KEY)) {
+        return 'deepseek-chat';
+    }
+    if (WPWAND_OPENROUTER_KEY && !empty(WPWAND_OPENROUTER_KEY)) {
+        return 'oprtr-x-ai/grok-4.1-fast';
+    }
+
+    // No keys are active, return the requested model and let it fail.
+    return $requested_model;
+}
+
 function wpwand_generate_ai_content($prompt, $number_of_result = 1, $args = [])
 {
 
     try {
+        $validated_model = wpwand_get_validated_model(isset($args['model']) ? $args['model'] : '');
         // Prepare and normalize arguments
         $args = wp_parse_args($args, array(
-            'model' => wpwand_get_option('wpwand_model', 'chatgpt-4o-latest'),
+            'model' => $validated_model,
             'language' => wpwand_get_option('wpwand_language', 'English'),
             'biz_details' => '',
             'targated_customer' => '',
@@ -620,7 +702,7 @@ function wpwand_generate_ai_content($prompt, $number_of_result = 1, $args = [])
             'max_tokens' => wpwand_get_option('wpwand_max_tokens', null),
         ));
 
-        $model = isset($args['model']) && !empty($args['model']) ? $args['model'] :  'claude-3-5-sonnet-20241022';
+        $model = $args['model'];
 
         $prompt .= ' You must need only answer the question. Do not write any other text/explanation or multiple answer.';
         // Set max tokens if not provided

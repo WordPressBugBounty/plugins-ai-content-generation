@@ -4,8 +4,8 @@ function wpwand_admin_scripts()
 {
     $screen = get_current_screen();
     $custom_css = '
-    .wpwand_editor_icon button {
-        background-image: url(' . wpwand_loago_icon_url() . ');
+    .wpwand_editor_icon button, .mce-wpwand_tinymce_button  i {
+        background-image: url(' . wpwand_loago_icon_url() . ')!important;
     }
     :root {
         --wpwand-brand-color: ' . wpwand_brand_color() . '

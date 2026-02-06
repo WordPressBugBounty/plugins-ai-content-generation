@@ -244,24 +244,72 @@
     c = r.O(c)
 })();
 
-
 (function ($) {
-
-    $(document).ready(function ($) {
+    $(document).ready(function () {
         let isEventBound = false;
+        let promptBarAdded = false;
+        let editorCheckInterval = null;
 
-        wp.data.subscribe(function () {
-            if ('top' == wpwand_glb.toggler_positions && $('body').hasClass('block-editor-page')) {
-                if (!$('.edit-post-header-toolbar').find('.wpwand-trigger').length) {
-                    $('.edit-post-header-toolbar').append('<a class="wpwand-trigger" href="#"><img src="' + wpwand_glb.logo + '">AI Assistant</a>')
-                }
+        // Function to inject the prompt bar
+        function injectPromptBar() {
+            if (promptBarAdded) return;
+            
+            // Double check if form already exists in DOM
+            if ($('#wpwand-prompt-form').length > 0) {
+                promptBarAdded = true;
+                return;
             }
-            if (0 == wpwand_glb.hide_ai_bar) {
-                if (!$('.editor-styles-wrapper').find('.wpwand-prompt-form').length) {
-                    let prompt_form = '<div class="wpwand-prompt-form" id="wpwand-prompt-form"><div class="wpwand-dr-prompt-input"><img src="' + wpwand_glb.logo + '">  <a class="wpwand-ai-bar-hiw" href="https://wpwand.com/how-ai-assistant-work" target="_blank">See how it works</a>      <input type="text" placeholder="Ask AI to write anything..."></div></div>';
-                    $('.editor-styles-wrapper').append(prompt_form);
+            
+            // Check if we're in the block editor
+            if (!$('body').hasClass('block-editor-page') && !$('body').hasClass('wp-admin')) {
+                return;
+            }
 
-                    // Only bind event if not already bound
+            // Clear any existing interval
+            if (editorCheckInterval) {
+                clearInterval(editorCheckInterval);
+            }
+
+            // Wait for the editor interface to be ready
+            editorCheckInterval = setInterval(function() {
+                // Check again if form exists before proceeding
+                if ($('#wpwand-prompt-form').length > 0) {
+                    clearInterval(editorCheckInterval);
+                    promptBarAdded = true;
+                    return;
+                }
+
+                // Try to find the editor interface - use the interface root
+                const $interfaceRoot = $('.interface-interface-skeleton__content');
+                const $editorCanvas = $('.editor-canvas-container, .edit-post-visual-editor');
+                
+                let $targetContainer = null;
+                
+                if ($interfaceRoot.length) {
+                    $targetContainer = $interfaceRoot;
+                } else if ($editorCanvas.length) {
+                    $targetContainer = $editorCanvas;
+                }
+
+                if ($targetContainer && $targetContainer.length) {
+                    clearInterval(editorCheckInterval);
+                    
+                    // Create the prompt form
+                    const promptForm = `
+                        <div class="wpwand-prompt-form" id="wpwand-prompt-form">
+                            <div class="wpwand-dr-prompt-input">
+                                <img src="${wpwand_glb.logo}">
+                                <a class="wpwand-ai-bar-hiw" href="https://wpwand.com/how-ai-assistant-work" target="_blank">See how it works</a>
+                                <input type="text" placeholder="Ask AI to write anything...">
+                            </div>
+                        </div>
+                    `;
+
+                    // Append to body instead of trying to find editor wrapper
+                    $('body').append(promptForm);
+                    promptBarAdded = true;
+
+                    // Bind the enter key event
                     if (!isEventBound) {
                         $(document).on('keydown', '#wpwand-prompt-form input', function(event) {
                             if (event.keyCode === 13 || event.which === 13) {
@@ -276,26 +324,129 @@
                         });
                         isEventBound = true;
                     }
+
+                    console.log('WPWand prompt form injected successfully');
+                }
+            }, 500);
+
+            // Stop checking after 10 seconds
+            setTimeout(function() {
+                if (editorCheckInterval) {
+                    clearInterval(editorCheckInterval);
+                }
+            }, 10000);
+        }
+
+        // Function to add top trigger
+        function addTopTrigger() {
+            if ('top' != wpwand_glb.toggler_positions) return;
+            if ($('#wpwand-trigger-btn').length > 0) return; // Already exists
+            
+            // Try multiple selectors for the header toolbar
+            const toolbarSelectors = [
+                '.edit-post-header__toolbar',
+                '.edit-post-header-toolbar', 
+                '.editor-header__toolbar',
+                '.interface-pinned-items'
+            ];
+            
+            let $toolbar = null;
+            for (let selector of toolbarSelectors) {
+                const $el = $(selector);
+                if ($el.length) {
+                    $toolbar = $el;
+                    console.log('Found toolbar with selector:', selector);
+                    break;
                 }
             }
+            
+            if ($toolbar && $toolbar.length) {
+                const triggerButton = `
+                    <a class="wpwand-trigger" href="#" id="wpwand-trigger-btn">
+                        <img src="${wpwand_glb.logo}">AI Assistant
+                    </a>
+                `;
+                
+                $toolbar.append(triggerButton);
+                console.log('WPWand trigger button added to toolbar');
+            } else {
+                console.log('Toolbar not found, will retry...');
+            }
+        }
+
+        // Wait for editor to be fully loaded using WordPress data API
+        let hasInitialized = false;
+        let topTriggerInterval = null;
+        
+        if (window.wp && window.wp.data) {
+            // Subscribe to editor ready state
+            const unsubscribe = wp.data.subscribe(function() {
+                const editor = wp.data.select('core/editor');
+                if (editor && typeof editor.isCleanNewPost === 'function' && !hasInitialized) {
+                    hasInitialized = true;
+                    
+                    // Try to add trigger immediately
+                    setTimeout(addTopTrigger, 100);
+                    
+                    // Keep trying for 5 seconds in case toolbar loads later
+                    topTriggerInterval = setInterval(function() {
+                        if ($('#wpwand-trigger-btn').length === 0) {
+                            addTopTrigger();
+                        } else {
+                            clearInterval(topTriggerInterval);
+                        }
+                    }, 500);
+                    
+                    setTimeout(function() {
+                        if (topTriggerInterval) clearInterval(topTriggerInterval);
+                    }, 5000);
+                    
+                    if (wpwand_glb.hide_ai_bar == 0) {
+                        injectPromptBar();
+                    }
+                }
+            });
+        } else {
+            // Fallback if wp.data is not available
+            setTimeout(function() {
+                if (!hasInitialized) {
+                    hasInitialized = true;
+                    addTopTrigger();
+                    if (wpwand_glb.hide_ai_bar == 0) {
+                        injectPromptBar();
+                    }
+                }
+            }, 2000);
+        }
+
+        // Also try on window load as a fallback (only if not already initialized)
+        $(window).on('load', function() {
+            setTimeout(function() {
+                if (!hasInitialized) {
+                    hasInitialized = true;
+                }
+                // Always try to add trigger on load
+                addTopTrigger();
+                if (wpwand_glb.hide_ai_bar == 0) {
+                    injectPromptBar();
+                }
+            }, 1000);
         });
     });
-
 
     function wpwand_prompt_ajax($this) {
         const prompt = $this.val();
         const wordToFind = 'table format';
-
         const regex = new RegExp(wordToFind, 'i');
         const table_format_match = prompt.match(regex);
         const is_table_format = table_format_match ? true : false;
-        console.log(is_table_format);
 
-
-        const t = wp.blocks.createBlock("core/paragraph", {
+        // Create "thinking" block
+        const thinkingBlock = wp.blocks.createBlock("core/paragraph", {
             content: '<span style="color:#3767fb">AI is thinking...</span>'
-        })
-        wp.data.dispatch('core/block-editor').insertBlocks(t)
+        });
+        
+        wp.data.dispatch('core/block-editor').insertBlocks(thinkingBlock);
         $this.attr("disabled", 'disabled');
 
         $.post({
@@ -303,82 +454,38 @@
             data: {
                 action: 'wpwand_only_prompt',
                 nonce: wpwand_glb.nonce,
-                prompt,
-                is_table_format
+                prompt: prompt,
+                is_table_format: is_table_format
             },
             success: function (response) {
-                console.log(response);
+                console.log('AI Response:', response);
                 $this.removeAttr('disabled');
                 $this.val('');
-                wp.data.dispatch('core/block-editor').removeBlock(t.clientId)
+                
+                // Remove thinking block
+                wp.data.dispatch('core/block-editor').removeBlock(thinkingBlock.clientId);
 
-                const htmlContent = response;
-
-                // Get the pasteHandler function from the wp.blocks module
-                const pasteHandler = wp.blocks.pasteHandler;
-
-                // HTML content of the scrapped data
-                // const htmlContent = '<p>Your scrapped HTML content goes here</p>';
-
-                // Process the HTML content using the pasteHandler
-                const blocks = pasteHandler({
-                    HTML: htmlContent,
+                // Parse HTML response into blocks
+                const blocks = wp.blocks.pasteHandler({
+                    HTML: response,
                 });
 
-                // Get the current editor instance
-                const editor = wp.data.select('core/editor');
-
-                // Dispatch the insert blocks action
+                // Insert blocks
                 wp.data.dispatch('core/block-editor').insertBlocks(blocks);
-
-                // Trigger a save action to update the post content
                 wp.data.dispatch('core/block-editor').synchronizeTemplate();
-
-                /*      var htmlToAdd = response; // Replace with the HTML value you want to add
-
-                     // Create a temporary container element to hold the HTML content
-                     var tempContainer = document.createElement('div');
-                     tempContainer.innerHTML = htmlToAdd;
-
-                     // Array to store the blocks
-                     var blocks = [];
-
-                     // Iterate through each <p> and heading tag
-                     var elements = tempContainer.querySelectorAll('p, h1, h2, h3, h4, h5, h6');
-                     elements.forEach(function (element) {
-                         // Get the tag name
-                         var tagName = element.tagName.toLowerCase();
-
-                         if (tagName === 'h1' || tagName === 'h2' || tagName === 'h3' || tagName === 'h4' || tagName === 'h5' || tagName === 'h6') {
-                             // Create block based on the tag name
-                             var block = wp.blocks.createBlock('core/heading', {
-                                 content: element.innerHTML
-                             });
-
-                         } else {
-                             // Create block based on the tag name
-                             var block = wp.blocks.createBlock('core/paragraph', {
-                                 content: element.innerHTML
-                             });
-
-                         }
-
-                         // Add the block to the array
-                         blocks.push(block);
-                     });
-
-                     // Insert the blocks into Gutenberg editor
-                     wp.data.dispatch('core/block-editor').insertBlocks(blocks); */
-
-
-
             },
             error: function (xhr) {
-                // Handle AJAX errors
-                wp.data.dispatch('core/block-editor').removeBlock(t.clientId)
-
-                $this.parent().append('<span class="error">Error: ' + xhr.statusText + '</span>');
+                console.error('AJAX Error:', xhr);
+                wp.data.dispatch('core/block-editor').removeBlock(thinkingBlock.clientId);
+                $this.removeAttr('disabled');
+                
+                // Show error message
+                const errorBlock = wp.blocks.createBlock("core/paragraph", {
+                    content: '<span style="color:#dc3232">Error: ' + xhr.statusText + '</span>'
+                });
+                wp.data.dispatch('core/block-editor').insertBlocks(errorBlock);
             }
         });
     }
+
 })(jQuery);

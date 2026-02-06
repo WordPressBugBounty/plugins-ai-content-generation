@@ -4,8 +4,8 @@ Contributors: wpgrids, ashrafuddin765
 Tags: Tags: ChatGPT, AI Writer, Content Generator, OpenAi, OpenRouter
 Requires at least: 5.0
 Requires PHP: 7.4
-Tested up to:  6.8.2
-Stable Tag: 1.3.02
+Tested up to:  6.8.3
+Stable Tag: 1.3.07
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -26,9 +26,9 @@ Say goodbye to the days of struggling to generate content ideas, spending hours 
 
 [Official Site](https://wpwand.com/)
 
-[Public Roadmap](https://wpwand.com/roadmap/)
-
 [Get PRO Version](https://wpwand.com/pricing-plan/)
+
+[PRO Support](https://wpwand.com/support/)
 
 **How to Write A Complete Blog Post in 2 Minutes**
 
@@ -352,6 +352,22 @@ No, you don't have to purchase any monthly or yearly subscription to use WP Wand
 5. Fine-tune the AI's output with advanced settings for temperature, max tokens, and more.
 
 == Changelog ==
+
+= 1.3.07 =
+* Optimized: Bulk Post Generation Performance.
+* Fixed: White Label Icon Issue.
+* Fixed: Minor Issues.
+
+= 1.3.06 =
+* New Model: GPT 5 Nano.
+* Fixed: Content/Bulk Generation Error.
+* Fixed: White Label Icon Issue.
+
+= 1.3.04 =
+* New: WP Wand now available for Editor role.
+
+= 1.3.03 =
+* Fixed: Dall E Image Generation Issue.
 
 = 1.3.02 =
 * Fixed: Minor Issues.

@@ -40,8 +40,9 @@
         }
 
         editor.addButton('wpwandeditor', {
-            title: 'WP Wand',
+            title: wpwand_plugin_name,
             image: wpwand_plugin_url + 'assets/img/logo.png',
+            classes: 'wpwand_tinymce_button',
             icon: false,
             type: 'menubutton',
             menu: wpwand_menus

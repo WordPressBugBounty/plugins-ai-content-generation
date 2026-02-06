@@ -71,7 +71,7 @@ class FDWELT_Control_Textarea extends Base_Data_Control {
 		<div class="elementor-control-field">
 			<label for="<?php $this->print_control_uid(); ?>" class="elementor-control-title">{{{ data.label }}}</label>
                <# if ( data.ai.active == true ) { #>
-                <span class="wdelmtr-prompt-trigger"><img src="<?php echo esc_url(WDELMTR_PLUGIN_URL . 'assets/img/icon.svg' )  // phpcs:ignore?>" alt=""/></span>
+                <span class="wdelmtr-prompt-trigger"><img src="<?php echo esc_url(wpwand_loago_icon_url() )  // phpcs:ignore?>" alt=""/></span>
             <# } #>
 			<div class="elementor-control-input-wrapper elementor-control-dynamic-switcher-wrapper">
 				<textarea id="<?php $this->print_control_uid(); ?>" class="elementor-control-tag-area" rows="{{ data.rows }}" data-setting="{{ data.name }}" placeholder="{{ view.getControlPlaceholder() }}"></textarea>

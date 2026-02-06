@@ -7,7 +7,7 @@ add_action('enqueue_block_editor_assets', 'wpwand_block_editor', 9);
 function wpwand_block_editor()
 {
     $wpwand_editor_button_menus = apply_filters('wpwand_editor_prompts', wpwand_editor_prompts());
-    if (is_admin() && current_user_can('manage_options')) {
+    if (is_admin() && current_user_can('edit_posts')) {
         wp_enqueue_script(
             'wpwand-gutenberg-custom-button',
             WPWAND_PLUGIN_URL . 'assets/js/wpwand-gutenberg.js',

@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 add_action('admin_head', 'wpwand_ai_buttons');
 function wpwand_ai_buttons()
 {
-    if (is_admin() && current_user_can('manage_options')) {
+    if (is_admin() && current_user_can('edit_posts')) {
         ?>
         <script>
             var wpwand_editor_wp_nonce = '<?php echo esc_attr(wp_create_nonce('wpwand-ajax-nonce')) ?>';
@@ -21,6 +21,7 @@ function wpwand_ai_buttons()
     
             ?>
             <script>
+                var wpwand_plugin_name = '<?php echo wpwand_brand_name(); ?>';
                 var wpwand_plugin_url = '<?php echo esc_html(WPWAND_PLUGIN_URL) ?>';
                 var wpwand_editor_ajax_url = '<?php echo esc_html(admin_url('admin-ajax.php')) ?>';
                 var wpwandTinymceEditorMenus = <?php echo wp_json_encode($wpwand_editor_button_menus) // phpcs:ignore ?>;
@@ -47,7 +48,7 @@ function wpwand_classic_mce_css($mce_css)
 
 function wpwand_add_buttons($plugins)
 {
-    if (current_user_can('manage_options')) {
+    if (current_user_can('edit_posts')) {
         $plugins['wpwandeditor'] = WPWAND_PLUGIN_URL . 'assets/js/classic-editor.js';
     }
     return $plugins;

@@ -570,7 +570,7 @@
         }
 
 
-        $('body').on('click', 'button.wpwand-image-action', function (e) {
+        $('body').on('click', 'button.wpwand-add-to-media', function (e) {
             e.preventDefault();
             const $this = $(this);
             const image_url = $this.data('url');

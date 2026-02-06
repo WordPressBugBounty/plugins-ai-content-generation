@@ -2,6 +2,8 @@
 
 function wpwand_settings_page()
 {
+
+    if (current_user_can('manage_options')) :
     $openai_activate_text = WPWAND_OPENAI_KEY
         ? esc_html__('Active', 'wp-wand')
         : sprintf(
@@ -212,6 +214,8 @@ function wpwand_settings_page()
                                                 <optgroup label="OpenAI Models">
                                                     <option value="gpt-5" <?php selected($selected_model, 'gpt-5'); ?>>
                                                         <?php esc_html_e('GPT 5', 'wp-wand'); ?></option>
+                                                    <option value="gpt-5-nano" <?php selected($selected_model, 'gpt-5-nano'); ?>>
+                                                        <?php esc_html_e('GPT 5 Nano', 'wp-wand'); ?></option>
                                                     <option value="gpt-4.1-mini" <?php selected($selected_model, 'gpt-4.1-mini'); ?>>
                                                         <?php esc_html_e('GPT 4.1 Mini', 'wp-wand'); ?></option>
                                                     <option value="chatgpt-4o-latest" <?php selected($selected_model, 'chatgpt-4o-latest'); ?>>
@@ -418,12 +422,19 @@ function wpwand_settings_page()
         </div>
     </div>
 <?php
+    else : ?>
+        <div class="wrap">
+            <h2><?php echo esc_html(wpwand_brand_name()); ?></h2>
+            <p><?php esc_html_e('You do not have sufficient permissions to access this page.', 'wp-wand'); ?></p>
+        </div>
+    <?php endif; ?>
+<?php
 }
 
 function wpwand_register_menu()
 {
-    add_menu_page(wpwand_brand_name(), wpwand_brand_name(), 'manage_options', 'wpwand', '', wpwand_loago_icon_url());
-    add_submenu_page('wp-wand', wpwand_brand_name(), 'Settings', 'manage_options', 'wpwand', 'wpwand_settings_page');
+    add_menu_page(wpwand_brand_name(), wpwand_brand_name(), 'edit_posts', 'wpwand', 'wpwand_settings_page', wpwand_loago_icon_url());
+    add_submenu_page('wpwand', wpwand_brand_name(), 'Settings', 'edit_posts', 'wpwand', 'wpwand_settings_page');
 
 
     if (!defined('WPWAND_PRO_FILE_')) {
@@ -432,7 +443,7 @@ function wpwand_register_menu()
             'wp-wand',
             '',
             '',
-            'manage_options',
+            'edit_posts',
             '',
             ''
         );
@@ -662,12 +673,6 @@ function wpwand_validate_input_field($input)
 
 function wpwand_validate_model($input)
 {
-    $allowed_models = array('davinci', 'curie', 'babbage');
-
-    if (!in_array($input, $allowed_models)) {
-        add_settings_error('wpwand_model', 'wpwand_model_invalid', esc_html__('Invalid model selected.', 'wp-wand'));
-        return wpwand_get_option('wpwand_model');
-    }
-
-    return $input;
+    // Perform any additional validation here
+    return sanitize_text_field($input);
 }
