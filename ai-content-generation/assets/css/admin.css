@@ -2,7 +2,14 @@
     --wpwand-brand-color: #3767FB;
 }
 
-a {
+/* Scoped to WP Wand's own UI — a bare `a {}` here leaked into all of wp-admin and stripped
+   underlines from external links/notice buttons (e.g. Elementor admin notices). */
+.wpwand-floating a,
+.wpwand-settings a,
+.wpwand-history-page a,
+.wpwand-prompt-form a,
+.wpwand-prompt-form-wrap a,
+#wpwand-bulk-post-generator a {
     text-decoration: none;
 }
 
@@ -156,7 +163,11 @@ button.wpwand-trigger.wpwand-close-button.active {
     visibility: visible;
 }
 
-button {
+/* Scoped — a bare `button {}` here applied to every button in wp-admin. */
+.wpwand-floating button,
+.wpwand-settings button,
+.wpwand-history-page button,
+#wpwand-bulk-post-generator button {
     cursor: pointer;
 }
 
@@ -3212,7 +3223,9 @@ a.wpwand-table-btn.delete {
     padding: 0;
 }
 
-select:disabled {
+.wpwand-floating select:disabled,
+.wpwand-settings select:disabled,
+#wpwand-bulk-post-generator select:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }

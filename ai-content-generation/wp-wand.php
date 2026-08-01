@@ -4,35 +4,46 @@
  * Plugin Name: WP Wand 
  * Plugin URI: https://wpwand.com/
  * Description: WP Wand is a AI content generation plugin for WordPress that helps your team create high quality content 10X faster and 50x cheaper. No monthly subscription required.
- * Version: 1.3.07
+ * Version: 2.0.0
  * Author: WP Wand
  * Author URI: https://wpwand.com/
  * Text Domain: wp-wand
  * License: GPL-2.0+
- * Requires PHP: 7.4
+ * Requires PHP: 8.0
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
-use ElliotJReed\AI\ClaudeAI\Prompt;
+if (!defined('ABSPATH')) {
+    exit; // No direct access.
+}
+
+/*
+ * New architecture (React + REST). bootstrap.php registers the PSR-4 autoloader, the wpwand/v1
+ * REST API, the React admin screens, and the schema migration runner.
+ */
+require_once plugin_dir_path(__FILE__) . 'bootstrap.php';
+
+/*
+ * Back-compat shims for the upgrade window where this free plugin is already 2.0.0 but
+ * WP Wand Pro is still on the legacy codebase. Required at load time (not on a hook) so the
+ * shimmed helpers exist before Pro boots — otherwise legacy Pro would fatal on undefined
+ * functions before any "please update Pro" notice could render. @see inc/legacy-compat.php
+ */
+require_once plugin_dir_path(__FILE__) . 'inc/legacy-compat.php';
 
 /**
- * Load plugin textdomain.
+ * Boot the legacy procedural side of the plugin (constants, provider keys, and the inc/* includes).
+ * The new React + REST architecture is bootstrapped separately from bootstrap.php (loaded above).
  */
-
-
-
-
 function wpwand_init()
 {
-
-
     load_plugin_textdomain('wp-wand', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 
     if (!function_exists('get_plugin_data')) {
-        // require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
     }
-    // Define constants
 
+    // Define constants
     define('WPWAND_PLUGIN_DIR', plugin_dir_path(__FILE__));
     define('WPWAND_PLUGIN_URL', plugin_dir_url(__FILE__));
     if (!defined('WPWAND_OPENAI_KEY')) {
@@ -53,21 +64,16 @@ function wpwand_init()
         return false;
     }
 
-    // Check if external requests are blocked before adding the filter
-
-    // add_filter('http_request_host_is_external', '__return_true');
-
-
-    // check if php version is 7.4 or higher
     if (version_compare(phpversion(), '7.4', '<')) {
         add_action('admin_notices', 'wpwand_php_version_notice');
 
         return false;
     }
-    define('WPWAND_VERSION',  get_plugin_data(__FILE__)['Version']);
+    // Only the version is needed; skip header markup/translation ($markup=false, $translate=false)
+    // so this never triggers WP 6.7+'s just-in-time textdomain notice.
+    define('WPWAND_VERSION', get_plugin_data(__FILE__, false, false)['Version']);
 
-
-    // global $sdk_license;
+    // Usage insights (opt-in telemetry).
     if (!class_exists('Finestics\Client')) {
         require_once WPWAND_PLUGIN_DIR . 'inc/Finestics/Client.php';
     }
@@ -75,36 +81,11 @@ function wpwand_init()
     $init_finestics = new Finestics\Client('wpwand', 'WP Wand', __FILE__);
     $init_finestics->insights()->init();
 
+    // The legacy procedural inc/* code has been fully removed — the new React + REST architecture
+    // (bootstrap.php) now provides every feature: settings, the AI Assistant + editor integrations
+    // (Classic/Gutenberg/Elementor), generation, templates, WooCommerce, bulk and white-label.
 
-    // Include required files
-    require_once WPWAND_PLUGIN_DIR . 'inc/config.php';
-    require_once WPWAND_PLUGIN_DIR . 'inc/editor.php';
-    require_once WPWAND_PLUGIN_DIR . 'inc/admin.php';
-    require_once WPWAND_PLUGIN_DIR . 'inc/data.php';
-    require_once WPWAND_PLUGIN_DIR . 'inc/helper-functions.php';
-    require_once WPWAND_PLUGIN_DIR . 'inc/frontend.php';
-    require_once WPWAND_PLUGIN_DIR . 'inc/api.php';
-    require_once WPWAND_PLUGIN_DIR . 'inc/WooCommerce.php';
-
-    if (!function_exists('wpwand_pro_init')) {
-        require_once WPWAND_PLUGIN_DIR . 'inc/post-generator.php';
-    }
-
-
-    $is_agency = wpwand_get_option('wpwand_pro_tala_agency');
-
-    if (!$is_agency) {
-        require_once WPWAND_PLUGIN_DIR . 'inc/white-label.php';
-    }
-
-    require_once WPWAND_PLUGIN_DIR . 'inc/gutenberg.php';
-
-    // Add Elementor initialization hook
-    add_action('elementor/init', function () {
-        require_once WPWAND_PLUGIN_DIR . 'inc/modules/elementor/wp-wand-elementor.php';
-        WDELMTR_Extension::instance();
-    });
-
+    // Signal readiness — the Pro plugin waits on this (did_action('wpwand_init')) before booting.
     do_action('wpwand_init');
 }
 
@@ -113,36 +94,40 @@ add_action('plugins_loaded', 'wpwand_init', 10);
 
 function wpwand_pro_version_check()
 {
-    if (!defined('WPWAND_PRO_VERSION')) {
+    if (!is_admin()) {
         return;
     }
-
 
     if (isset($_GET['force-check']) && check_admin_referer('wpwand_pro_force_update_check')) {
         wp_clean_plugins_cache();
         wp_update_plugins();
-        wp_redirect(admin_url('plugins.php'));
+        wp_safe_redirect(admin_url('plugins.php'));
         exit;
     }
-    // Get pro version
+
+    // Determine the installed Pro version straight from its header (works even when the
+    // legacy Pro build never defined a version constant), and require a 2.0.0+ match.
     $pro_file = WP_PLUGIN_DIR . '/wp-wand-pro/wp-wand-pro.php';
-    if (file_exists($pro_file)) {
-        $pro_data = get_plugin_data($pro_file);
-        $pro_version = $pro_data['Version'];
+    if (!file_exists($pro_file)) {
+        return;
+    }
+    if (!function_exists('get_plugin_data')) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+    $pro_version = get_plugin_data($pro_file, false, false)['Version'];
 
-        if (version_compare($pro_version, '1.2.3', '<')) {
+    if ($pro_version && version_compare($pro_version, '2.0.0', '<')) {
+        add_action('admin_notices', function () {
+            $force_update_url = wp_nonce_url(admin_url('admin.php?page=wpwand&force-check=1'), 'wpwand_pro_force_update_check');
 
-            add_action('admin_notices', function () {
-                $force_update_url = wp_nonce_url(admin_url('admin.php?page=wpwand-settings&force-check=1'), 'wpwand_pro_force_update_check');
-
-                echo '<div class="notice notice-warning is-dismissible">
-                    <p>' . sprintf(
-                    __('Please update WP Wand Pro to version 1.2.3 or higher for full compatibility. <a href="%s">Update now</a>', 'wp-wand'),
-                    $force_update_url
-                ) . '</p>
-                </div>';
-            });
-        }
+            echo '<div class="notice notice-error"><p>';
+            printf(
+                /* translators: %s: URL to trigger a plugin update check */
+                wp_kses(__('<strong>Action required:</strong> WP Wand Pro must be updated to version 2.0.0 or higher to match WP Wand 2.0.0. Your Pro features are paused until the update completes. <a href="%s">Update now</a>', 'wp-wand'), ['a' => ['href' => []], 'strong' => []]),
+                esc_url($force_update_url)
+            );
+            echo '</p></div>';
+        });
     }
 }
 add_action('init', 'wpwand_pro_version_check');
@@ -157,13 +142,14 @@ function wpwand_activation_redirect()
     if (get_option('wpwand_activation_redirect', false)) {
         // Redirect to a specific page or URL after activation
         delete_option('wpwand_activation_redirect');
-        wp_safe_redirect(admin_url('admin.php?page=wpwand&welcome_screen'));
+        // New React welcome screen (replaces the legacy ?welcome_screen page).
+        wp_safe_redirect(admin_url('admin.php?page=wpwand-welcome'));
         exit;
     }
 }
 
-// Hook into the 'activated_plugin' action
-// add_action('activated_plugin', 'wpwand_set_activation_redirect');
+// Hook into the 'activated_plugin' action — show the welcome screen on first activation.
+add_action('activated_plugin', 'wpwand_set_activation_redirect');
 
 // Set activation redirect flag
 function wpwand_set_activation_redirect($plugin)

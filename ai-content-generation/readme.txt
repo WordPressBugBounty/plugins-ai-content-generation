@@ -1,11 +1,11 @@
 === WP Wand – Unlimited Content Generation using AI – for OpenAI, Claude, Openrouter and Deepseek ===
 
 Contributors: wpgrids, ashrafuddin765
-Tags: Tags: ChatGPT, AI Writer, Content Generator, OpenAi, OpenRouter
+Tags: ChatGPT, AI Writer, Content Generator, OpenAi, OpenRouter
 Requires at least: 5.0
-Requires PHP: 7.4
-Tested up to:  6.8.3
-Stable Tag: 1.3.07
+Requires PHP: 8.0
+Tested up to: 7.0
+Stable Tag: 2.0.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -352,6 +352,16 @@ No, you don't have to purchase any monthly or yearly subscription to use WP Wand
 5. Fine-tune the AI's output with advanced settings for temperature, max tokens, and more.
 
 == Changelog ==
+
+= 2.0.0 =
+* New: Complete rebuild on a modern React + REST architecture for a faster, smoother UI.
+* New: Redesigned Settings, AI Assistant panel, Bulk Posts, History and Automation screens.
+* New: Live API-key status with model list and per-model token limits fetched from the provider.
+* New: Step-based generation engine that reliably produces long content without timeouts.
+* New: Scheduled post Automation (Pro) and an improved Bulk generator with retry on failure.
+* Improved: Human-readable provider errors throughout.
+* Changed: The entire legacy codebase was removed; existing settings, license and data migrate
+  automatically with no re-activation required.
 
 = 1.3.07 =
 * Optimized: Bulk Post Generation Performance.

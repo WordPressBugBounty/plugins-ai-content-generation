@@ -1,0 +1,1352 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Wand - AI Writer, AI Content Generator & AI Assistant "
+"by ChatGPT, OpenAI | Generate SEO Friendly AI Blog Post & Article with 20X "
+"Speed\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-15 05:42+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.7.1; wp-6.7.2\n"
+"X-Domain: wp-wand"
+
+#. 1: Plugin name 2: Elementor
+#: inc/modules/elementor/wp-wand-elementor.php:168
+#, php-format
+msgid "\"%1$s\" requires \"%2$s\" to be installed and activated."
+msgstr ""
+
+#. 1: Plugin name 2: PHP 3: Required PHP version
+#. 1: Plugin name 2: Elementor 3: Required Elementor version
+#: inc/modules/elementor/wp-wand-elementor.php:150
+#: inc/modules/elementor/wp-wand-elementor.php:185
+#, php-format
+msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
+msgstr ""
+
+#: inc/helper-functions.php:190 inc/helper-functions.php:210
+#: inc/helper-functions.php:230 inc/helper-functions.php:250
+#: inc/helper-functions.php:270
+msgid "$0.01 for approx. 1000 words"
+msgstr ""
+
+#: inc/helper-functions.php:191 inc/helper-functions.php:211
+#: inc/helper-functions.php:231 inc/helper-functions.php:251
+#: inc/helper-functions.php:271
+msgid "$0.1 for approx. 10,000 words"
+msgstr ""
+
+#: inc/helper-functions.php:192 inc/helper-functions.php:212
+#: inc/helper-functions.php:232 inc/helper-functions.php:252
+#: inc/helper-functions.php:272
+msgid "$1 for approx. 100,000 words"
+msgstr ""
+
+#: inc/helper-functions.php:862
+#, php-format
+msgid "%s API Error: Unexpected response code %d"
+msgstr ""
+
+#: inc/helper-functions.php:812
+#, php-format
+msgid "%s API key is missing"
+msgstr ""
+
+#: inc/helper-functions.php:645
+msgid "1024x1024 [Available in pro]"
+msgstr ""
+
+#: inc/helper-functions.php:482
+msgid "12+ Free Prompt Templates"
+msgstr ""
+
+#: inc/frontend.php:378
+msgid "1st Person"
+msgstr ""
+
+#: inc/helper-functions.php:643
+msgid "256x256"
+msgstr ""
+
+#: inc/frontend.php:379
+msgid "2nd Person"
+msgstr ""
+
+#: inc/frontend.php:380
+msgid "3rd Person"
+msgstr ""
+
+#: inc/helper-functions.php:644
+msgid "512x512 [Available in pro]"
+msgstr ""
+
+#: inc/helper-functions.php:321
+msgid "A.I Character"
+msgstr ""
+
+#: inc/helper-functions.php:489
+msgid "Access to AI Assistant (Limited for Free Version)"
+msgstr ""
+
+#: inc/white-label.php:18 inc/white-label.php:27
+msgid "Add a custom link or click on upload button"
+msgstr ""
+
+#: inc/view/post-generator.php:57
+msgid "Add a topic of your bulk post"
+msgstr ""
+
+#: inc/view/post-generator.php:11
+msgid "Add info"
+msgstr ""
+
+#: inc/admin.php:72
+msgid "Add your Claude API key to activate"
+msgstr ""
+
+#: inc/admin.php:100
+msgid "Add your DeepSeek API key to activate"
+msgstr ""
+
+#: inc/admin.php:44 inc/admin.php:131
+msgid "Add your OpenAI API key to activate"
+msgstr ""
+
+#: inc/view/post-generator.php:35
+msgid "Add Your Own Headlines"
+msgstr ""
+
+#: inc/helper-functions.php:298
+msgid "Advanced"
+msgstr ""
+
+#: inc/helper-functions.php:311
+msgid "Advanced Features"
+msgstr ""
+
+#: inc/frontend.php:339
+msgid "Aggressive"
+msgstr ""
+
+#: inc/admin.php:279
+msgid "AI Button Position"
+msgstr ""
+
+#: inc/frontend.php:404
+msgid "AI Character"
+msgstr ""
+
+#: inc/frontend.php:468
+msgid "AI Generated Content"
+msgstr ""
+
+#: inc/view/post-generator.php:27
+msgid "AI Generated Headlines"
+msgstr ""
+
+#: inc/frontend.php:518
+msgid "AI Generated Image"
+msgstr ""
+
+#: inc/data.php:78
+msgid "AIDA Copywriting Formula"
+msgstr ""
+
+#: inc/data.php:58
+msgid "Amazon Product Review"
+msgstr ""
+
+#: inc/post-generator.php:86
+msgid "Are you sure you want to delete?"
+msgstr ""
+
+#: inc/frontend.php:353
+msgid "Argumentative"
+msgstr ""
+
+#: inc/white-label.php:66
+msgid "Author Name"
+msgstr ""
+
+#: inc/white-label.php:73
+msgid "Author Url"
+msgstr ""
+
+#: inc/view/post-generator.php:105 inc/view/post-generator.php:125
+msgid "Back"
+msgstr ""
+
+#: inc/frontend.php:132
+msgid "Back to all templates"
+msgstr ""
+
+#: inc/data.php:24
+msgid "Blog Intro"
+msgstr ""
+
+#: inc/data.php:22
+msgid "Blog Outline"
+msgstr ""
+
+#: inc/data.php:26
+msgid "Blog Paragraph"
+msgstr ""
+
+#: inc/data.php:28
+msgid "Blog Post Writer"
+msgstr ""
+
+#: inc/data.php:20
+msgid "Blog Title"
+msgstr ""
+
+#: inc/white-label.php:43
+msgid "Brand Color"
+msgstr ""
+
+#: inc/white-label.php:35
+msgid "Brand Name"
+msgstr ""
+
+#: inc/view/post-generator.php:3 inc/view/post-generator.php:124
+msgid ""
+"Bulk generation is a premium feature. You need to upgrade to use the full "
+"feature."
+msgstr ""
+
+#: inc/post-generator.php:39
+msgid "Bulk Posts"
+msgstr ""
+
+#: inc/helper-functions.php:335 inc/frontend.php:438
+msgid "Business Details"
+msgstr ""
+
+#: inc/data.php:50
+msgid "Button Call to Action Text"
+msgstr ""
+
+#: inc/admin.php:280
+msgid ""
+"Change WP Wand’s AI button position based on your\n"
+"                                                preference"
+msgstr ""
+
+#: inc/admin.php:141
+msgid "ChatGPT 4o Latest"
+msgstr ""
+
+#: inc/admin.php:161
+msgid "Claude 3.5 Haiku Latest"
+msgstr ""
+
+#: inc/admin.php:159
+msgid "Claude 3.5 Sonnet Latest"
+msgstr ""
+
+#: inc/admin.php:71 inc/admin.php:356
+msgid "Claude API Key"
+msgstr ""
+
+#: inc/frontend.php:175 inc/frontend.php:208
+msgid "Comment"
+msgstr ""
+
+#: inc/data.php:100
+msgid "Comment Reply"
+msgstr ""
+
+#: inc/data.php:54
+msgid "Comparison Blog Post Between 2 Products"
+msgstr ""
+
+#: inc/view/post-generator.php:19
+msgid "Confirmation"
+msgstr ""
+
+#: inc/helper-functions.php:533
+msgid "Connect API"
+msgstr ""
+
+#: inc/helper-functions.php:533
+msgid "Connected!"
+msgstr ""
+
+#: inc/frontend.php:273 inc/frontend.php:284
+msgid "Content"
+msgstr ""
+
+#: inc/data.php:118
+msgid "Content Rewriter"
+msgstr ""
+
+#: inc/admin.php:201
+msgid ""
+"Controls randomness: If you lower the number, the\n"
+"                                                result will be repetitive & "
+"the output quality might gets lower. "
+msgstr ""
+
+#: inc/frontend.php:343
+msgid "Conversational"
+msgstr ""
+
+#: inc/helper-functions.php:188 inc/helper-functions.php:228
+#: inc/helper-functions.php:248 inc/helper-functions.php:268
+msgid "Cost Estimation"
+msgstr ""
+
+#: inc/data.php:106
+msgid "Course Description"
+msgstr ""
+
+#. Course Content
+#: inc/data.php:104
+msgid "Course Name"
+msgstr ""
+
+#: inc/data.php:15
+msgid ""
+"Create attention-grabbing headlines for website or blog post with a specific "
+"topic."
+msgstr ""
+
+#: inc/view/post-generator.php:2
+msgid "Create Bulk Posts"
+msgstr ""
+
+#: inc/data.php:107
+msgid "Create compelling descriptions for your online courses."
+msgstr ""
+
+#: inc/data.php:23
+msgid "Create detailed outlines that make writing blog posts a breeze."
+msgstr ""
+
+#: inc/data.php:47
+msgid "Create effective headlines for your sales pages."
+msgstr ""
+
+#: inc/data.php:59
+msgid "Create engaging reviews for Amazon products."
+msgstr ""
+
+#: inc/data.php:53
+msgid "Create informative and engaging reviews of products or services."
+msgstr ""
+
+#: inc/data.php:31
+msgid "Create job descriptions that attract top talent."
+msgstr ""
+
+#: inc/data.php:93
+msgid "Create memorable taglines for your website."
+msgstr ""
+
+#: inc/data.php:43
+msgid "Create meta descriptions that increase click-through rates."
+msgstr ""
+
+#: inc/data.php:63
+msgid "Create subject lines that increase email open rates."
+msgstr ""
+
+#: inc/view/post-generator.php:26
+msgid "Custom Headlines"
+msgstr ""
+
+#: inc/helper-functions.php:562
+msgid "DEAL ALERT"
+msgstr ""
+
+#: inc/admin.php:99 inc/admin.php:366
+msgid "DeepSeek API Key"
+msgstr ""
+
+#: inc/admin.php:170
+msgid "DeepSeek Chat"
+msgstr ""
+
+#: inc/admin.php:168
+msgid "DeepSeek Reasoner (R1)"
+msgstr ""
+
+#: inc/admin.php:180
+msgid "Default Content Language"
+msgstr ""
+
+#: inc/frontend.php:240
+msgid "Description"
+msgstr ""
+
+#: inc/frontend.php:346
+msgid "Descriptive"
+msgstr ""
+
+#: inc/white-label.php:157
+msgid "Disable White Label Tab"
+msgstr ""
+
+#: inc/modules/elementor/wp-wand-elementor.php:170
+msgid "Elementor"
+msgstr ""
+
+#: inc/data.php:64
+msgid "Email Content"
+msgstr ""
+
+#. Email Templates
+#: inc/data.php:62
+msgid "Email Subject Line"
+msgstr ""
+
+#: inc/helper-functions.php:609
+msgid "English"
+msgstr ""
+
+#: inc/data.php:71
+msgid "Ensure your content is error-free with Grammar Correction."
+msgstr ""
+
+#: inc/view/post-generator.php:36
+msgid "Enter each headline in a single line. You can add as many as you want."
+msgstr ""
+
+#: inc/data.php:49
+msgid "Expand short sentences into detailed paragraphs."
+msgstr ""
+
+#: inc/frontend.php:347
+msgid "Expository"
+msgstr ""
+
+#: inc/data.php:36
+msgid "Facebook Post"
+msgstr ""
+
+#. FAQ and Support
+#: inc/data.php:68
+msgid "FAQs Writer"
+msgstr ""
+
+#: inc/data.php:112
+msgid "Feature Details"
+msgstr ""
+
+#. Feature and Product Content
+#: inc/data.php:110
+msgid "Feature List"
+msgstr ""
+
+#: inc/data.php:72
+msgid "Features to Benefits"
+msgstr ""
+
+#: inc/frontend.php:341
+msgid "Formal"
+msgstr ""
+
+#: inc/helper-functions.php:496
+msgid "Free Plugin Update"
+msgstr ""
+
+#: inc/helper-functions.php:503
+msgid "Free Support"
+msgstr ""
+
+#: inc/admin.php:248 inc/admin.php:422
+msgid "Frequency"
+msgstr ""
+
+#: inc/frontend.php:336
+msgid "Friendly"
+msgstr ""
+
+#: inc/frontend.php:350
+msgid "Funny"
+msgstr ""
+
+#: inc/admin.php:30
+msgid "General"
+msgstr ""
+
+#: inc/data.php:55
+msgid "Generate a complete blog post based on a given topic or keywords"
+msgstr ""
+
+#: inc/data.php:37
+msgid "Generate a highly engaging post for Facebook"
+msgstr ""
+
+#: inc/data.php:35
+msgid "Generate a highly engaging post for Linkedin"
+msgstr ""
+
+#: inc/data.php:29
+msgid "Generate a SEO friendly blog post with your basic instructions"
+msgstr ""
+
+#: inc/data.php:105
+msgid "Generate catchy names for your online courses."
+msgstr ""
+
+#: inc/data.php:65
+msgid "Generate compelling email content that drives engagement."
+msgstr ""
+
+#: inc/data.php:33
+msgid "Generate compelling product descriptions for your online store."
+msgstr ""
+
+#: inc/data.php:19
+msgid "Generate complete blog posts that engage your readers."
+msgstr ""
+
+#: inc/data.php:111
+msgid "Generate comprehensive lists of product or service features."
+msgstr ""
+
+#: inc/frontend.php:462
+msgid "Generate Content"
+msgstr ""
+
+#: inc/frontend.php:12
+msgid "Generate content"
+msgstr ""
+
+#: inc/WooCommerce.php:29
+msgid "Generate Content with AI"
+msgstr ""
+
+#: inc/data.php:51
+msgid "Generate effective call-to-action text for your buttons."
+msgstr ""
+
+#: inc/data.php:27
+msgid "Generate high-quality individual paragraph for your blog posts."
+msgstr ""
+
+#: inc/data.php:121
+msgid "Generate hundreds of headline ideas in seconds."
+msgstr ""
+
+#: inc/data.php:89
+msgid "Generate ideas for engaging social media posts."
+msgstr ""
+
+#: inc/frontend.php:488 inc/frontend.php:511
+msgid "Generate Image"
+msgstr ""
+
+#: inc/data.php:99
+msgid "Generate informative answers to common questions on Quora."
+msgstr ""
+
+#: inc/data.php:85
+msgid "Generate new ideas for offers and promotions."
+msgstr ""
+
+#: inc/data.php:45 inc/data.php:117
+msgid "Generate relevant keywords to improve SEO."
+msgstr ""
+
+#: inc/data.php:21
+msgid "Generate titles that grab attention and increase clicks."
+msgstr ""
+
+#: inc/helper-functions.php:564
+msgid "Get"
+msgstr ""
+
+#: inc/frontend.php:491
+msgid "Get beautiful AI generated images in seconds"
+msgstr ""
+
+#: inc/helper-functions.php:570
+msgid "Get Lifetime Access"
+msgstr ""
+
+#: inc/WooCommerce.php:55
+msgid "Get Pro to Generate Content"
+msgstr ""
+
+#: inc/frontend.php:460
+msgid "Get Pro to Use This Template"
+msgstr ""
+
+#: inc/helper-functions.php:365 inc/admin.php:34
+msgid "Get Pro Version"
+msgstr ""
+
+#: inc/admin.php:151
+msgid "GPT 3.5 Turbo"
+msgstr ""
+
+#: inc/admin.php:153
+msgid "GPT 3.5 Turbo 16k"
+msgstr ""
+
+#: inc/admin.php:149
+msgid "GPT 4"
+msgstr ""
+
+#: inc/admin.php:147
+msgid "GPT 4 Turbo"
+msgstr ""
+
+#: inc/admin.php:145
+msgid "GPT 4o"
+msgstr ""
+
+#: inc/admin.php:143
+msgid "GPT 4o Mini"
+msgstr ""
+
+#: inc/helper-functions.php:183
+msgid "gpt-3.5-turbo"
+msgstr ""
+
+#: inc/data.php:70
+msgid "Grammar Correction"
+msgstr ""
+
+#. Free Templates
+#: inc/data.php:14
+msgid "Headline Generation"
+msgstr ""
+
+#: inc/frontend.php:337
+msgid "Helpful"
+msgstr ""
+
+#: inc/helper-functions.php:574
+msgid "Hide"
+msgstr ""
+
+#: inc/admin.php:263
+msgid "Hide ChatGPT Assistant inside gutenberg"
+msgstr ""
+
+#: inc/data.php:73
+msgid "Highlight the benefits of your products or services."
+msgstr ""
+
+#: inc/view/post-generator.php:66
+msgid ""
+"How many posts do you want to generate at once, maximum 20 posts at a time."
+msgstr ""
+
+#: inc/view/post-generator.php:132
+msgid "How to Generate Bulk Blog Post Using AI Inside WordPress"
+msgstr ""
+
+#: inc/view/post-generator.php:130
+msgid "How to Generate Bulk Blog Post Using WP Wand AI"
+msgstr ""
+
+#. Copywriting Formulas
+#: inc/data.php:76
+msgid "HSO Copywriting Formula"
+msgstr ""
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "https://wpwand.com/"
+msgstr ""
+
+#: inc/frontend.php:348
+msgid "Humorous"
+msgstr ""
+
+#: inc/frontend.php:503
+msgid "Image Description"
+msgstr ""
+
+#: inc/frontend.php:71
+msgid "Image Generation"
+msgstr ""
+
+#: inc/helper-functions.php:313
+msgid ""
+"Improve your content quality 5x with these premium options. Generate\n"
+"                targeted, high quality unique content fast."
+msgstr ""
+
+#: inc/frontend.php:428
+msgid "Include Info"
+msgstr ""
+
+#: inc/frontend.php:342
+msgid "Informal"
+msgstr ""
+
+#: inc/frontend.php:338
+msgid "Informative"
+msgstr ""
+
+#: inc/frontend.php:349
+msgid "Inspirational"
+msgstr ""
+
+#: inc/frontend.php:354
+msgid "Instructional"
+msgstr ""
+
+#: inc/admin.php:504
+msgid "Invalid Claude API key format."
+msgstr ""
+
+#: inc/admin.php:517
+msgid "Invalid DeepSeek API key format."
+msgstr ""
+
+#: inc/admin.php:538
+msgid "Invalid model selected."
+msgstr ""
+
+#: inc/admin.php:471 inc/admin.php:491
+msgid "Invalid OpenAI API key format."
+msgstr ""
+
+#: inc/data.php:30
+msgid "Job Post"
+msgstr ""
+
+#. SEO and Content Tools
+#: inc/data.php:116
+msgid "Keyword Generator"
+msgstr ""
+
+#: inc/frontend.php:304
+msgid "Keyword to Include"
+msgstr ""
+
+#: inc/helper-functions.php:605 inc/admin.php:391 inc/frontend.php:389
+msgid "Language"
+msgstr ""
+
+#: inc/data.php:34
+msgid "Linkedin Post"
+msgstr ""
+
+#: inc/data.php:120
+msgid "Magic Headlines"
+msgstr ""
+
+#: inc/admin.php:217
+msgid "Max Token"
+msgstr ""
+
+#: inc/data.php:42
+msgid "Meta Description"
+msgstr ""
+
+#: inc/data.php:44
+msgid "Meta Keywords"
+msgstr ""
+
+#. Pro Templates
+#: inc/data.php:40
+msgid "Meta Title"
+msgstr ""
+
+#: inc/frontend.php:367
+msgid "Minimum Word"
+msgstr ""
+
+#: inc/admin.php:130 inc/admin.php:380
+msgid "Model"
+msgstr ""
+
+#: inc/helper-functions.php:184 inc/helper-functions.php:204
+#: inc/helper-functions.php:224 inc/helper-functions.php:244
+#: inc/helper-functions.php:264
+msgid ""
+"Most capable GPT-3.5 model at 1/10th the cost of text-davinci-003. Will be "
+"updated with OpenAI’s latest\n"
+"                    model iteration."
+msgstr ""
+
+#: inc/frontend.php:164
+msgid "Name"
+msgstr ""
+
+#: inc/view/post-generator.php:47 inc/view/post-generator.php:75
+#: inc/view/post-generator.php:106
+msgid "Next"
+msgstr ""
+
+#: inc/frontend.php:406
+msgid "No Character"
+msgstr ""
+
+#: inc/helper-functions.php:475
+msgid "No Limit on Content Generation"
+msgstr ""
+
+#: inc/helper-functions.php:468
+msgid "No Monthly or Yearly Subscription Required"
+msgstr ""
+
+#: inc/view/post-generator.php:65
+msgid "Number of Posts"
+msgstr ""
+
+#: inc/view/post-generator.php:91
+msgid "Number of Posts:"
+msgstr ""
+
+#: inc/helper-functions.php:649 inc/frontend.php:326
+msgid "Number of Results"
+msgstr ""
+
+#: inc/view/post-generator.php:120
+msgid "Number of Titles Selected:"
+msgstr ""
+
+#. Marketing Content
+#: inc/data.php:84
+msgid "Offer Ideas"
+msgstr ""
+
+#: inc/data.php:18
+msgid "One Click Blog Post"
+msgstr ""
+
+#: inc/admin.php:43 inc/admin.php:346
+msgid "OpenAI API Key"
+msgstr ""
+
+#: inc/frontend.php:357
+msgid "Optimistic"
+msgstr ""
+
+#: inc/data.php:41 inc/data.php:57
+msgid "Optimize your content for search engines with effective meta titles."
+msgstr ""
+
+#: inc/frontend.php:305
+msgid "Optional"
+msgstr ""
+
+#: inc/data.php:16
+msgid "Paragraph Related to Headline"
+msgstr ""
+
+#: inc/data.php:80
+msgid "PAS Copywriting Formula"
+msgstr ""
+
+#: inc/frontend.php:344
+msgid "Persuasive"
+msgstr ""
+
+#: inc/modules/elementor/wp-wand-elementor.php:152
+msgid "PHP"
+msgstr ""
+
+#: inc/admin.php:466
+msgid "Please enter an OpenAI API key."
+msgstr ""
+
+#: wp-wand.php:136
+#, php-format
+msgid ""
+"Please update WP Wand Pro to version 1.2.3 or higher for full compatibility. "
+"<a href=\"%s\">Update now</a>"
+msgstr ""
+
+#: inc/white-label.php:59
+msgid "Plugin Description"
+msgstr ""
+
+#: inc/white-label.php:52
+msgid "Plugin Name"
+msgstr ""
+
+#: inc/frontend.php:351
+msgid "Poetic"
+msgstr ""
+
+#: inc/frontend.php:375
+msgid "Point of View"
+msgstr ""
+
+#: inc/view/post-generator.php:70
+msgid "Post to generate"
+msgstr ""
+
+#: inc/admin.php:233
+msgid "Presence Penalty"
+msgstr ""
+
+#: inc/data.php:86
+msgid "Press Release"
+msgstr ""
+
+#: inc/helper-functions.php:196 inc/helper-functions.php:216
+#: inc/helper-functions.php:236 inc/helper-functions.php:256
+#: inc/helper-functions.php:276
+msgid "Pricing Fact"
+msgstr ""
+
+#: inc/helper-functions.php:565
+msgid "Pro for Lifetime with limited 50% discount"
+msgstr ""
+
+#: inc/frontend.php:219 inc/frontend.php:221
+msgid "Product 1"
+msgstr ""
+
+#: inc/frontend.php:251
+msgid "Product 1 Description"
+msgstr ""
+
+#: inc/frontend.php:230 inc/frontend.php:232
+msgid "Product 2"
+msgstr ""
+
+#: inc/frontend.php:261
+msgid "Product 2 Description"
+msgstr ""
+
+#: inc/data.php:32
+msgid "Product Description"
+msgstr ""
+
+#: inc/frontend.php:340
+msgid "Professional"
+msgstr ""
+
+#: inc/frontend.php:186
+msgid "Question"
+msgstr ""
+
+#: inc/data.php:95
+msgid "Quickly create compelling About Us pages."
+msgstr ""
+
+#: inc/data.php:69
+msgid "Quickly create informative FAQs for your website or product."
+msgstr ""
+
+#: inc/data.php:113
+msgid "Quickly describe the features of your products or services."
+msgstr ""
+
+#: inc/data.php:17
+msgid "Quickly generate compelling content for your headlines."
+msgstr ""
+
+#: inc/data.php:101
+msgid "Quickly respond to comments on your blog or social media."
+msgstr ""
+
+#: inc/data.php:119
+msgid "Quickly rewrite existing content to improve readability and SEO."
+msgstr ""
+
+#: inc/data.php:25
+msgid "Quickly write a highly engaging intro for your blog post."
+msgstr ""
+
+#. Social and Community
+#: inc/data.php:98
+msgid "Quora Answers"
+msgstr ""
+
+#: inc/helper-functions.php:458
+msgid "Read Our Documentation"
+msgstr ""
+
+#: inc/post-generator.php:86
+msgid "Remove"
+msgstr ""
+
+#: inc/view/post-generator.php:98
+msgid "Remove Selected"
+msgstr ""
+
+#: inc/data.php:52
+msgid "Review Blog Post"
+msgstr ""
+
+#: inc/view/post-generator.php:15
+msgid "Review titles"
+msgstr ""
+
+#: inc/data.php:46
+msgid "Sales Page Headlines"
+msgstr ""
+
+#: inc/frontend.php:355
+msgid "Sarcastic"
+msgstr ""
+
+#: inc/helper-functions.php:641
+msgid "Select Resolution"
+msgstr ""
+
+#: inc/white-label.php:45
+msgid "Select your brand color"
+msgstr ""
+
+#: inc/admin.php:181
+msgid "Select your language"
+msgstr ""
+
+#: inc/data.php:48
+msgid "Sentence Expander"
+msgstr ""
+
+#: inc/helper-functions.php:540 inc/frontend.php:61
+msgid "Setup your API key"
+msgstr ""
+
+#: inc/WooCommerce.php:40
+msgid "Short Description"
+msgstr ""
+
+#: inc/admin.php:289
+msgid "Side"
+msgstr ""
+
+#: inc/data.php:88
+msgid "Social Media Post Ideas"
+msgstr ""
+
+#: inc/helper-functions.php:511
+msgid "Start by connecting your API key"
+msgstr ""
+
+#: inc/view/post-generator.php:10
+msgid "Step 1"
+msgstr ""
+
+#: inc/view/post-generator.php:14
+msgid "Step 2"
+msgstr ""
+
+#: inc/view/post-generator.php:18
+msgid "Step 3"
+msgstr ""
+
+#: inc/frontend.php:197
+msgid "Subject"
+msgstr ""
+
+#: inc/helper-functions.php:396
+msgid "Sync"
+msgstr ""
+
+#: inc/helper-functions.php:387
+msgid "Sync Plugin Data"
+msgstr ""
+
+#: inc/helper-functions.php:350
+msgid "Targated Customer"
+msgstr ""
+
+#: inc/frontend.php:443
+msgid "Targeted Customer"
+msgstr ""
+
+#: inc/frontend.php:352
+msgid "Technical"
+msgstr ""
+
+#: inc/helper-functions.php:324
+msgid ""
+"Tell your A.I what character it contains while writing for\n"
+"                        you. It will highly improve your content output."
+msgstr ""
+
+#: inc/admin.php:200 inc/admin.php:412
+msgid "Temperature"
+msgstr ""
+
+#: inc/frontend.php:87
+msgid "templates"
+msgstr ""
+
+#: inc/frontend.php:70
+msgid "Text Generation"
+msgstr ""
+
+#: inc/helper-functions.php:243
+msgid "text-babbage-001"
+msgstr ""
+
+#: inc/helper-functions.php:223
+msgid "text-curie-001"
+msgstr ""
+
+#: inc/helper-functions.php:203
+msgid "text-davinci-003"
+msgstr ""
+
+#: inc/admin.php:218
+msgid ""
+"The maximum number of tokens to generate. One token\n"
+"                                                is roughly 4 characters for "
+"normal English text."
+msgstr ""
+
+#: inc/view/post-generator.php:97
+msgid "Titles Generated"
+msgstr ""
+
+#: inc/admin.php:401
+msgid "Toggler Position"
+msgstr ""
+
+#: inc/frontend.php:334
+msgid "Tone"
+msgstr ""
+
+#: inc/admin.php:287
+msgid "Top"
+msgstr ""
+
+#: inc/frontend.php:153 inc/view/post-generator.php:56
+msgid "Topic"
+msgstr ""
+
+#: inc/view/post-generator.php:87 inc/view/post-generator.php:116
+msgid "Topic:"
+msgstr ""
+
+#: inc/frontend.php:86
+msgid "Total"
+msgstr ""
+
+#: inc/admin.php:303
+msgid "Update"
+msgstr ""
+
+#: inc/white-label.php:128
+msgid "Upload"
+msgstr ""
+
+#: inc/white-label.php:17
+msgid "Upload your logo"
+msgstr ""
+
+#: inc/white-label.php:26
+msgid "Upload your logo icon"
+msgstr ""
+
+#: inc/frontend.php:356
+msgid "Urgent"
+msgstr ""
+
+#: inc/data.php:79
+msgid ""
+"Use the Attention, Interest, Desire, Action formula to write persuasive copy."
+msgstr ""
+
+#: inc/data.php:77
+msgid "Use the Headline, Story, Offer formula to create effective copy"
+msgstr ""
+
+#: inc/data.php:81
+msgid "Use the Problem, Agitate, Solve formula to write compelling copy."
+msgstr ""
+
+#: inc/helper-functions.php:197 inc/helper-functions.php:217
+#: inc/helper-functions.php:237 inc/helper-functions.php:257
+#: inc/helper-functions.php:277
+msgid ""
+"Using this model, you can write approximately 65 blog posts, each containing "
+"~1500 words, for just $1."
+msgstr ""
+
+#: inc/helper-functions.php:391
+msgid ""
+"We often update our data for higher quality results.\n"
+"                By clicking sync button you can get updated data instantly."
+msgstr ""
+
+#: inc/data.php:94
+msgid "Website About Us"
+msgstr ""
+
+#. Website Content
+#: inc/data.php:92
+msgid "Website Tagline"
+msgstr ""
+
+#: inc/helper-functions.php:461
+msgid "What are you getting for free?"
+msgstr ""
+
+#: inc/white-label.php:84 inc/white-label.php:98
+msgid "White Label"
+msgstr ""
+
+#: inc/frontend.php:345
+msgid "Witty"
+msgstr ""
+
+#: inc/data.php:56
+msgid "WooCommerce Product Description"
+msgstr ""
+
+#. Author of the plugin
+#: inc/white-label.php:37 inc/white-label.php:54 inc/white-label.php:68
+#: inc/modules/elementor/wp-wand-elementor.php:187
+msgid "WP Wand"
+msgstr ""
+
+#. Name of the plugin
+msgid ""
+"WP Wand - AI Writer, AI Content Generator & AI Assistant by ChatGPT, OpenAI "
+"| Generate SEO Friendly AI Blog Post & Article with 20X Speed"
+msgstr ""
+
+#: inc/modules/elementor/wp-wand-elementor.php:151
+#: inc/modules/elementor/wp-wand-elementor.php:169
+#: inc/modules/elementor/wp-wand-elementor.php:186
+msgid "WP Wand Extension"
+msgstr ""
+
+#. Description of the plugin
+#: inc/white-label.php:61
+msgid ""
+"WP Wand is a AI content generation plugin for WordPress that helps your team "
+"create high quality content 10X faster and 50x cheaper. No monthly "
+"subscription required."
+msgstr ""
+
+#: wp-wand.php:177
+msgid "WP Wand requires PHP 7.4 or higher. Please upgrade your PHP version."
+msgstr ""
+
+#: inc/frontend.php:242 inc/frontend.php:253 inc/frontend.php:263
+msgid "Write a meaningful description to generate better result."
+msgstr ""
+
+#: inc/WooCommerce.php:42
+msgid ""
+"Write a short description of this product. Add what kind of product is this, "
+"how it can help customers etc."
+msgstr ""
+
+#: inc/helper-functions.php:339
+msgid ""
+"Write about your business in detail so that AI can\n"
+"                        understand and create better content based your "
+"business."
+msgstr ""
+
+#: inc/helper-functions.php:354
+msgid ""
+"Write about your target customers in details. Give as much\n"
+"                        information as possible like who are your targeted "
+"customers, where are they from, what\n"
+"                        are there demographic etc."
+msgstr ""
+
+#: inc/frontend.php:294 inc/frontend.php:296
+msgid "Write Anything"
+msgstr ""
+
+#: inc/data.php:87
+msgid "Write effective press releases that get your message out."
+msgstr ""
+
+#: inc/frontend.php:155
+msgid "Write in detail about your topic"
+msgstr ""
+
+#: inc/frontend.php:505
+msgid "Write in details about your image"
+msgstr ""
+
+#: inc/frontend.php:307
+msgid "Write keyword and separate using comma"
+msgstr ""
+
+#: inc/white-label.php:67
+msgid "Write your author name"
+msgstr ""
+
+#: inc/white-label.php:74
+msgid "Write your author URL"
+msgstr ""
+
+#: inc/white-label.php:36
+msgid "Write your brand name"
+msgstr ""
+
+#: inc/frontend.php:177 inc/frontend.php:210
+msgid "Write your comment"
+msgstr ""
+
+#: inc/frontend.php:274 inc/frontend.php:286
+msgid "Write your content"
+msgstr ""
+
+#: inc/white-label.php:60
+msgid "Write your plugin description"
+msgstr ""
+
+#: inc/white-label.php:53
+msgid "Write your plugin name"
+msgstr ""
+
+#: inc/frontend.php:166
+msgid "Write your product name"
+msgstr ""
+
+#: inc/frontend.php:188
+msgid "Write your Question"
+msgstr ""
+
+#: inc/frontend.php:199
+msgid "Write your Subject"
+msgstr ""
+
+#: inc/white-label.php:101
+msgid ""
+"You can change all branding and public info of WP Wand to use it as your own "
+"on client’s website"
+msgstr ""
+
+#: inc/white-label.php:161
+msgid ""
+"You can enable White Label tab again after disabling and enabling the Pro "
+"plugin."
+msgstr ""
+
+#: inc/frontend.php:43
+msgid "Your API is not connected. Connect now to generate awesome contents."
+msgstr ""
+
+#: inc/view/post-generator.php:39
+msgid "Your first headline goes here."
+msgstr ""
+
+#: inc/frontend.php:29
+msgid "Your Personal Content Creator"
+msgstr ""
+
+#: inc/view/post-generator.php:40
+msgid "Your second headline goes here."
+msgstr ""
+
+#: inc/view/post-generator.php:41
+msgid "Your third headline goes here."
+msgstr ""
+
+#: inc/helper-functions.php:432
+msgid "Your ultimate AI content generation assistant."
+msgstr ""
