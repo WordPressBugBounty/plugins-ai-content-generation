@@ -42,6 +42,21 @@ abstract class AbstractProvider implements ProviderInterface
         return true;
     }
 
+    public function supportsPenalties(): bool
+    {
+        return true;
+    }
+
+    public function chatBodyExtras(): array
+    {
+        return [];
+    }
+
+    public function tokenOverhead(): int
+    {
+        return 0;
+    }
+
     public function headers(): array
     {
         return [

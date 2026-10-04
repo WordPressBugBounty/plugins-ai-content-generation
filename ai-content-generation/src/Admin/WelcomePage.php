@@ -26,8 +26,8 @@ final class WelcomePage
         // Hidden page (null parent) — no visible menu item, reachable by slug.
         add_submenu_page(
             '',
-            __('Welcome', 'wp-wand'),
-            __('Welcome', 'wp-wand'),
+            __('Welcome', 'ai-content-generation'),
+            __('Welcome', 'ai-content-generation'),
             'edit_posts',
             self::PAGE_SLUG,
             [$this, 'render']
@@ -36,7 +36,7 @@ final class WelcomePage
 
     public function render(): void
     {
-        echo '<div class="wrap"><div id="wpwand-welcome-root"></div></div>';
+        echo '<div class="wrap"><hr class="wp-header-end"><div id="wpwand-welcome-root"></div></div>';
     }
 
     public function enqueue(string $hook): void
@@ -59,12 +59,10 @@ final class WelcomePage
             true
         );
 
-        wp_enqueue_style(
-            'wpwand-inter-font',
-            'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
-            [],
-            $asset['version']
-        );
+        // No webfont request here on purpose: hitting fonts.googleapis.com from wp-admin is a
+        // third-party round trip nobody asked for and a wordpress.org review flag. Every rule in the
+        // stylesheet reads --wpwand-font, which names Inter first and then the platform UI stack, so
+        // a machine without Inter renders one consistent typeface rather than two.
         if (is_readable(WPWAND_NEW_DIR . 'build/style-welcome.css')) {
             wp_enqueue_style(
                 self::HANDLE,
@@ -81,7 +79,7 @@ final class WelcomePage
         ]);
 
         if (function_exists('wp_set_script_translations')) {
-            wp_set_script_translations(self::HANDLE, 'wp-wand');
+            wp_set_script_translations(self::HANDLE, 'ai-content-generation');
         }
     }
 }

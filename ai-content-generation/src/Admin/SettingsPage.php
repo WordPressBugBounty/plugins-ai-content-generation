@@ -46,8 +46,8 @@ final class SettingsPage
         // Rename the auto-created first submenu (which defaults to the brand name) to "Settings".
         add_submenu_page(
             self::PAGE_SLUG,
-            __('Settings', 'wp-wand'),
-            __('Settings', 'wp-wand'),
+            __('Settings', 'ai-content-generation'),
+            __('Settings', 'ai-content-generation'),
             'edit_posts',
             self::PAGE_SLUG,
             [$this, 'render']
@@ -64,7 +64,7 @@ final class SettingsPage
      */
     public function render(): void
     {
-        echo '<div class="wrap"><div id="wpwand-settings-root">';
+        echo '<div class="wrap"><hr class="wp-header-end"><div id="wpwand-settings-root">';
         echo $this->skeleton(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static markup, brand name escaped below
         echo '</div></div>';
     }
@@ -74,14 +74,21 @@ final class SettingsPage
         $brand = \WPWand\Data\Brand::resolve();
         $name  = $brand['name'] !== '' ? $brand['name'] : 'WP Wand';
 
-        // Mirrors the General tab: the four provider key rows exactly as the app renders them.
+        // Mirrors the General tab: the provider key rows in the order the app renders them. Keep
+        // these in step with KEY_FIELDS in assets/src/apps/settings/App.js — this is what the user
+        // stares at while the bundle loads, and a skeleton that reshuffles when the real thing
+        // arrives reads as a broken page. It was missing Gemini entirely and had the pre-2.0.0
+        // order, so the page visibly rearranged itself on every load.
         $labels = [
-            __('OpenAI API Key', 'wp-wand'),
-            __('Claude API Key', 'wp-wand'),
-            __('DeepSeek API Key', 'wp-wand'),
-            __('OpenRouter API Key', 'wp-wand'),
+            __('Gemini API key', 'ai-content-generation'),
+            __('OpenRouter API key', 'ai-content-generation'),
+            __('OpenAI API key', 'ai-content-generation'),
+            __('Claude API key', 'ai-content-generation'),
+            __('DeepSeek API key', 'ai-content-generation'),
         ];
-        $desc = esc_html__('Add your API key to activate.', 'wp-wand');
+        // Same sentence the app prints under these rows. Two different wordings meant the page
+        // rewrote itself the moment the bundle mounted.
+        $desc = esc_html__('Paste a key to switch this on.', 'ai-content-generation');
         $rows = '';
         foreach ($labels as $label) {
             $rows .= '<div class="wpws-row">'
@@ -101,7 +108,7 @@ final class SettingsPage
             . 'background-size:400% 100%;animation:wpwand-skel-shine 1.4s ease infinite}'
             . '#wpwand-settings-root .wpwand-skel-spin{position:absolute;inset:0;display:flex;flex-direction:column;'
             . 'align-items:center;justify-content:center;gap:14px;color:#6b7280;font-size:13px;'
-            . 'font-family:Inter,-apple-system,sans-serif;z-index:2}'
+            . "font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;z-index:2}"
             . '#wpwand-settings-root .wpwand-skel-spin i{width:26px;height:26px;border:3px solid #e5e7eb;border-top-color:#2563eb;'
             . 'border-radius:50%;animation:wpwand-skel-spin .8s linear infinite;display:block}'
             . '@keyframes wpwand-skel-shine{0%{background-position:100% 0}100%{background-position:-100% 0}}'
@@ -111,13 +118,12 @@ final class SettingsPage
             . '<div class="wpwand-app__header"><h1 class="wpwand-app__title">' . esc_html($name) . '</h1></div>'
             . '<div class="wpws-card">'
             . '<div class="wpws-tabs">'
-            . '<button type="button" class="wpws-tab is-active">' . esc_html__('General', 'wp-wand') . '</button>'
-            . '<button type="button" class="wpws-tab">' . esc_html__('Advanced', 'wp-wand') . '</button>'
-            . '<span class="wpws-getpro">' . esc_html__('Get Pro Version', 'wp-wand') . '</span>'
+            . '<button type="button" class="wpws-tab is-active">' . esc_html__('General', 'ai-content-generation') . '</button>'
+            . '<button type="button" class="wpws-tab">' . esc_html__('Advanced', 'ai-content-generation') . '</button>'
             . '</div>'
             . '<div class="wpwand-skel-panel">'
             . '<div class="wpws-panel wpwand-skel-blur">' . $rows . '</div>'
-            . '<div class="wpwand-skel-spin"><i></i><span>' . esc_html__('Loading settings…', 'wp-wand') . '</span></div>'
+            . '<div class="wpwand-skel-spin"><i></i><span>' . esc_html__('Loading settings…', 'ai-content-generation') . '</span></div>'
             . '</div>'
             . '</div></div>';
     }
@@ -146,14 +152,16 @@ final class SettingsPage
             true
         );
 
-        // Inter font (same as the legacy UI) + the app's compiled stylesheet.
-        wp_enqueue_style(
-            'wpwand-inter-font',
-            'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
-            [],
-            $asset['version']
-        );
+        // No webfont request here on purpose: hitting fonts.googleapis.com from wp-admin is a
+        // third-party round trip nobody asked for and a wordpress.org review flag. Every rule in the
+        // stylesheet reads --wpwand-font, which names Inter first and then the platform UI stack, so
+        // a machine without Inter renders one consistent typeface rather than two.
         // @wordpress/scripts emits the entry's stylesheet as style-{entry}.css.
+        // The model picker is a ComboboxControl. Without core's own component styles its suggestions
+        // list computes max-height:none, so all 426 models render at once and the page grows to
+        // ~12,400px. The script already declares wp-components; only the stylesheet was missing.
+        wp_enqueue_style('wp-components');
+
         if (is_readable(WPWAND_NEW_DIR . 'build/style-settings.css')) {
             wp_enqueue_style(
                 self::HANDLE,
@@ -163,17 +171,10 @@ final class SettingsPage
             );
         }
 
-        wp_localize_script(
-            self::HANDLE,
-            'wpwandApi',
-            [
-                'root'  => esc_url_raw(rest_url()),
-                'nonce' => wp_create_nonce('wp_rest'),
-            ]
-        );
+        ScriptConfig::merge(self::HANDLE, ScriptConfig::base());
 
         if (function_exists('wp_set_script_translations')) {
-            wp_set_script_translations(self::HANDLE, 'wp-wand');
+            wp_set_script_translations(self::HANDLE, 'ai-content-generation');
         }
     }
 }

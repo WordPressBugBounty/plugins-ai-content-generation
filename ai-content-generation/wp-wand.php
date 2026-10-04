@@ -1,15 +1,16 @@
 <?php
 
 /**
- * Plugin Name: WP Wand 
+ * Plugin Name: WP Wand
  * Plugin URI: https://wpwand.com/
- * Description: WP Wand is a AI content generation plugin for WordPress that helps your team create high quality content 10X faster and 50x cheaper. No monthly subscription required.
- * Version: 2.0.0
+ * Description: Write posts, product copy and marketing text with AI, inside WordPress. Bring your own OpenAI, Claude, DeepSeek or OpenRouter key — no monthly subscription.
+ * Version: 2.1.1
  * Author: WP Wand
  * Author URI: https://wpwand.com/
- * Text Domain: wp-wand
+ * Text Domain: ai-content-generation
  * License: GPL-2.0+
- * Requires PHP: 8.0
+ * Requires at least: 6.2
+ * Requires PHP: 7.4
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
@@ -31,13 +32,31 @@ require_once plugin_dir_path(__FILE__) . 'bootstrap.php';
  */
 require_once plugin_dir_path(__FILE__) . 'inc/legacy-compat.php';
 
+/*
+ * Installed copies of WP Wand Pro still call the licence server at its old address, which no
+ * longer exists. This sends those calls to the new one. @see inc/legacy-host.php
+ */
+require_once plugin_dir_path(__FILE__) . 'inc/legacy-host.php';
+
+/*
+ * Bring the schema up to date the moment the plugin is switched on, rather than waiting for the
+ * next wp-admin page load. `wp plugin activate` and a re-activation after an update both land here
+ * with nobody in the admin; Plugin::boot() covers the cron and WP-CLI routes for the rest.
+ */
+register_activation_hook(__FILE__, static function () {
+    (new WPWand\Data\Migrations\MigrationRunner())->run();
+});
+
 /**
  * Boot the legacy procedural side of the plugin (constants, provider keys, and the inc/* includes).
  * The new React + REST architecture is bootstrapped separately from bootstrap.php (loaded above).
  */
 function wpwand_init()
 {
-    load_plugin_textdomain('wp-wand', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+    // No load_plugin_textdomain() call on purpose. Since WordPress 4.6 a wordpress.org plugin whose
+    // text domain matches its directory slug gets its language pack loaded automatically, and this
+    // one ships no bundled .mo files of its own — only the .pot. Calling it anyway is what Plugin
+    // Check flags as discouraged.
 
     if (!function_exists('get_plugin_data')) {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -98,11 +117,24 @@ function wpwand_pro_version_check()
         return;
     }
 
-    if (isset($_GET['force-check']) && check_admin_referer('wpwand_pro_force_update_check')) {
-        wp_clean_plugins_cache();
-        wp_update_plugins();
-        wp_safe_redirect(admin_url('plugins.php'));
-        exit;
+    // Namespaced on purpose. `force-check` belongs to core: wp-admin/update-core.php renders
+    // "Check again" as update-core.php?force-check=1 with no nonce of ours, and this runs on init
+    // for every admin request — so matching the bare parameter meant core's own link, and any
+    // rollback/downgrade plugin that reuses it, died on check_admin_referer()'s wp_die() with
+    // "The link you followed has expired." wp_verify_nonce() returns false instead of dying, so a
+    // request that is not ours simply falls through.
+    if (isset($_GET['wpwand-force-check'])) {
+        $nonce = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
+        if (current_user_can('update_plugins') && wp_verify_nonce($nonce, 'wpwand_pro_force_update_check')) {
+            // Pro keeps its last update answer in this transient — a failed one too, for a day in
+            // 1.x and an hour in 2.0.0 — and answers from it without asking again. Clearing core's
+            // cache alone left this link doing nothing on a site whose last check had failed.
+            delete_transient('wpwand_pro_update');
+            wp_clean_plugins_cache();
+            wp_update_plugins();
+            wp_safe_redirect(admin_url('plugins.php'));
+            exit;
+        }
     }
 
     // Determine the installed Pro version straight from its header (works even when the
@@ -118,12 +150,12 @@ function wpwand_pro_version_check()
 
     if ($pro_version && version_compare($pro_version, '2.0.0', '<')) {
         add_action('admin_notices', function () {
-            $force_update_url = wp_nonce_url(admin_url('admin.php?page=wpwand&force-check=1'), 'wpwand_pro_force_update_check');
+            $force_update_url = wp_nonce_url(admin_url('admin.php?page=wpwand&wpwand-force-check=1'), 'wpwand_pro_force_update_check');
 
             echo '<div class="notice notice-error"><p>';
             printf(
                 /* translators: %s: URL to trigger a plugin update check */
-                wp_kses(__('<strong>Action required:</strong> WP Wand Pro must be updated to version 2.0.0 or higher to match WP Wand 2.0.0. Your Pro features are paused until the update completes. <a href="%s">Update now</a>', 'wp-wand'), ['a' => ['href' => []], 'strong' => []]),
+                wp_kses(__('<strong>Action required:</strong> WP Wand Pro must be updated to version 2.0.0 or higher to match WP Wand 2.0.0. Your Pro features are paused until the update completes. <a href="%s">Update now</a>', 'ai-content-generation'), ['a' => ['href' => []], 'strong' => []]),
                 esc_url($force_update_url)
             );
             echo '</p></div>';
@@ -164,5 +196,5 @@ function wpwand_set_activation_redirect($plugin)
 // write a wpwand_php_version_notice function
 function wpwand_php_version_notice()
 {
-    echo '<div class="error"><p>' . esc_html__('WP Wand requires PHP 7.4 or higher. Please upgrade your PHP version.', 'wp-wand') . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo '<div class="error"><p>' . esc_html__('WP Wand needs PHP 7.4 or newer. Ask your host to update PHP, then activate WP Wand again.', 'ai-content-generation') . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }

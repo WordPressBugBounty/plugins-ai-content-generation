@@ -32,7 +32,7 @@ final class EngineHooks
         if (!isset($schedules['wpwand_minutely'])) {
             $schedules['wpwand_minutely'] = [
                 'interval' => 60,
-                'display'  => __('Every minute (WP Wand)', 'wp-wand-pro'),
+                'display'  => __('Every minute (WP Wand)', 'ai-content-generation'),
             ];
         }
         return $schedules;
@@ -44,7 +44,17 @@ final class EngineHooks
         $start  = time();
 
         while ($runner->is_running() && (time() - $start) < self::BUDGET) {
-            $runner->tick();
+            $res = $runner->tick();
+
+            // The provider asked for a pause. A tick during it returns at once, so without this the
+            // loop would spin on the database for the rest of the budget.
+            $wait = (int) ($res['waiting'] ?? 0);
+            if ($wait > 0) {
+                if ($wait >= self::BUDGET - (time() - $start)) {
+                    break; // longer than this run has left; the next cron run picks it up
+                }
+                sleep($wait);
+            }
         }
 
         if (!$runner->is_running()) {

@@ -19,12 +19,24 @@ use WPWand\Generation\Providers\ProviderFactory;
 final class ModelCatalog
 {
     private const CACHE_TTL = 30 * MINUTE_IN_SECONDS; // key status can change (expire/quota)
+
+    /**
+     * A transport failure is not an answer, so it is held only briefly before we ask again. Backoff
+     * doubles it per consecutive failure up to FAIL_TTL_MAX, so a host with outbound blocked settles
+     * into occasional retries instead of paying the full probe on every settings visit.
+     */
+    private const FAIL_TTL     = 2 * MINUTE_IN_SECONDS;
+    private const FAIL_TTL_MAX = 30 * MINUTE_IN_SECONDS;
+
+    /** How long a known-good model list is kept to fall back on while the provider is unreachable. */
+    private const LAST_GOOD_TTL = WEEK_IN_SECONDS;
     private const REC_CAP   = 8000;                   // recommended default never exceeds this
 
     private const KEY_OPTION = [
         'openai'     => 'wpwand_api_key',
         'claude'     => 'wpwand_claude_api_key',
         'deepseek'   => 'wpwand_deepseek_api_key',
+        'gemini'     => 'wpwand_gemini_api_key',
         'openrouter' => 'wpwand_openrouter_api_key',
     ];
 
@@ -40,7 +52,11 @@ final class ModelCatalog
     public static function status(string $provider): array
     {
         $c = self::catalog($provider);
-        return ['status' => $c['status'], 'message' => $c['message']];
+        return [
+            'status'       => $c['status'],
+            'message'      => $c['message'],
+            'stale_models' => !empty($c['stale_models']),
+        ];
     }
 
     /**
@@ -57,7 +73,17 @@ final class ModelCatalog
         if (is_array($cached) && isset($cached['status'])) {
             return $cached;
         }
-        return ['status' => 'unknown', 'message' => '', 'models' => []];
+
+        // No probe yet this cycle. Offer the last known list so the picker paints something usable
+        // before the first status call lands.
+        $models = self::recall_models($provider);
+
+        return [
+            'status'       => 'unknown',
+            'message'      => '',
+            'models'       => $models,
+            'stale_models' => !empty($models),
+        ];
     }
 
     /**
@@ -68,7 +94,7 @@ final class ModelCatalog
     {
         $key = trim($key);
         if ($key === '') {
-            return ['ok' => false, 'message' => __('Enter a key to test.', 'wp-wand')];
+            return ['ok' => false, 'message' => __('Enter a key to test.', 'ai-content-generation')];
         }
 
         if ($provider === 'openrouter') {
@@ -76,15 +102,15 @@ final class ModelCatalog
         } else {
             [$url, $headers] = self::models_request($provider, $key);
             $resp = wp_remote_get($url, ['timeout' => 12, 'headers' => $headers]);
-            $s       = self::classify($resp);
+            $s       = self::classify($resp, $provider);
             $status  = $s['status'];
             $message = $s['message'];
         }
 
         if ($status === 'active') {
-            return ['ok' => true, 'message' => __('Key is working.', 'wp-wand')];
+            return ['ok' => true, 'message' => __('Key is working.', 'ai-content-generation')];
         }
-        return ['ok' => false, 'message' => $message !== '' ? $message : __('Key is not valid.', 'wp-wand')];
+        return ['ok' => false, 'message' => $message !== '' ? $message : __('Key is not valid.', 'ai-content-generation')];
     }
 
     /** Recommended + maximum output tokens for one model value. */
@@ -120,6 +146,7 @@ final class ModelCatalog
             'openai'     => 'gpt-4o-mini',
             'claude'     => 'claude-3-5-haiku-20241022',
             'deepseek'   => 'deepseek-chat',
+            'gemini'     => 'gemini-2.5-flash-lite',
             'openrouter' => 'oprtr-openai/gpt-4o-mini',
         ];
         return $defaults[$provider] ?? 'gpt-4o-mini';
@@ -144,8 +171,64 @@ final class ModelCatalog
         }
 
         $result = self::build($provider);
+
+        if ($result['status'] === 'active') {
+            self::remember_models($provider, $result['models']);
+            delete_transient('wpwand_catalog_fails_' . $provider);
+            set_transient($cacheKey, $result, self::CACHE_TTL);
+            return $result;
+        }
+
+        if ($result['status'] === 'unreachable') {
+            // We could not ask, so we do not know anything new about the key. Serve the last list we
+            // did get, and keep the status honest so the UI can say the provider is unreachable
+            // rather than painting a green badge over a stale answer.
+            $result['models']       = self::recall_models($provider);
+            $result['stale_models'] = !empty($result['models']);
+
+            $fails = (int) get_transient('wpwand_catalog_fails_' . $provider);
+            $fails = min($fails + 1, 8);
+            set_transient('wpwand_catalog_fails_' . $provider, $fails, self::FAIL_TTL_MAX);
+            $ttl = min(self::FAIL_TTL * (2 ** ($fails - 1)), self::FAIL_TTL_MAX);
+
+            set_transient($cacheKey, $result, $ttl);
+            return $result;
+        }
+
+        // invalid / exceeded / unset are real answers about the key; an empty list is correct.
         set_transient($cacheKey, $result, self::CACHE_TTL);
         return $result;
+    }
+
+    /**
+     * Keep the last good model list under its own key, tied to the key that produced it.
+     *
+     * It lives outside the catalogue transient on purpose: flush() clears the catalogue so the Test
+     * button forces a live re-probe, and that must not throw away the fallback at the same time.
+     * Binding it to a hash of the key means swapping or revoking a key cannot resurrect the old
+     * account's models.
+     *
+     * @param array<int, array<string, mixed>> $models
+     */
+    private static function remember_models(string $provider, array $models): void
+    {
+        if (empty($models)) {
+            return;
+        }
+        set_transient(self::last_good_key($provider), $models, self::LAST_GOOD_TTL);
+    }
+
+    /** @return array<int, array<string, mixed>> */
+    private static function recall_models(string $provider): array
+    {
+        $models = get_transient(self::last_good_key($provider));
+        return is_array($models) ? $models : [];
+    }
+
+    private static function last_good_key(string $provider): string
+    {
+        $key = (string) get_option(self::KEY_OPTION[$provider] ?? '', '');
+        return 'wpwand_models_' . $provider . '_' . substr(md5($key), 0, 8);
     }
 
     /** @return array{status:string, message:string, models:array<int, array<string, mixed>>} */
@@ -168,13 +251,13 @@ final class ModelCatalog
         return self::fetch_models($provider, $key);
     }
 
-    /** OpenAI / Claude / DeepSeek: one /models call gives both validity and the list. */
+    /** OpenAI / Claude / DeepSeek / Gemini: one /models call gives both validity and the list. */
     private static function fetch_models(string $provider, string $key): array
     {
         [$url, $headers] = self::models_request($provider, $key);
         $resp = wp_remote_get($url, ['timeout' => 12, 'headers' => $headers]);
 
-        $status = self::classify($resp);
+        $status = self::classify($resp, $provider);
         if ($status['status'] !== 'active') {
             return ['status' => $status['status'], 'message' => $status['message'], 'models' => []];
         }
@@ -201,14 +284,29 @@ final class ModelCatalog
         if ($provider === 'deepseek') {
             return ['https://api.deepseek.com/models', ['Authorization' => 'Bearer ' . $key]];
         }
+        if ($provider === 'gemini') {
+            // Google's OpenAI-compatible listing. The native /v1beta/models answers the same
+            // question in Google's own shape; this one is used so the key check and the parse stay
+            // on the single surface GeminiProvider generates against.
+            return ['https://generativelanguage.googleapis.com/v1beta/openai/models', [
+                'Authorization' => 'Bearer ' . $key,
+            ]];
+        }
         return ['https://api.openai.com/v1/models', ['Authorization' => 'Bearer ' . $key]];
     }
 
     /** Map an HTTP response to a key status. @return array{status:string, message:string} */
-    private static function classify($resp): array
+    private static function classify($resp, string $provider = ''): array
     {
         if (is_wp_error($resp)) {
-            return ['status' => 'unreachable', 'message' => $resp->get_error_message()];
+            // Raw cURL text otherwise — the formatter's transport branch names the provider and says
+            // what to do about it.
+            $message = ErrorFormatter::humanize(
+                $resp->get_error_message(),
+                __('Could not reach the provider. Please try again.', 'ai-content-generation'),
+                $provider
+            );
+            return ['status' => 'unreachable', 'message' => $message];
         }
         $code = (int) wp_remote_retrieve_response_code($resp);
         if ($code === 200) {
@@ -218,7 +316,7 @@ final class ModelCatalog
         // Pull the provider's own error sentence out of the body so the user sees the real reason
         // ("No endpoints found for model X", "Incorrect API key provided: sk-…") rather than a bare
         // HTTP code. Empty if the body has nothing useful.
-        $detail = ErrorFormatter::humanize((string) wp_remote_retrieve_body($resp), '');
+        $detail = ErrorFormatter::humanize((string) wp_remote_retrieve_body($resp), '', $provider);
         $generic = static function (string $label) use ($detail) {
             // Avoid echoing our own fallback text back as "detail".
             $clean = ($detail !== '' && stripos($detail, 'went wrong') === false) ? $detail : '';
@@ -226,16 +324,25 @@ final class ModelCatalog
         };
 
         if ($code === 401 || $code === 403) {
-            return ['status' => 'invalid', 'message' => $generic(__('Key is invalid or expired.', 'wp-wand'))];
+            return ['status' => 'invalid', 'message' => $generic(__('Key is invalid or expired.', 'ai-content-generation'))];
         }
         if ($code === 429) {
-            return ['status' => 'exceeded', 'message' => $generic(__('Rate limit or quota exceeded.', 'wp-wand'))];
+            return ['status' => 'exceeded', 'message' => $generic(__('Rate limit or quota exceeded.', 'ai-content-generation'))];
         }
         if ($code === 402) {
-            return ['status' => 'exceeded', 'message' => $generic(__('Insufficient credit / quota exceeded.', 'wp-wand'))];
+            return ['status' => 'exceeded', 'message' => $generic(__('Insufficient credit / quota exceeded.', 'ai-content-generation'))];
+        }
+        // Google answers a bad key with 400 INVALID_ARGUMENT — {"error":{"code":400,"message":
+        // "Please pass a valid API key","status":"INVALID_ARGUMENT"}} — where every other provider
+        // here uses 401. Measured against the live endpoint with both a junk string and a
+        // correctly-shaped AIza… key; both give 400. Without this branch a simple typo falls into
+        // 'unreachable' below and the user is sent to their host to debug a firewall that is fine.
+        // Scoped to gemini on purpose: elsewhere a 400 really is a malformed request, not a key.
+        if ($code === 400 && $provider === 'gemini') {
+            return ['status' => 'invalid', 'message' => $generic(__('Key is invalid or expired.', 'ai-content-generation'))];
         }
         /* translators: %d: HTTP status code */
-        $fallback = sprintf(__('Provider returned HTTP %d.', 'wp-wand'), $code);
+        $fallback = sprintf(__('Provider returned HTTP %d.', 'ai-content-generation'), $code);
         return ['status' => 'unreachable', 'message' => $generic($fallback)];
     }
 
@@ -246,7 +353,7 @@ final class ModelCatalog
             'timeout' => 12,
             'headers' => ['Authorization' => 'Bearer ' . $key],
         ]);
-        $s = self::classify($resp);
+        $s = self::classify($resp, 'openrouter');
         if ($s['status'] !== 'active') {
             return [$s['status'], $s['message']];
         }
@@ -254,7 +361,7 @@ final class ModelCatalog
         $usage = $body['data']['usage'] ?? null;
         $limit = $body['data']['limit'] ?? null;
         if ($limit !== null && $usage !== null && (float) $usage >= (float) $limit) {
-            return ['exceeded', __('OpenRouter credit limit reached.', 'wp-wand')];
+            return ['exceeded', __('OpenRouter credit limit reached.', 'ai-content-generation')];
         }
         return ['active', ''];
     }
@@ -278,6 +385,18 @@ final class ModelCatalog
                     continue;
                 }
             }
+            if ($provider === 'gemini') {
+                // Google's OpenAI-compatible listing does NOT match OpenAI's shape: ids come back
+                // as Google resource names — "models/gemini-2.5-pro", not "gemini-2.5-pro". Strip
+                // the prefix so what we store in wpwand_model is the id the docs tell people to
+                // use, and so ProviderFactory sees a plain model string.
+                if (strpos($id, 'models/') === 0) {
+                    $id = substr($id, 7);
+                }
+                if (!self::gemini_is_chat_model($id)) {
+                    continue;
+                }
+            }
             $max   = self::known_max($provider, $id);
             $label = $provider === 'claude' ? (string) ($m['display_name'] ?? self::pretty($id)) : self::pretty($id);
             $out[] = [
@@ -287,10 +406,52 @@ final class ModelCatalog
                 'max_tokens' => (int) min($max, self::REC_CAP),
             ];
         }
-        if ($provider === 'openai' || $provider === 'deepseek') {
+        if ($provider === 'openai' || $provider === 'deepseek' || $provider === 'gemini') {
             usort($out, static fn ($a, $b) => strcasecmp($a['value'], $b['value']));
         }
         return $out;
+    }
+
+    /**
+     * Whether a Gemini model can answer a chat completion.
+     *
+     * Google returns its whole catalogue in one listing — embeddings, image and speech models, the
+     * Live API variants, the older PaLM-era ids — and none of those serve /chat/completions. Left
+     * unfiltered the picker fills with entries that only ever error, so this keeps it to the
+     * generative gemini-* families and drops the jobs that name their modality.
+     *
+     * Deliberately a denylist of modality words rather than an allowlist of ids: Google ships new
+     * Gemini generations often, and an allowlist would silently hide every model released after
+     * this line was written. Preview and dated ids are kept — someone choosing Gemini may well want
+     * the newest thing, and the id is validated against this same list before use.
+     */
+    private static function gemini_is_chat_model(string $id): bool
+    {
+        // Everything Google generates text with is gemini-*; this also drops embedding-001,
+        // imagen-*, veo-*, aqa and the retired text-bison/chat-bison ids in one go.
+        if (strpos($id, 'gemini-') !== 0) {
+            return false;
+        }
+
+        return !preg_match('/(embedding|image|vision|tts|audio|live|dialog|computer-use)/i', $id);
+    }
+
+    /**
+     * Whether OpenRouter charges nothing for this model.
+     *
+     * Both halves have to be zero — a model can be free to send and paid to receive. Prices arrive
+     * as strings like "0.0000014", so they are compared numerically rather than to the literal "0".
+     *
+     * @param array<string, mixed> $model One entry from OpenRouter's /models payload.
+     */
+    private static function is_free(array $model): bool
+    {
+        $pricing = $model['pricing'] ?? null;
+        if (!is_array($pricing) || !isset($pricing['prompt'], $pricing['completion'])) {
+            return false;
+        }
+
+        return (float) $pricing['prompt'] === 0.0 && (float) $pricing['completion'] === 0.0;
     }
 
     /** OpenRouter's public model list (with real per-model limits). */
@@ -317,6 +478,7 @@ final class ModelCatalog
                 'label'      => (string) ($m['name'] ?? $id),
                 'model_max'  => $max,
                 'max_tokens' => $max !== null ? (int) min($max, self::REC_CAP) : 4000,
+                'free'       => self::is_free($m),
             ];
         }
         usort($out, static fn ($a, $b) => strcasecmp($a['label'], $b['label']));
@@ -352,6 +514,14 @@ final class ModelCatalog
         if ($provider === 'deepseek') {
             return 8192;
         }
+        if ($provider === 'gemini') {
+            // The 2.5 series onwards returns up to 65,536 output tokens; 1.5 and 2.0 cap at 8,192.
+            // Only the reported ceiling differs — REC_CAP still decides what we actually ask for.
+            if (preg_match('/^gemini-(2\.5|[3-9])/', $m)) {
+                return 65536;
+            }
+            return 8192;
+        }
         return 4096;
     }
 
@@ -379,6 +549,15 @@ final class ModelCatalog
             'deepseek' => [
                 ['deepseek-chat', 'DeepSeek Chat'],
                 ['deepseek-reasoner', 'DeepSeek Reasoner (R1)'],
+            ],
+            // Stable, undated aliases only. Google's dated and -preview ids get retired on a
+            // schedule, and a hardcoded id that outlives the model is exactly the failure recorded
+            // in docs/LEARNINGS.md — these four track whatever Google currently points them at.
+            'gemini' => [
+                ['gemini-3.7-flash', 'Gemini 3.7 Flash'],
+                ['gemini-3.5-flash-lite', 'Gemini 3.5 Flash Lite'],
+                ['gemini-2.5-pro', 'Gemini 2.5 Pro'],
+                ['gemini-2.5-flash', 'Gemini 2.5 Flash'],
             ],
             'openrouter' => [
                 ['oprtr-openai/gpt-4o-mini', 'OpenAI: GPT-4o-mini'],

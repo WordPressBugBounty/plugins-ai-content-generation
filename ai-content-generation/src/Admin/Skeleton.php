@@ -13,6 +13,27 @@ namespace WPWand\Admin;
  *
  * All CSS is scoped by the wpwand-skel- class prefix (unique) so nothing leaks into wp-admin.
  * The Settings screen keeps its own tab-accurate variant; everything else uses this generic one.
+ *
+ * THE CSS IN styles() IS REPEATED VERBATIM IN assets/src/shared/LoadingSkeleton.js. Edit one and
+ * the screen jumps the moment React mounts, because the server paint and the React paint stop
+ * agreeing. Change both, in the same commit — adopt-design-foundation task 9.5 strips the
+ * whitespace from each and compares them.
+ *
+ * Every var() carries its literal as a fallback on purpose: the two screens that print this,
+ * Bulk and Automation, scope their tokens under .wpwand-bulk and .wpwa, not the .wpwand-app root
+ * this markup uses. Without the fallbacks the placeholder loses its colours where it is used.
+ *
+ * A FALLBACK IS NOT THE SAME AS THE TWO PAINTS AGREEING. This copy prints into the bare mount
+ * container, outside every token root, so it always takes the literal; the React copy renders
+ * inside an app root and resolves the token. --wpw-field and --wpw-field-line survive that because
+ * tokens.root emits them as the same literals. --wpw-brand does not: it is
+ * var(--wpwand-brand-color, #3767fb), so a White Label install that ever set that property would
+ * have the spinner change colour at the instant React mounts. That is why the spinner ring is the
+ * literal #3767FB on both sides rather than the token. If the spinner is one day meant to follow an
+ * agency's colour, styles() has to be handed the resolved value from Brand::resolve() so both sides
+ * get it — not the token on one side only.
+ *
+ * The placeholder rests on the field fill; the shimmer is a light sweep across it, not a grey wash.
  */
 final class Skeleton
 {
@@ -41,7 +62,7 @@ final class Skeleton
             . ($tabHtml !== '' ? '<div class="wpws-tabs">' . $tabHtml . '</div>' : '')
             . '<div class="wpwand-skel-panel">'
             . '<div class="wpws-panel wpwand-skel-blur">' . $rowHtml . '</div>'
-            . '<div class="wpwand-skel-spin"><i></i><span>' . esc_html__('Loading…', 'wp-wand') . '</span></div>'
+            . '<div class="wpwand-skel-spin"><i></i><span>' . esc_html__('Loading…', 'ai-content-generation') . '</span></div>'
             . '</div>'
             . '</div></div>';
     }
@@ -53,12 +74,14 @@ final class Skeleton
             . '.wpwand-skel-blur{filter:blur(3px);opacity:.6;pointer-events:none;user-select:none}'
             . '.wpwand-skel-row{display:flex;flex-direction:column;gap:8px;padding:14px 0;border-bottom:1px solid #f1f2f4}'
             . '.wpwand-skel-line{display:block;height:12px;width:180px;border-radius:5px;background:#eef0f2}'
-            . '.wpwand-skel-input{display:block;height:38px;max-width:420px;border:1px solid #e5e7eb;border-radius:6px;'
-            . 'background:linear-gradient(90deg,#f3f4f6 25%,#fafafa 37%,#f3f4f6 63%);background-size:400% 100%;'
+            . '.wpwand-skel-input{display:block;height:45px;max-width:420px;border:1px solid var(--wpw-field-line,#dcdce1);border-radius:6px;'
+            . 'background-color:var(--wpw-field,#fcfcfd);'
+            . 'background-image:linear-gradient(90deg,rgba(220,220,225,.14) 25%,rgba(255,255,255,.9) 37%,rgba(220,220,225,.14) 63%);'
+            . 'background-size:400% 100%;'
             . 'animation:wpwand-skel-shine 1.4s ease infinite}'
             . '.wpwand-skel-spin{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;'
-            . 'justify-content:center;gap:14px;color:#6b7280;font-size:13px;font-family:Inter,-apple-system,sans-serif;z-index:2}'
-            . '.wpwand-skel-spin i{width:26px;height:26px;border:3px solid #e5e7eb;border-top-color:#2563eb;border-radius:50%;'
+            . "justify-content:center;gap:14px;color:#6b7280;font-size:13px;font-family:var(--wpwand-font,'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif);z-index:2}"
+            . '.wpwand-skel-spin i{width:26px;height:26px;border:3px solid #e5e7eb;border-top-color:#3767fb;border-radius:50%;'
             . 'animation:wpwand-skel-spin .8s linear infinite;display:block}'
             . '@keyframes wpwand-skel-shine{0%{background-position:100% 0}100%{background-position:-100% 0}}'
             . '@keyframes wpwand-skel-spin{to{transform:rotate(360deg)}}'

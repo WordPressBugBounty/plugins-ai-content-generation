@@ -26,12 +26,10 @@ final class AssistantAssets
             true
         );
 
-        wp_enqueue_style(
-            'wpwand-inter-font',
-            'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
-            [],
-            $asset['version']
-        );
+        // No webfont request here on purpose: this runs on every admin page, and hitting
+        // fonts.googleapis.com from wp-admin is both a third-party round trip nobody asked for and a
+        // wordpress.org review flag. Every rule reads --wpwand-font, which names Inter first and then
+        // the platform UI stack, so a machine without Inter renders one consistent typeface.
         if (is_readable(WPWAND_NEW_DIR . 'build/style-assistant.css')) {
             wp_enqueue_style(
                 self::HANDLE,
@@ -41,18 +39,17 @@ final class AssistantAssets
             );
         }
 
-        wp_localize_script(
-            self::HANDLE,
-            'wpwandApi',
-            [
-                'root'  => esc_url_raw(rest_url()),
-                'nonce' => wp_create_nonce('wp_rest'),
-                'brand' => \WPWand\Data\Brand::resolve()['color'],
-            ]
-        );
+        ScriptConfig::merge(self::HANDLE, ScriptConfig::base() + [
+            'brand' => \WPWand\Data\Brand::resolve()['color'],
+            // Where the user asked for the trigger. 'top' means the admin-bar node is the trigger,
+            // so the floating edge button must NOT also render — the setting moves the button, it
+            // does not add a second one. See AdminBarTrigger.
+            // 'hidden' means neither: no admin-bar node, no edge button. Only Settings brings it back.
+            'togglerPosition' => (string) get_option('toggler_position', 'top'),
+        ]);
 
         if (function_exists('wp_set_script_translations')) {
-            wp_set_script_translations(self::HANDLE, 'wp-wand');
+            wp_set_script_translations(self::HANDLE, 'ai-content-generation');
         }
     }
 }

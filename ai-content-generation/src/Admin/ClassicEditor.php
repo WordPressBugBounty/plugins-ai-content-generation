@@ -12,13 +12,41 @@ use WPWand\Data\EditorPrompts;
  */
 final class ClassicEditor
 {
+    public const STYLE_HANDLE = 'wpwand-classic';
+
     public function register(): void
     {
         add_filter('mce_external_plugins', [$this, 'register_plugin']);
         add_filter('mce_buttons', [$this, 'register_button']);
         add_action('before_wp_tiny_mce', [$this, 'print_config']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_style']);
+        // WordPress autosaves while a generation is still running, so the placeholder can be written
+        // into the post and left there. Strip it on the way into the database — this covers autosave,
+        // revisions and the REST editor, which a client-side guard would not.
+        add_filter('content_save_pre', [$this, 'strip_placeholder'], 5);
         // Cutover: stop the legacy classic-editor button so there is no duplicate.
         add_action('init', [$this, 'disable_legacy'], 20);
+    }
+
+    /**
+     * Remove any leftover "AI is thinking…" placeholder before the content is stored.
+     *
+     * Matches the element the Classic bundle inserts (assets/src/apps/classic/index.js) and the
+     * paragraph the block editor inserts, both carrying the wpwand-mce-loading class.
+     */
+    public function strip_placeholder(string $content): string
+    {
+        if (strpos($content, 'wpwand-mce-loading') === false) {
+            return $content;
+        }
+
+        $cleaned = preg_replace(
+            '#<p\b[^>]*\bclass=("|\')[^"\']*\bwpwand-mce-loading\b[^"\']*\1[^>]*>.*?</p>\s*#is',
+            '',
+            $content
+        );
+
+        return is_string($cleaned) ? $cleaned : $content;
     }
 
     public function disable_legacy(): void
@@ -64,16 +92,42 @@ final class ClassicEditor
 
         echo '<script>window.wpwandClassic=' . wp_json_encode($data) . ';</script>';
 
-        // Pro "Pro" pill on locked menu items (recreated from the legacy .mce-is_pro rule, so it
-        // is self-contained and doesn't depend on the legacy admin.css being present).
-        echo '<style>'
-            . '.mce-menu .mce-container-body{min-width:245px!important}'
-            . '.mce-menu-item.mce-is_pro{position:relative;padding-right:56px!important}'
-            . '.mce-menu-item.mce-is_pro:after{content:"Pro";position:absolute;right:8px;top:50%;'
-            . 'transform:translateY(-50%);background:#EE2626;color:#fff;border-radius:21px;'
-            . "font:700 10px/20px 'Inter',sans-serif;padding:2px 9px;text-transform:uppercase}"
-            . '.wpwand-mce-loading{color:#3767fb}'
-            . '</style>';
+        // The Pro pill and the menu width used to be printed here as a <style> block. They live in
+        // assets/src/apps/classic/style.scss now and arrive as build/style-classic.css — see
+        // enqueue_style(). The :has(.mce-wpwand) scoping moved with them and has to stay: without
+        // it the width rule reaches every TinyMCE dropdown on the site, ours or not.
+    }
+
+    /**
+     * Load the Classic menu's stylesheet.
+     *
+     * On admin_enqueue_scripts rather than beside the config above, and the reason is a measured
+     * one: before_wp_tiny_mce fires from _WP_Editors::editor_js() at admin_print_footer_scripts
+     * priority 50, and core prints late styles from _wp_footer_scripts() at priority 10. A style
+     * enqueued there is registered after the last chance to print it and never reaches the page —
+     * which for these rules means the Pro pill silently loses every rule it has.
+     *
+     * The cost is that the file loads on any admin screen an author can reach, not only the ones
+     * carrying an editor. It is under a kilobyte and every selector needs TinyMCE markup to match
+     * anything, so it is inert elsewhere. `redesign-editor-surfaces` task 3.1 owns narrowing this
+     * to the screens that actually render an editor.
+     */
+    public function enqueue_style(): void
+    {
+        if (!current_user_can('edit_posts')) {
+            return;
+        }
+
+        if (!is_readable(WPWAND_NEW_DIR . 'build/style-classic.css')) {
+            return;
+        }
+
+        wp_enqueue_style(
+            self::STYLE_HANDLE,
+            WPWAND_NEW_URL . 'build/style-classic.css',
+            [],
+            $this->version()
+        );
     }
 
     private function version(): string

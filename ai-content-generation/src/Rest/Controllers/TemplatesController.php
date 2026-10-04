@@ -10,8 +10,8 @@ use WP_REST_Response;
 /**
  * GET /wpwand/v1/templates — the content templates for the assistant.
  *
- * Reads the SAME data the legacy assistant uses (wpwand_data option, merged free+pro+
- * custom) and normalizes each template's comma-separated `fields` string into structured
+ * Reads the wpwand_data option — one template list, plus the user's custom prompts — and
+ * normalizes each template's comma-separated `fields` string into structured
  * field descriptors the React form can render directly. No dependency on legacy init —
  * the option is read directly so this is deterministic in any request context.
  */
@@ -55,7 +55,14 @@ final class TemplatesController extends AbstractController
             'custom_textarea'       => ['key' => 'custom_textarea', 'type' => 'textarea', 'label' => 'Write Anything'],
             'Keywords'              => ['key' => 'keyword', 'type' => 'text', 'label' => 'Keyword to Include', 'placeholder' => 'Separate keywords with commas', 'optional' => true],
             'Tone'                  => ['key' => 'tone', 'type' => 'select', 'label' => 'Tone', 'options' => self::TONES],
-            'Word Count'            => ['key' => 'word_limit', 'type' => 'number', 'label' => 'Minimum Word', 'default' => 100],
+            // 'Minimum Word' was never accurate — every prompt that uses this value treats it as a
+            // target length, some phrased as a ceiling ("must not exceed"), none as a floor. This is
+            // now the exact number the prompt asks the model for — no hidden offset. 2000 is what a
+            // One Click Blog Post run actually produced when asked for a length that fits its token
+            // budget (docs/audit-2026-08-22/token-cost.md: 2,334-2,447 words). Short-form templates
+            // ask the user to lower this; it's a starting point, not a fit for every template that
+            // collects it.
+            'Word Count'            => ['key' => 'word_limit', 'type' => 'number', 'label' => 'Word Count', 'default' => 2000],
         ];
     }
 
@@ -87,6 +94,10 @@ final class TemplatesController extends AbstractController
                 // provider can actually stream here (OpenAI-compatible + key + curl). Client falls back.
                 'stream'        => (bool) get_option('wpwand_stream', 0),
                 'can_stream'    => \WPWand\Generation\Provider::can_stream(),
+                // Images run on OpenAI only, whatever provider writes the text. Without this the
+                // Image tab looks available to a Claude/DeepSeek/OpenRouter user and only fails
+                // once they've written a prompt.
+                'image_ready'   => get_option('wpwand_api_key', '') !== '',
             ],
             200
         );
@@ -118,13 +129,10 @@ final class TemplatesController extends AbstractController
             $custom_data = [];
         }
 
-        $merged = [];
-        if (is_array($data) && isset($data['free'], $data['pro']) && is_array($data['free']) && is_array($data['pro'])) {
-            // Same precedence as wpwand_templates(): custom, then free, then pro (pro wins).
-            $merged = array_merge($custom_data, $data['free'], $data['pro']);
-        } else {
-            $merged = $custom_data;
-        }
+        // One catalogue, everyone gets all of it. Templates::flatten() also accepts the old
+        // {free, pro} shape, which is what a Pro licence sync still writes into this option.
+        // Custom prompts first, so a user's own edit of a shipped template name wins.
+        $merged = array_merge($custom_data, \WPWand\Data\Templates::flatten($data));
 
         $map = $this->field_map();
         $out = [];

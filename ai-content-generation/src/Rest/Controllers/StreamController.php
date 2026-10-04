@@ -5,7 +5,9 @@ namespace WPWand\Rest\Controllers;
 use WP_REST_Request;
 use WP_REST_Response;
 use WPWand\Data\History;
+use WPWand\Generation\Completeness;
 use WPWand\Generation\ErrorFormatter;
+use WPWand\Generation\JobRunner;
 use WPWand\Generation\Prompt;
 use WPWand\Generation\Providers\ProviderFactory;
 
@@ -48,6 +50,13 @@ final class StreamController extends AbstractController
             return new WP_REST_Response(['stream' => false, 'reason' => 'empty'], 200);
         }
 
+        // A long-form template is written one section at a time by /generate. There is no single
+        // request to stream, and streaming the whole article from one call is the thing that got it
+        // cut off — so hand these straight back and let the client fall back.
+        if (JobRunner::handles_template(sanitize_text_field((string) $request->get_param('template_name')))) {
+            return new WP_REST_Response(['stream' => false, 'reason' => 'sectioned'], 200);
+        }
+
         $built = Prompt::build($request);
         $temp  = (float) get_option('wpwand_temperature', 1.0);
 
@@ -87,7 +96,13 @@ final class StreamController extends AbstractController
         // phpcs:enable WordPress.WP.AlternativeFunctions.curl_curl_init, WordPress.WP.AlternativeFunctions.curl_curl_setopt_array, WordPress.WP.AlternativeFunctions.curl_curl_exec, WordPress.WP.AlternativeFunctions.curl_curl_error, WordPress.WP.AlternativeFunctions.curl_curl_close, Squiz.PHP.DiscouragedFunctions.Discouraged
 
         if ($err === '') {
-            $this->record_history($request, $raw);
+            $shortfall = $this->record_history($request, $raw);
+            if (null !== $shortfall) {
+                // The text has already reached the browser, so this is the only place left to say it
+                // came up short. The client reads delta.content and ignores anything else, so an
+                // older build is unaffected.
+                echo 'data: ' . wp_json_encode(['wpwand_partial' => $shortfall]) . "\n\n"; // phpcs:ignore WordPress.Security.EscapeOutput
+            }
         } else {
             echo 'data: ' . wp_json_encode(['error' => ErrorFormatter::humanize($err)]) . "\n\n"; // phpcs:ignore WordPress.Security.EscapeOutput
         }
@@ -96,8 +111,13 @@ final class StreamController extends AbstractController
         exit;
     }
 
-    /** Reassemble the streamed delta.content tokens and store the result in History. */
-    private function record_history(WP_REST_Request $request, string $raw): void
+    /**
+     * Reassemble the streamed delta.content tokens and store the result in History.
+     *
+     * @return array<string, mixed>|null What to tell the client when the article came up short, or
+     *                                   null when it is whole (or was never long-form to begin with).
+     */
+    private function record_history(WP_REST_Request $request, string $raw): ?array
     {
         $text = '';
         foreach (preg_split('/\r\n|\r|\n/', $raw) ?: [] as $line) {
@@ -118,12 +138,12 @@ final class StreamController extends AbstractController
 
         $text = trim($text);
         if ($text === '') {
-            return;
+            return null;
         }
 
         $template = sanitize_text_field((string) $request->get_param('template_name'));
         if ($template === '') {
-            $template = __('Custom', 'wp-wand');
+            $template = __('Custom', 'ai-content-generation');
         }
 
         $params = $request->get_json_params();
@@ -132,7 +152,41 @@ final class StreamController extends AbstractController
         }
         unset($params['prompt'], $params['markdown']);
 
-        History::record($template, $params, History::response_from_text($text));
+        // Only long-form output has an article shape to measure. A meta title or a tagline ends
+        // without a full stop because that is how it is written, and judging it here would throw
+        // away good work. The template's `markdown` flag is the line.
+        $verdict = null;
+        if ((bool) $request->get_param('markdown')) {
+            $verdict = Completeness::check($text);
+        }
+
+        if (null !== $verdict && !Completeness::isComplete($verdict)) {
+            $params['wpwand_completeness'] = [
+                'status'    => $verdict['status'],
+                'reason'    => $verdict['reason'],
+                'promised'  => $verdict['promised'],
+                'arrived'   => $verdict['arrived'],
+                'missing'   => $verdict['missing'],
+                'sensitive' => Completeness::sensitiveMissing($verdict['missing']),
+            ];
+        }
+
+        History::record(
+            $template,
+            $params,
+            History::response_from_text($text),
+            History::title_from($text),
+            History::SOURCE_EDITOR
+        );
+
+        if (null === $verdict || Completeness::isComplete($verdict)) {
+            return null;
+        }
+
+        return [
+            'status' => $verdict['status'],
+            'reason' => $verdict['reason'],
+        ];
     }
 
     /** Switch the response into an unbuffered SSE stream. */

@@ -54,6 +54,18 @@ final class GutenbergIntegration
             true
         );
 
+        // The block editor had no stylesheet at all until now, so the toolbar dropdown was drawn
+        // entirely from inline style objects. Same version as the script: both come out of the same
+        // build, so a cache that has one and not the other is a bug rather than a saving.
+        if (is_readable(WPWAND_NEW_DIR . 'build/style-editor.css')) {
+            wp_enqueue_style(
+                self::HANDLE,
+                WPWAND_NEW_URL . 'build/style-editor.css',
+                [],
+                $asset['version']
+            );
+        }
+
         wp_localize_script(
             self::HANDLE,
             'wpwandEditor',
@@ -70,7 +82,7 @@ final class GutenbergIntegration
         );
 
         if (function_exists('wp_set_script_translations')) {
-            wp_set_script_translations(self::HANDLE, 'wp-wand');
+            wp_set_script_translations(self::HANDLE, 'ai-content-generation');
         }
     }
 }

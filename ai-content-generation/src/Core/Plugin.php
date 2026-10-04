@@ -2,6 +2,7 @@
 
 namespace WPWand\Core;
 
+use WPWand\Admin\ReviewPrompt;
 use WPWand\Data\Migrations\MigrationRunner;
 use WPWand\Generation\EngineHooks;
 use WPWand\Modules\AssistantModule;
@@ -50,8 +51,12 @@ final class Plugin
         }
         $this->booted = true;
 
-        // Version-flagged, idempotent DB migrations (admin context only).
+        // Version-flagged, idempotent DB migrations. admin_init covers a human opening wp-admin;
+        // the plugins_loaded pass covers the ways an upgrade actually arrives without one — an
+        // auto-update swaps the files under cron, and `wp plugin activate` never touches wp-admin
+        // at all. Until the migration runs, new code is reading data in the old shape.
         add_action('admin_init', [$this, 'run_migrations']);
+        add_action('plugins_loaded', [$this, 'maybe_run_migrations'], 5);
 
         // Generation-engine infrastructure (WP-Cron drainer + schedule) for the Bulk/Automation job
         // queue. Registered on every load so queued jobs drain unattended; harmless when idle.
@@ -60,6 +65,16 @@ final class Plugin
                 (new EngineHooks())->register();
             }
         }, 21);
+
+        // The wordpress.org review ask: eligibility, the one option that remembers the answer, and
+        // its REST endpoint. Not a feature module — it has no screen of its own; the component is
+        // mounted inside screens that already exist.
+        add_action('plugins_loaded', static function () {
+            (new ReviewPrompt())->register();
+            // The OAuth callback listens on admin_init and must be hooked wherever the user
+            // lands after OpenRouter sends them back, which is not necessarily a WP Wand screen.
+            (new \WPWand\Admin\OAuthCallback())->register();
+        }, 22);
 
         // Boot feature modules late (after plugins_loaded:20) so the Pro plugin has registered its
         // own modules via wpwand_register_modules and wpwand_pro_init() exists for the Pro gate.
@@ -106,6 +121,20 @@ final class Plugin
             new BulkModule(),
             new AutomationModule(),
         ];
+    }
+
+    /**
+     * Run migrations outside wp-admin — cron ticks and WP-CLI, which is where an unattended upgrade
+     * lands. Deliberately NOT on plain front-end requests: wpwand_db_version is not autoloaded, so
+     * reading it there would cost every page view a query for a check that passes forever after the
+     * first one. MigrationRunner::run() short-circuits on a version_compare, so these extra call
+     * sites cost one cached option read.
+     */
+    public function maybe_run_migrations(): void
+    {
+        if (wp_doing_cron() || (defined('WP_CLI') && WP_CLI)) {
+            $this->run_migrations();
+        }
     }
 
     public function run_migrations(): void

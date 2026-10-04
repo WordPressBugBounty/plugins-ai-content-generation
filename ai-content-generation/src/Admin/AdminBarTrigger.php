@@ -26,7 +26,7 @@ final class AdminBarTrigger
         $icon = Brand::resolve()['icon'];
         $bar->add_menu([
             'id'    => 'wpwand-trigger',
-            'title' => '<img style="width:18px;height:18px;vertical-align:middle;margin-right:4px" src="' . esc_url($icon) . '"> ' . esc_html__('AI Assistant', 'wp-wand'),
+            'title' => '<img style="width:18px;height:18px;vertical-align:middle;margin-right:4px" src="' . esc_url($icon) . '"> ' . esc_html__('AI Assistant', 'ai-content-generation'),
             'href'  => '#',
             'meta'  => ['class' => 'wpwand-trigger'],
         ]);

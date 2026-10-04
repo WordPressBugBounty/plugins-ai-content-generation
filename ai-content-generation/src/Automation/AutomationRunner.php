@@ -44,7 +44,7 @@ final class AutomationRunner
         if (!isset($schedules[self::SCHEDULE])) {
             $schedules[self::SCHEDULE] = [
                 'interval' => 5 * MINUTE_IN_SECONDS,
-                'display'  => __('Every 5 minutes (WP Wand)', 'wp-wand-pro'),
+                'display'  => __('Every 5 minutes (WP Wand)', 'ai-content-generation'),
             ];
         }
         return $schedules;
@@ -105,18 +105,22 @@ final class AutomationRunner
         // this as the topic list being exhausted, so the schedule stays enabled.
         $remaining = UsageLimits::automation_remaining();
         if ($remaining <= 0) {
-            $this->lastError = __('Monthly automation limit reached. Upgrade to a higher plan to generate more.', 'wp-wand-pro');
+            $this->lastError = UsageLimits::limit_reached_message('automation');
             Schedules::update($id, $patch);
             return 0;
         }
-        $count  = min($count, $remaining);
+        // Every tier counts RUNS, so the remaining allowance is never a post budget. The run's post
+        // volume is the schedule's own count, capped per tier by Schedules::max_count() — 5 on
+        // free, 10 / 20 on Solo / Growth, no ceiling on Agency. Pro used to clamp to its remaining
+        // post allowance here (until 2026-09-13).
+        $count = Schedules::clamp_count($count);
 
         $titles = $this->titles_for($schedule, $count);
 
         if (empty($titles)) {
             // If the AI title generation failed (prompt mode), surface the real model error instead
             // of the generic "list finished" message.
-            if ($this->lastError === '' && ($schedule['mode'] ?? 'list') === 'list' && empty($schedule['loop'])) {
+            if ($this->lastError === '' && self::list_finished($schedule)) {
                 // List exhausted with looping off → stop the schedule rather than spin idle.
                 $patch['enabled']  = false;
                 $patch['next_run'] = 0;
@@ -136,6 +140,9 @@ final class AutomationRunner
 
         $settings = [
             'tone'        => (string) $schedule['tone'],
+            // The schedule has had a Keywords field since 2026-08-31 and this array never carried
+            // it, so the field saved, showed itself back, and reached no prompt at all.
+            'keyword'     => (string) ($schedule['keyword'] ?? ''),
             'language'    => (string) $schedule['language'],
             'word_count'  => $word_count,
             'toc_include' => (bool) $schedule['toc_include'],
@@ -144,15 +151,32 @@ final class AutomationRunner
             'auto_status' => (string) $schedule['post_status'],
             'auto_author' => (int) $schedule['author'],
             'schedule_id' => $id,
+            // The house style. It reached the Write with AI button and nothing else, so a
+            // scheduled post was written to no rules at all — no ceiling on exclamation marks, no
+            // named list of words to avoid, no "never cite a study you cannot name", and none of
+            // the About your business text the user had already typed into Settings. A schedule
+            // writes unattended, which is the argument for holding it to the rules, not against.
+            //
+            // `HouseStyle::rules()` drops the business and audience blocks itself when they are
+            // blank, so an install that has typed neither still gets the rules and nothing empty
+            // is quoted into the prompt.
+            'style_rules' => \WPWand\Generation\HouseStyle::rules(\WPWand\Generation\HouseStyle::owner_context()),
         ];
 
-        (new JobRunner())->enqueue($titles, $settings);
-        UsageLimits::consume_automation(count($titles)); // count against the monthly automation cap
+        // enqueue() drops any title whose post row failed to insert, so bill and report on what it
+        // actually queued. Counting $titles here charged the user for posts that were never created.
+        $queued = (new JobRunner())->enqueue($titles, $settings);
+        if ($queued === []) {
+            $this->lastError = __('Could not add these posts to the queue. Try again.', 'ai-content-generation');
+            return 0;
+        }
+
+        UsageLimits::consume_automation_run(); // one unit per run, every tier
         $this->ensure_drainer();
 
         Schedules::update($id, $patch);
 
-        return count($titles);
+        return count($queued);
     }
 
     /**
@@ -193,6 +217,57 @@ final class AutomationRunner
         return $out;
     }
 
+    /**
+     * Has this schedule run out of topics — cursor past the last one, with looping off?
+     *
+     * ONE function, two callers: run_schedule() stops the schedule with it, and AutomationController
+     * puts the same answer in the row. Working it out twice is how a row ends up claiming a schedule
+     * will run tomorrow when the runner has already decided it never will.
+     *
+     * Prompt-mode schedules invent their titles every run, so they are never finished; a looping list
+     * starts over instead of ending. An empty list counts as finished — there is nothing left to write.
+     *
+     * @param array<string, mixed> $schedule
+     */
+    public static function list_finished(array $schedule): bool
+    {
+        if (($schedule['mode'] ?? 'list') !== 'list' || !empty($schedule['loop'])) {
+            return false;
+        }
+        $total = count(array_values(array_filter((array) ($schedule['topics'] ?? []))));
+
+        return $total === 0 || (int) ($schedule['cursor'] ?? 0) >= $total;
+    }
+
+    /**
+     * The topic the next run will use, or '' when there isn't one (list finished, or prompt mode
+     * where the titles do not exist yet). Reads the cursor exactly the way titles_for() does.
+     *
+     * @param array<string, mixed> $schedule
+     */
+    public static function next_topic(array $schedule): string
+    {
+        if (($schedule['mode'] ?? 'list') !== 'list') {
+            return '';
+        }
+
+        $topics = array_values(array_filter((array) ($schedule['topics'] ?? [])));
+        $total  = count($topics);
+        if ($total === 0) {
+            return '';
+        }
+
+        $cursor = max(0, (int) ($schedule['cursor'] ?? 0));
+        if ($cursor >= $total) {
+            if (empty($schedule['loop'])) {
+                return '';
+            }
+            $cursor %= $total;
+        }
+
+        return (string) $topics[$cursor];
+    }
+
     /** New cursor after consuming $consumed titles (wraps for looping list schedules). */
     private function advance_cursor(array $schedule, int $consumed): int
     {
@@ -215,19 +290,32 @@ final class AutomationRunner
             return [];
         }
 
-        $tone   = (string) $schedule['tone'];
-        $prompt = "Suggest exactly {$count} specific, engaging blog post titles about \"{$subject}\". "
-            . 'Return ONLY a numbered list of the titles — no intro, no descriptions, no quotation marks.'
+        $tone    = (string) $schedule['tone'];
+        $keyword = trim((string) ($schedule['keyword'] ?? ''));
+        // "Specific, engaging" got "Master the Art of Brewing Your Perfect Cup of Coffee at Home" —
+        // the register the house style bans in the body, on the one line a reader sees first. The
+        // title request carried no rules at all, and asked for "exactly 1 … titles".
+        $ask     = $count === 1 ? 'one blog post title' : "exactly {$count} blog post titles";
+        // "Each one" on a request for one title got five back (simulated 2026-10-02).
+        $each    = $count === 1 ? 'It says' : 'Each one says';
+        $prompt  = "Suggest {$ask} about \"{$subject}\". "
+            . $each . ' plainly what the post covers, the way a person would say it out loud — '
+            . 'specific, not clever. Do not use "Ultimate", "Master", "Unlock", "Secrets", "Art of" or '
+            . '"Everything You Need to Know", and do not put a slogan after a colon.'
+            . ($keyword !== '' ? " Where it fits naturally, work one of these keywords in: {$keyword}." : '')
+            . ($count === 1
+                ? ' Return ONLY the title on one line — no number, no intro, no description, no quotation marks.'
+                : ' Return ONLY a numbered list of the titles — no intro, no descriptions, no quotation marks.')
             . ($tone !== '' ? " Tone: {$tone}." : '');
 
         $res = \WPWand\Generation\Generator::generate($prompt, 1, ['max_tokens' => 400]);
         if (is_object($res) && isset($res->error)) {
             // Bubble up the real provider message (e.g. model rate-limited/down) for the UI.
-            $this->lastError = ErrorFormatter::humanize($res->error, __('Could not generate titles.', 'wp-wand-pro'));
+            $this->lastError = ErrorFormatter::humanize($res->error, __('Couldn’t come up with titles.', 'ai-content-generation'));
             return [];
         }
         if (!is_object($res) || !isset($res->choices[0])) {
-            $this->lastError = __('The AI returned no title ideas. Please try again.', 'wp-wand-pro');
+            $this->lastError = __('The AI sent back no title ideas. Try again.', 'ai-content-generation');
             return [];
         }
         $choice = $res->choices[0];

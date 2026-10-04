@@ -1,0 +1,4174 @@
+# Copyright (C) 2026 WP Wand
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Wand 2.1.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-wand-latest\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-04T05:19:03+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: ai-content-generation\n"
+
+#. Plugin Name of the plugin
+#. Author of the plugin
+#: wp-wand.php
+#: assets/src/apps/editor/index.js:170
+#: assets/src/apps/settings/App.js:1631
+#: assets/src/apps/settings/App.js:1738
+#: build/editor.js:1
+#: build/settings.js:9
+msgid "WP Wand"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: wp-wand.php
+msgid "https://wpwand.com/"
+msgstr ""
+
+#. Description of the plugin
+#: wp-wand.php
+msgid "Write posts, product copy and marketing text with AI, inside WordPress. Bring your own OpenAI, Claude, DeepSeek or OpenRouter key — no monthly subscription."
+msgstr ""
+
+#: inc/legacy-compat.php:118
+msgid "Server is not responding. Please try again later."
+msgstr ""
+
+#: inc/legacy-compat.php:196
+msgid "Please update WP Wand Pro to version 2.0.0 or higher to keep generating content. Your Pro features are paused until the update completes."
+msgstr ""
+
+#: inc/legacy-compat.php:210
+msgid "The generation engine is unavailable."
+msgstr ""
+
+#: inc/legacy-compat.php:268
+msgid "Image generation is paused until WP Wand Pro is updated to version 2.0.0 or higher."
+msgstr ""
+
+#: src/Admin/AdminBarTrigger.php:29
+msgid "AI Assistant"
+msgstr ""
+
+#: src/Admin/AutomationPage.php:27
+#: src/Admin/AutomationPage.php:32
+#: src/Admin/AutomationPage.php:53
+#: assets/src/apps/automation/App.js:823
+#: assets/src/apps/automation/App.js:894
+#: assets/src/apps/history/App.js:51
+#: build/automation.js:23
+#: build/automation.js:24
+#: build/history.js:1
+msgid "Automated Posts"
+msgstr ""
+
+#: src/Admin/AutomationPage.php:28
+#: assets/src/apps/settings/App.js:767
+#: build/settings.js:3
+msgid "New"
+msgstr ""
+
+#: src/Admin/BulkPage.php:28
+#: src/Admin/BulkPage.php:29
+#: src/Admin/BulkPage.php:42
+#: assets/src/apps/bulk/App.js:1003
+#: assets/src/apps/bulk/App.js:1048
+#: assets/src/apps/history/App.js:49
+#: build/bulk.js:7
+#: build/history.js:1
+msgid "Bulk Posts"
+msgstr ""
+
+#: src/Admin/FailoverNotice.php:113
+msgid "Open settings"
+msgstr ""
+
+#: src/Admin/FailoverNotice.php:115
+#: assets/src/apps/automation/App.js:859
+#: assets/src/apps/automation/App.js:1213
+#: assets/src/apps/bulk/App.js:991
+#: build/automation.js:14
+#: build/automation.js:24
+#: build/bulk.js:7
+msgid "Dismiss"
+msgstr ""
+
+#: src/Admin/HistoryPage.php:25
+#: src/Admin/HistoryPage.php:26
+#: assets/src/apps/history/App.js:138
+#: assets/src/apps/history/App.js:262
+#: build/history.js:1
+msgid "History"
+msgstr ""
+
+#: src/Admin/OAuthCallback.php:207
+msgid "OpenRouter is connected. Pick a model below and you are ready to generate."
+msgstr ""
+
+#: src/Admin/OAuthCallback.php:215
+msgid "That connect link is spent. It had already been used, or it sat too long, or you pressed Connect again somewhere else and that newer attempt took over. Nothing changed — start again from Settings."
+msgstr ""
+
+#: src/Admin/OAuthCallback.php:225
+msgid "Couldn't finish connecting to OpenRouter. This site saved nothing — but if the connection dropped partway, check your OpenRouter account for a new key before making another one."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:49
+#: src/Admin/SettingsPage.php:50
+msgid "Settings"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:83
+#: assets/src/apps/settings/App.js:206
+#: build/settings.js:3
+msgid "Gemini API key"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:84
+#: assets/src/apps/settings/App.js:207
+#: build/settings.js:3
+msgid "OpenRouter API key"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:85
+#: assets/src/apps/settings/App.js:203
+#: build/settings.js:3
+msgid "OpenAI API key"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:86
+#: assets/src/apps/settings/App.js:204
+#: build/settings.js:3
+msgid "Claude API key"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:87
+#: assets/src/apps/settings/App.js:205
+#: build/settings.js:3
+msgid "DeepSeek API key"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:91
+#: assets/src/apps/settings/App.js:1652
+#: build/settings.js:9
+msgid "Paste a key to switch this on."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:121
+#: assets/src/apps/settings/App.js:1637
+#: assets/src/apps/settings/App.js:1755
+#: build/settings.js:9
+msgid "General"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:122
+#: assets/src/apps/settings/App.js:1640
+#: assets/src/apps/settings/App.js:1763
+#: build/settings.js:9
+msgid "Advanced"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:126
+#: assets/src/apps/settings/App.js:1667
+#: build/settings.js:9
+msgid "Loading settings…"
+msgstr ""
+
+#: src/Admin/Skeleton.php:65
+#: assets/src/apps/automation/App.js:1599
+#: assets/src/apps/bulk/App.js:603
+#: assets/src/apps/history/App.js:177
+#: assets/src/apps/history/App.js:452
+#: assets/src/shared/LoadingSkeleton.js:96
+#: build/automation.js:1
+#: build/automation.js:17
+#: build/bulk.js:1
+#: build/bulk.js:7
+#: build/history.js:1
+msgid "Loading…"
+msgstr ""
+
+#: src/Admin/WelcomePage.php:29
+#: src/Admin/WelcomePage.php:30
+msgid "Welcome"
+msgstr ""
+
+#: src/Automation/AutomationRunner.php:47
+msgid "Every 5 minutes (WP Wand)"
+msgstr ""
+
+#: src/Automation/AutomationRunner.php:170
+#: src/Rest/Controllers/BulkController.php:308
+msgid "Could not add these posts to the queue. Try again."
+msgstr ""
+
+#: src/Automation/AutomationRunner.php:314
+msgid "Couldn’t come up with titles."
+msgstr ""
+
+#: src/Automation/AutomationRunner.php:318
+msgid "The AI sent back no title ideas. Try again."
+msgstr ""
+
+#: src/Generation/Completeness.php:159
+msgid "Ask for something shorter, or raise the Longest reply in Settings, then run it again."
+msgstr ""
+
+#. translators: 1: sections the contents list names, 2: sections written, 3: what to do next.
+#: src/Generation/Completeness.php:167
+msgid "The article was cut off before it finished. Its contents list names %1$d sections and only %2$d turned up. %3$s"
+msgstr ""
+
+#. translators: 1: sections the contents list names, 2: sections written, 3: what to do next.
+#: src/Generation/Completeness.php:177
+msgid "The article stops early. Its contents list names %1$d sections and only %2$d turned up. %3$s"
+msgstr ""
+
+#. translators: %s: what to do next.
+#: src/Generation/Completeness.php:187
+msgid "The article was cut off before it finished. %s"
+msgstr ""
+
+#. translators: %s: what to do next.
+#: src/Generation/Completeness.php:194
+msgid "The text was cut off before it finished. %s"
+msgstr ""
+
+#. translators: %s: quoted, comma-separated headings of the sections that never arrived.
+#: src/Generation/Completeness.php:251
+msgid "What is missing covers legal or safety ground: %s. Get that written before this goes anywhere near a published page."
+msgstr ""
+
+#: src/Generation/Completeness.php:259
+msgid "Nothing came back. Run it again, and if it keeps happening check the provider key in Settings."
+msgstr ""
+
+#: src/Generation/Completeness.php:262
+msgid "Only the title and outline came back — none of the sections were written. Ask for something shorter, or raise the Longest reply in Settings, then run it again."
+msgstr ""
+
+#: src/Generation/EngineHooks.php:35
+msgid "Every minute (WP Wand)"
+msgstr ""
+
+#: src/Generation/ErrorFormatter.php:35
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: src/Generation/ErrorFormatter.php:100
+msgid "The provider"
+msgstr ""
+
+#. translators: %s: provider name, e.g. OpenAI
+#: src/Generation/ErrorFormatter.php:103
+msgid "%s rejected this key. Get a fresh one from your account and paste it in."
+msgstr ""
+
+#: src/Generation/ErrorFormatter.php:119
+msgid "Images run on this key too, so image generation is down until it works."
+msgstr ""
+
+#: src/Generation/ErrorFormatter.php:153
+msgid "the AI provider"
+msgstr ""
+
+#. translators: %s: provider name, e.g. OpenAI
+#: src/Generation/ErrorFormatter.php:157
+msgid "%s took too long to answer, so the request was dropped. Try again in a moment. If long pieces keep timing out, ask for something shorter."
+msgstr ""
+
+#. translators: %s: provider name, e.g. OpenAI
+#: src/Generation/ErrorFormatter.php:162
+msgid "Your site couldn't look up %s. That is nearly always DNS or a firewall on your hosting, not your API key — ask your host to allow outgoing requests, then try again."
+msgstr ""
+
+#. translators: %s: provider name, e.g. OpenAI
+#: src/Generation/ErrorFormatter.php:167
+msgid "Your site reached %s but the connection was refused. A firewall or proxy on your hosting is usually the cause — ask your host to allow outgoing HTTPS, then try again."
+msgstr ""
+
+#. translators: 1: provider name, e.g. OpenAI, 2: cURL error number
+#: src/Generation/ErrorFormatter.php:171
+msgid "Your site couldn't complete the request to %1$s (network error %2$d). Try again in a minute. If it keeps happening, ask your host to check outgoing connections."
+msgstr ""
+
+#. translators: 1: provider name, e.g. OpenAI, 2: the provider's own error sentence
+#: src/Generation/ErrorFormatter.php:211
+msgid "%1$s says: %2$s (this is your %1$s account, not a WP Wand limit.)"
+msgstr ""
+
+#. translators: 1: provider that failed, e.g. OpenAI. 2: provider used instead, e.g. Claude.
+#: src/Generation/Failover.php:624
+msgid "Your %1$s key isn't working, so this was written with %2$s instead. Check the key in Settings."
+msgstr ""
+
+#. translators: 1: provider that ran out of credit, e.g. OpenAI. 2: provider used instead, e.g. Claude.
+#: src/Generation/Failover.php:632
+msgid "%1$s is out of credit, so this was written with %2$s instead."
+msgstr ""
+
+#. translators: %s: provider name, e.g. OpenAI
+#: src/Generation/Failover.php:643
+msgid "Your %s key isn't working and no backup provider was ready to take over. Check the key in Settings."
+msgstr ""
+
+#. translators: %s: provider name, e.g. OpenAI
+#: src/Generation/Failover.php:650
+msgid "%s is out of credit and no backup provider was ready to take over. Add credit, or set up a backup in Settings."
+msgstr ""
+
+#. translators: 1: provider being rested, e.g. OpenAI. 2: provider used instead, e.g. Claude.
+#: src/Generation/Failover.php:659
+msgid "%1$s is paused for now, so this was written with %2$s."
+msgstr ""
+
+#. translators: %s: provider label
+#: src/Generation/Generator.php:156
+msgid "%s API key is missing"
+msgstr ""
+
+#. translators: %d: HTTP status code returned by the AI provider
+#: src/Generation/Generator.php:340
+#: src/Generation/Generator.php:427
+msgid "The provider answered with HTTP %d and no explanation."
+msgstr ""
+
+#: src/Generation/Generator.php:347
+#: src/Generation/Generator.php:357
+#: src/Generation/Generator.php:445
+msgid "The provider accepted the request and returned no content."
+msgstr ""
+
+#: src/Generation/JobRunner.php:600
+msgid "Add a topic first. The article gets built around it."
+msgstr ""
+
+#: src/Generation/JobRunner.php:1278
+#: src/Rest/Controllers/BulkController.php:189
+#: src/Rest/Controllers/EditorController.php:40
+#: src/Rest/Controllers/GenerateController.php:54
+msgid "Nothing can write yet. Add an API key in Settings first."
+msgstr ""
+
+#: src/Generation/JobRunner.php:1309
+msgid "The provider sent back an error it didn’t explain."
+msgstr ""
+
+#: src/Generation/JobRunner.php:1334
+msgid "The AI sent back nothing for this section. It’ll be tried again. If it keeps happening, lower the word count or pick a different model."
+msgstr ""
+
+#: src/Generation/JobRunner.php:1335
+msgid "The AI sent back nothing for one section. Run it again, and if it keeps happening, lower the word count or pick a different model."
+msgstr ""
+
+#: src/Generation/JobRunner.php:1354
+msgid "Run it again then."
+msgstr ""
+
+#: src/Generation/JobRunner.php:1360
+msgid "Press Try again then and the post picks up where it stopped."
+msgstr ""
+
+#. translators: %d: how many times the generation was attempted
+#: src/Generation/JobRunner.php:1526
+msgid "The AI sent back nothing for this section, %d times running. Lower the word count or pick a different model, then run it again."
+msgstr ""
+
+#: src/Generation/JobRunner.php:1542
+#: src/Rest/Controllers/AutomationController.php:561
+msgid "It didn’t finish, and no reason came back."
+msgstr ""
+
+#: src/Generation/ModelCatalog.php:97
+msgid "Enter a key to test."
+msgstr ""
+
+#: src/Generation/ModelCatalog.php:111
+#: src/Rest/Controllers/SettingsController.php:386
+msgid "Key is working."
+msgstr ""
+
+#: src/Generation/ModelCatalog.php:113
+msgid "Key is not valid."
+msgstr ""
+
+#: src/Generation/ModelCatalog.php:306
+msgid "Could not reach the provider. Please try again."
+msgstr ""
+
+#: src/Generation/ModelCatalog.php:327
+#: src/Generation/ModelCatalog.php:342
+msgid "Key is invalid or expired."
+msgstr ""
+
+#: src/Generation/ModelCatalog.php:330
+msgid "Rate limit or quota exceeded."
+msgstr ""
+
+#: src/Generation/ModelCatalog.php:333
+msgid "Insufficient credit / quota exceeded."
+msgstr ""
+
+#. translators: %d: HTTP status code
+#: src/Generation/ModelCatalog.php:345
+msgid "Provider returned HTTP %d."
+msgstr ""
+
+#: src/Generation/ModelCatalog.php:364
+msgid "OpenRouter credit limit reached."
+msgstr ""
+
+#: src/Generation/RateLimited.php:88
+msgid "The AI provider"
+msgstr ""
+
+#. translators: 1: provider name, e.g. Gemini, 2: a length of time, e.g. "10 hours"
+#: src/Generation/RateLimited.php:93
+msgid "%1$s says this key has used up its requests for today. They come back in about %2$s."
+msgstr ""
+
+#. translators: 1: provider name, e.g. Gemini, 2: a length of time, e.g. "3 minutes"
+#: src/Generation/RateLimited.php:95
+msgid "%1$s won’t take more requests from this key for now. It says to try again in about %2$s."
+msgstr ""
+
+#. translators: %s: provider name, e.g. Gemini
+#: src/Generation/RateLimited.php:103
+msgid "That’s your %s account’s limit, not a WP Wand limit."
+msgstr ""
+
+#. translators: %s: provider name, e.g. Gemini
+#: src/Generation/RateLimited.php:114
+msgid "%s keeps saying this key is sending too many requests. Give it a few minutes."
+msgstr ""
+
+#. translators: 1: provider name, e.g. Gemini, 2: a length of time, e.g. "40 seconds"
+#: src/Generation/RateLimited.php:126
+msgid "%1$s asked for a short pause. Carrying on in about %2$s."
+msgstr ""
+
+#. translators: %d: a number of seconds
+#: src/Generation/RateLimited.php:252
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: a number of minutes
+#: src/Generation/RateLimited.php:257
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: a number of hours
+#: src/Generation/RateLimited.php:262
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Generation/UsageLimits.php:158
+msgid "Agency plan"
+msgstr ""
+
+#: src/Generation/UsageLimits.php:160
+msgid "Growth plan"
+msgstr ""
+
+#: src/Generation/UsageLimits.php:162
+msgid "Solo plan"
+msgstr ""
+
+#: src/Generation/UsageLimits.php:389
+#: src/Generation/UsageLimits.php:398
+msgid "Unlimited"
+msgstr ""
+
+#. translators: 1: usage so far, e.g. "5/5". 2: the date the allowance resets.
+#: src/Generation/UsageLimits.php:432
+msgid "You've used this month's automation allowance (%1$s). It resets on %2$s. Upgrade for a higher limit if you need more now."
+msgstr ""
+
+#. translators: 1: usage so far, e.g. "5/5". 2: the date the allowance resets.
+#: src/Generation/UsageLimits.php:436
+msgid "You've used this month's bulk allowance (%1$s). It resets on %2$s. Upgrade for a higher limit if you need more now."
+msgstr ""
+
+#: src/Rest/Controllers/AbstractController.php:47
+msgid "Only an administrator can switch a paused provider back on. It was paused because its account stopped working, and turning it on again starts spending money on that account."
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:100
+#: assets/src/apps/automation/App.js:880
+#: build/automation.js:24
+msgid "However many you pick, one run counts as one against your month."
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:113
+msgid "runs"
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:131
+#: src/Rest/Controllers/AutomationController.php:308
+#: assets/src/apps/automation/App.js:1983
+#: build/automation.js:22
+msgid "Add at least one topic."
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:134
+#: assets/src/apps/automation/App.js:1989
+#: build/automation.js:22
+msgid "Tell the AI what to write about."
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:151
+#: src/Rest/Controllers/AutomationController.php:176
+#: src/Rest/Controllers/AutomationController.php:187
+#: src/Rest/Controllers/AutomationController.php:289
+msgid "Schedule not found."
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:216
+#: src/Rest/Controllers/AutomationController.php:235
+#: src/Rest/Controllers/AutomationController.php:364
+msgid "Not a scheduled post."
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:221
+msgid "Could not delete the post."
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:344
+msgid "That row isn’t here any more."
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:442
+#: assets/src/apps/automation/App.js:382
+#: build/automation.js:17
+msgid "Out of topics"
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:446
+msgid "Every topic written"
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:447
+msgid "Every topic on the list has been written. Add more topics, or turn on looping to run through them again."
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:454
+#: src/Rest/Controllers/AutomationController.php:455
+#: assets/src/apps/automation/App.js:399
+#: assets/src/apps/automation/App.js:411
+#: build/automation.js:17
+msgid "Paused"
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:456
+msgid "You paused this one. Switch it back on when you want it running again."
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:467
+#: assets/src/apps/automation/App.js:393
+#: build/automation.js:17
+msgid "No runs left"
+msgstr ""
+
+#. translators: %s: the date the monthly allowance starts again.
+#: src/Rest/Controllers/AutomationController.php:469
+#: src/Rest/Controllers/AutomationController.php:471
+msgid "No runs left in this month's allowance. It starts again on %s."
+msgstr ""
+
+#. translators: %s: the subject the schedule writes about.
+#: src/Rest/Controllers/AutomationController.php:490
+msgid "A new title about %s, picked each run"
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:491
+msgid "A new title picked each run"
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:508
+msgid "Unlimited automated runs this month"
+msgstr ""
+
+#. translators: 1: runs used so far. 2: the monthly limit.
+#: src/Rest/Controllers/AutomationController.php:512
+msgid "%1$d of %2$d automated runs used this month"
+msgstr ""
+
+#: src/Rest/Controllers/AutomationController.php:618
+#: assets/src/apps/automation/App.js:1192
+#: build/automation.js:14
+msgid "(no title)"
+msgstr ""
+
+#: src/Rest/Controllers/BulkController.php:72
+#: src/Rest/Controllers/BulkController.php:95
+#: src/Rest/Controllers/HistoryController.php:161
+msgid "Not found."
+msgstr ""
+
+#: src/Rest/Controllers/BulkController.php:76
+msgid "Nothing to retry for this post."
+msgstr ""
+
+#: src/Rest/Controllers/BulkController.php:120
+msgid "Nothing to approve."
+msgstr ""
+
+#: src/Rest/Controllers/BulkController.php:131
+msgid "Could not create the post."
+msgstr ""
+
+#: src/Rest/Controllers/BulkController.php:198
+#: assets/src/apps/bulk/App.js:1700
+#: assets/src/apps/bulk/App.js:2104
+#: build/bulk.js:20
+#: build/bulk.js:25
+msgid "Say what the batch is about first."
+msgstr ""
+
+#: src/Rest/Controllers/BulkController.php:208
+msgid "Couldn’t come up with headlines. Try again."
+msgstr ""
+
+#: src/Rest/Controllers/BulkController.php:231
+msgid "Tick at least one title."
+msgstr ""
+
+#. translators: %d: how many posts one bulk run may hold on this plan, e.g. 20.
+#: src/Rest/Controllers/BulkController.php:244
+msgid "A bulk run stops at %d posts on your plan."
+msgstr ""
+
+#. translators: %d: the free per-run post limit, e.g. 10.
+#: src/Rest/Controllers/BulkController.php:246
+#: assets/src/apps/bulk/App.js:326
+#: build/bulk.js:6
+msgid "A bulk run stops at %d posts. Upgrade to Pro to write more at once."
+msgstr ""
+
+#: src/Rest/Controllers/BulkController.php:420
+msgid "Unlimited bulk runs this month"
+msgstr ""
+
+#. translators: 1: runs used so far. 2: the monthly limit.
+#: src/Rest/Controllers/BulkController.php:424
+msgid "%1$d of %2$d bulk runs used this month"
+msgstr ""
+
+#: src/Rest/Controllers/BulkController.php:512
+msgid "Template not recorded"
+msgstr ""
+
+#: src/Rest/Controllers/EditorController.php:45
+msgid "Empty prompt."
+msgstr ""
+
+#: src/Rest/Controllers/EditorController.php:56
+msgid "Generation failed. Please try again."
+msgstr ""
+
+#: src/Rest/Controllers/EditorController.php:76
+msgid "No response from the AI. Please try again."
+msgstr ""
+
+#: src/Rest/Controllers/GenerateController.php:60
+msgid "This template has no prompt (Pro template?)."
+msgstr ""
+
+#: src/Rest/Controllers/GenerateController.php:69
+#: src/Rest/Controllers/StreamController.php:146
+msgid "Custom"
+msgstr ""
+
+#: src/Rest/Controllers/GenerateController.php:82
+#: src/Rest/Controllers/GenerateController.php:206
+msgid "Generation failed."
+msgstr ""
+
+#: src/Rest/Controllers/GenerateController.php:103
+msgid "The AI returned an empty response. Try again, or ask for something shorter."
+msgstr ""
+
+#: src/Rest/Controllers/GenerateController.php:151
+msgid "Add a topic first — the article gets built around it."
+msgstr ""
+
+#: src/Rest/Controllers/HistoryController.php:65
+msgid "History is a Pro feature. Opening or deleting a saved generation needs an active Pro license, and this site doesn’t have one."
+msgstr ""
+
+#: src/Rest/Controllers/HistoryController.php:82
+msgid "History is a Pro feature."
+msgstr ""
+
+#: src/Rest/Controllers/ImageController.php:43
+msgid "An OpenAI API key is required for image generation."
+msgstr ""
+
+#: src/Rest/Controllers/ImageController.php:48
+msgid "Please describe the image."
+msgstr ""
+
+#: src/Rest/Controllers/ImageController.php:89
+#: src/Rest/Controllers/ImageController.php:98
+msgid "Image generation failed."
+msgstr ""
+
+#: src/Rest/Controllers/ImageController.php:112
+msgid "No image returned. Please try again."
+msgstr ""
+
+#: src/Rest/Controllers/ImageController.php:124
+msgid "No image data."
+msgstr ""
+
+#: src/Rest/Controllers/ImageController.php:138
+msgid "That image data could not be read. Try generating the image again."
+msgstr ""
+
+#: src/Rest/Controllers/ImageController.php:145
+msgid "That doesn't look like an image, so nothing was saved."
+msgstr ""
+
+#: src/Rest/Controllers/ImageController.php:156
+msgid "That image type is not supported."
+msgstr ""
+
+#: src/Rest/Controllers/OAuthController.php:109
+msgid "This server could not generate a secure code. Paste your OpenRouter key instead."
+msgstr ""
+
+#: src/Rest/Controllers/OAuthController.php:145
+msgid "Disconnected. The key is gone from this site — your OpenRouter account is untouched."
+msgstr ""
+
+#. translators: %s: network error message
+#: src/Rest/Controllers/OAuthController.php:293
+msgid "Could not reach OpenRouter (%s). Nothing was saved — try connecting again."
+msgstr ""
+
+#: src/Rest/Controllers/OAuthController.php:303
+msgid "OpenRouter turned that sign-in down. The code only lasts ten minutes and works once, so start again."
+msgstr ""
+
+#: src/Rest/Controllers/OAuthController.php:307
+msgid "OpenRouter rejected the sign-in request. Start again from Settings."
+msgstr ""
+
+#. translators: %d: HTTP status code
+#: src/Rest/Controllers/OAuthController.php:314
+msgid "OpenRouter answered with HTTP %d and no key. Nothing was saved — try again in a minute."
+msgstr ""
+
+#: src/Rest/Controllers/ReviewController.php:90
+msgid "That answer isn't one of the choices."
+msgstr ""
+
+#: src/Rest/Controllers/SettingsController.php:162
+msgid "wp-cron.php is reachable. Your server cron can run the schedules."
+msgstr ""
+
+#. translators: %s: error message
+#: src/Rest/Controllers/SettingsController.php:166
+msgid "Could not reach wp-cron.php (%s). Your host may block loopback requests. Point a real server cron at the URL above instead."
+msgstr ""
+
+#. translators: %d: HTTP status code
+#: src/Rest/Controllers/SettingsController.php:172
+msgid "wp-cron.php returned HTTP %d. Check the URL is publicly reachable."
+msgstr ""
+
+#: src/Rest/Controllers/SettingsController.php:194
+msgid "Pick a model first."
+msgstr ""
+
+#. translators: %s: the prefix this provider's keys usually start with, e.g. sk-
+#: src/Rest/Controllers/SettingsController.php:259
+msgid "That doesn’t look like a key for this provider. They usually start with \"%s\". Saved anyway. Press Test to check it."
+msgstr ""
+
+#: src/Rest/Controllers/SettingsController.php:327
+#: src/Rest/Controllers/SettingsController.php:352
+msgid "Unknown provider."
+msgstr ""
+
+#: src/Rest/Controllers/SettingsController.php:365
+msgid "Save your key, then try again."
+msgstr ""
+
+#: src/Rest/Controllers/SettingsController.php:396
+msgid "The provider rejected this key. Check it and try again."
+msgstr ""
+
+#: src/Rest/Controllers/SettingsController.php:406
+msgid "Templates updated."
+msgstr ""
+
+#: src/Rest/Controllers/SettingsController.php:640
+msgid "That isn’t a hex color. Use one like #3767FB."
+msgstr ""
+
+#: src/Rest/Controllers/SettingsController.php:650
+msgid "That needs to be a number."
+msgstr ""
+
+#. translators: %s: URL to trigger a plugin update check
+#: wp-wand.php:158
+msgid "<strong>Action required:</strong> WP Wand Pro must be updated to version 2.0.0 or higher to match WP Wand 2.0.0. Your Pro features are paused until the update completes. <a href=\"%s\">Update now</a>"
+msgstr ""
+
+#: wp-wand.php:199
+msgid "WP Wand needs PHP 7.4 or newer. Ask your host to update PHP, then activate WP Wand again."
+msgstr ""
+
+#: assets/src/apps/assistant/App.js:132
+#: build/assistant.js:3
+msgid "Open AI Assistant"
+msgstr ""
+
+#: assets/src/apps/assistant/App.js:184
+#: build/assistant.js:3
+msgid "Write anything, without leaving this page"
+msgstr ""
+
+#: assets/src/apps/assistant/App.js:197
+#: build/assistant.js:3
+msgid "Shrink panel"
+msgstr ""
+
+#: assets/src/apps/assistant/App.js:201
+#: build/assistant.js:3
+msgid "Expand panel"
+msgstr ""
+
+#: assets/src/apps/assistant/App.js:208
+#: build/assistant.js:3
+msgid "Shrink"
+msgstr ""
+
+#: assets/src/apps/assistant/App.js:209
+#: build/assistant.js:3
+msgid "Expand"
+msgstr ""
+
+#: assets/src/apps/assistant/App.js:249
+#: assets/src/apps/bulk/App.js:587
+#: assets/src/apps/bulk/App.js:659
+#: assets/src/apps/bulk/App.js:750
+#: assets/src/apps/bulk/App.js:776
+#: assets/src/apps/settings/CustomPrompts.js:153
+#: assets/src/shared/ProModal.js:101
+#: assets/src/shared/ReviewAsk.js:256
+#: build/assistant.js:3
+#: build/automation.js:1
+#: build/bulk.js:1
+#: build/bulk.js:7
+#: build/settings.js:1
+msgid "Close"
+msgstr ""
+
+#: assets/src/apps/assistant/App.js:280
+#: build/assistant.js:3
+msgid "Text Generation"
+msgstr ""
+
+#: assets/src/apps/assistant/App.js:288
+#: build/assistant.js:3
+msgid "Image Generation"
+msgstr ""
+
+#: assets/src/apps/assistant/App.js:301
+#: build/assistant.js:3
+msgid "Loading templates…"
+msgstr ""
+
+#: assets/src/apps/assistant/GenerationBusy.js:23
+#: assets/src/apps/bulk/App.js:596
+#: build/assistant.js:2
+#: build/bulk.js:7
+msgid "Writing… this updates as it goes."
+msgstr ""
+
+#: assets/src/apps/assistant/GenerationBusy.js:32
+#: build/assistant.js:2
+msgid "Stop"
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:36
+#: build/assistant.js:3
+msgid "That image didn’t make it into your Media Library. Try again."
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:54
+#: build/assistant.js:3
+msgid "Added to Media ✓"
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:66
+#: build/assistant.js:3
+msgid "Adding…"
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:67
+#: build/assistant.js:3
+msgid "+ Add to Media"
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:106
+#: build/assistant.js:3
+msgid "That did not go through. Try again."
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:116
+#: assets/src/apps/assistant/ImageGeneration.js:221
+#: build/assistant.js:3
+msgid "Generate Image"
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:119
+#: build/assistant.js:3
+msgid "Image generation needs an OpenAI API key. Claude, DeepSeek and OpenRouter can write text but not draw. Add an OpenAI key in Settings to turn this on."
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:126
+#: build/assistant.js:3
+msgid "Describe a picture and get one back in a few seconds."
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:136
+#: build/assistant.js:3
+msgid "Image Description"
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:140
+#: build/assistant.js:3
+msgid "Describe the picture you want"
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:152
+#: build/assistant.js:3
+msgid "Select Resolution"
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:167
+#: assets/src/apps/assistant/ImageGeneration.js:175
+#: build/assistant.js:3
+msgid "Available in pro"
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:184
+#: assets/src/apps/assistant/TemplateForm.js:490
+#: build/assistant.js:3
+msgid "Number of Results"
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:220
+#: assets/src/apps/assistant/Results.js:178
+#: build/assistant.js:2
+#: build/assistant.js:3
+msgid "Generating…"
+msgstr ""
+
+#: assets/src/apps/assistant/ImageGeneration.js:232
+#: build/assistant.js:3
+msgid "AI Generated Image"
+msgstr ""
+
+#: assets/src/apps/assistant/Results.js:191
+#: build/assistant.js:2
+msgid "Inserted"
+msgstr ""
+
+#: assets/src/apps/assistant/Results.js:192
+#: build/assistant.js:2
+msgid "Insert"
+msgstr ""
+
+#: assets/src/apps/assistant/Results.js:197
+#: build/assistant.js:2
+msgid "Copied"
+msgstr ""
+
+#: assets/src/apps/assistant/Results.js:198
+#: assets/src/apps/settings/App.js:142
+#: assets/src/apps/settings/App.js:158
+#: build/assistant.js:2
+#: build/settings.js:3
+msgid "Copy"
+msgstr ""
+
+#: assets/src/apps/assistant/Results.js:203
+#: build/assistant.js:2
+msgid "Stopped before it finished — this is what came through before then."
+msgstr ""
+
+#: assets/src/apps/assistant/Results.js:224
+#: build/assistant.js:2
+msgid "Your browser blocked the copy. Select the text above and press Ctrl+C (⌘C on a Mac)."
+msgstr ""
+
+#: assets/src/apps/assistant/Results.js:239
+#: assets/src/apps/assistant/TemplateForm.js:627
+#: build/assistant.js:2
+#: build/assistant.js:3
+msgid "Your draft"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:43
+#: build/assistant.js:2
+msgid "optional"
+msgstr ""
+
+#. translators: 1: words requested, 2: the most words the current Longest reply can produce
+#: assets/src/apps/assistant/TemplateForm.js:176
+#: build/assistant.js:3
+msgid "%1$s words is more than the Longest reply here can produce — it tops out around %2$s words. Lower the word count, or raise the Longest reply under Settings → General."
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:225
+#: assets/src/apps/editor/index.js:140
+#: build/assistant.js:2
+#: build/editor.js:1
+msgid "Error"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:389
+#: build/assistant.js:2
+msgid "Still loading your settings — give it a second and click Generate again."
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:426
+#: assets/src/apps/automation/App.js:964
+#: assets/src/apps/bulk/App.js:300
+#: assets/src/apps/bulk/App.js:341
+#: assets/src/apps/bulk/App.js:350
+#: assets/src/apps/history/App.js:241
+#: assets/src/apps/settings/App.js:782
+#: assets/src/apps/settings/App.js:2793
+#: assets/src/apps/settings/App.js:2820
+#: build/assistant.js:2
+#: build/automation.js:25
+#: build/bulk.js:5
+#: build/bulk.js:6
+#: build/history.js:1
+#: build/settings.js:3
+#: build/settings.js:11
+msgid "Upgrade to Pro"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:435
+#: build/assistant.js:2
+msgid "Writing this one section by section. It shows up when it’s done."
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:446
+#: build/assistant.js:3
+msgid "Generate Content"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:468
+#: build/assistant.js:3
+msgid "Back to all templates"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:516
+#: assets/src/apps/automation/App.js:2289
+#: assets/src/apps/settings/App.js:2178
+#: build/assistant.js:3
+#: build/automation.js:22
+#: build/settings.js:9
+msgid "Language"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:534
+#: build/assistant.js:3
+msgid "Point of View"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:541
+#: build/assistant.js:3
+msgid "1st Person"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:544
+#: build/assistant.js:3
+msgid "2nd Person"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:547
+#: build/assistant.js:3
+msgid "3rd Person"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:570
+#: assets/src/apps/editor/index.js:191
+#: assets/src/apps/settings/App.js:2559
+#: assets/src/apps/settings/App.js:2686
+#: build/assistant.js:3
+#: build/editor.js:1
+#: build/settings.js:11
+msgid "Pro"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:575
+#: build/assistant.js:3
+msgid "AI Character"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:583
+#: build/assistant.js:3
+msgid "No Character"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:595
+#: build/assistant.js:3
+msgid "Include Info"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:604
+#: build/assistant.js:3
+msgid "Business Details"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateForm.js:613
+#: build/assistant.js:3
+msgid "Targeted Customer"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateList.js:24
+#: build/assistant.js:1
+msgid "Search for a template…"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateList.js:34
+#: build/assistant.js:1
+msgid "Total"
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateList.js:36
+#: build/assistant.js:1
+msgid "templates"
+msgstr ""
+
+#. translators: %s: the words typed in the template search box.
+#: assets/src/apps/assistant/TemplateList.js:45
+#: build/assistant.js:2
+msgid "No template matches “%s”. Try a shorter word, or clear the search to see all of them."
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateList.js:51
+#: build/assistant.js:2
+msgid "No templates to show. Reload the page — if it stays empty, something went wrong loading them."
+msgstr ""
+
+#: assets/src/apps/assistant/TemplateList.js:68
+#: build/assistant.js:2
+msgid "PRO"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:37
+#: build/automation.js:1
+msgid "How to brew better coffee at home"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:38
+#: build/automation.js:1
+msgid "Cold brew without the bitterness"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:39
+#: build/automation.js:1
+msgid "Espresso basics for a small kitchen"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:70
+#: assets/src/apps/automation/App.js:2367
+#: assets/src/apps/bulk/App.js:144
+#: assets/src/apps/bulk/App.js:1828
+#: assets/src/apps/bulk/App.js:2297
+#: build/automation.js:1
+#: build/automation.js:22
+#: build/bulk.js:2
+#: build/bulk.js:18
+#: build/bulk.js:24
+msgid "Roughly how long"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:78
+#: assets/src/apps/bulk/App.js:152
+#: assets/src/apps/bulk/App.js:1836
+#: build/automation.js:1
+#: build/bulk.js:2
+#: build/bulk.js:19
+msgid "Let the AI decide"
+msgstr ""
+
+#. translators: %s: the longest length the slider offers
+#: assets/src/apps/automation/App.js:83
+#: assets/src/apps/bulk/App.js:157
+#: build/automation.js:2
+#: build/bulk.js:3
+msgid "%s words"
+msgstr ""
+
+#. translators: %s: the chosen length in words
+#: assets/src/apps/automation/App.js:92
+#: assets/src/apps/bulk/App.js:166
+#: build/automation.js:3
+#: build/bulk.js:4
+msgid "About %s words each."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:98
+#: assets/src/apps/bulk/App.js:172
+#: build/automation.js:3
+#: build/bulk.js:4
+msgid "Let the AI decide how long each one needs to be."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:108
+#: build/automation.js:3
+msgid "Every hour"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:109
+#: build/automation.js:3
+msgid "Every day"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:110
+#: build/automation.js:3
+msgid "Every week"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:111
+#: build/automation.js:3
+msgid "Every month"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:115
+#: assets/src/apps/automation/App.js:1425
+#: build/automation.js:3
+#: build/automation.js:16
+msgid "Draft"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:118
+#: build/automation.js:3
+msgid "Pending review"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:122
+#: assets/src/apps/automation/App.js:1421
+#: build/automation.js:3
+#: build/automation.js:16
+msgid "Published"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:187
+#: build/automation.js:3
+msgid "in a moment"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:188
+#: build/automation.js:3
+msgid "Just now"
+msgstr ""
+
+#. translators: %d: number of minutes.
+#: assets/src/apps/automation/App.js:194
+#: build/automation.js:5
+msgid "in %d minute"
+msgid_plural "in %d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of minutes.
+#: assets/src/apps/automation/App.js:203
+#: build/automation.js:6
+msgid "%d minute ago"
+msgid_plural "%d minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of hours.
+#: assets/src/apps/automation/App.js:215
+#: build/automation.js:8
+msgid "in %d hour"
+msgid_plural "in %d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of hours.
+#: assets/src/apps/automation/App.js:224
+#: build/automation.js:9
+msgid "%d hour ago"
+msgid_plural "%d hours ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of days.
+#: assets/src/apps/automation/App.js:236
+#: build/automation.js:11
+msgid "in %d day"
+msgid_plural "in %d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of days.
+#: assets/src/apps/automation/App.js:245
+#: build/automation.js:12
+msgid "%d day ago"
+msgid_plural "%d days ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: how often the schedule runs, e.g. "Every day". 2: posts per run.
+#: assets/src/apps/automation/App.js:324
+#: build/automation.js:18
+msgid "%1$s, %2$d post"
+msgid_plural "%1$s, %2$d posts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/apps/automation/App.js:343
+#: assets/src/apps/automation/App.js:1141
+#: assets/src/apps/automation/App.js:2021
+#: assets/src/apps/settings/App.js:3048
+#: assets/src/apps/settings/CustomPrompts.js:192
+#: build/automation.js:12
+#: build/automation.js:13
+#: build/automation.js:22
+#: build/settings.js:1
+#: build/settings.js:11
+msgid "Saving…"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:346
+#: build/automation.js:12
+msgid "Pause"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:349
+#: build/automation.js:12
+msgid "Run once more"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:351
+#: build/automation.js:12
+msgid "Turn on"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:371
+#: build/automation.js:17
+msgid "Running"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:406
+#: assets/src/apps/settings/App.js:310
+#: build/automation.js:17
+#: build/settings.js:3
+msgid "Active"
+msgstr ""
+
+#. translators: 1: cadence and posts per run, e.g. "Every day, 1 post". 2: topics remaining.
+#: assets/src/apps/automation/App.js:450
+#: build/automation.js:19
+msgid "%1$s · %2$d topic left"
+msgid_plural "%1$s · %2$d topics left"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/apps/automation/App.js:494
+#: assets/src/apps/settings/App.js:554
+#: build/automation.js:12
+#: build/settings.js:3
+msgid "On"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:495
+#: assets/src/apps/settings/App.js:555
+#: build/automation.js:12
+#: build/settings.js:3
+msgid "Off"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:650
+#: build/automation.js:22
+msgid "Could not save that schedule. Try again."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:682
+#: build/automation.js:22
+msgid "Nothing to write. The topic list may be finished."
+msgstr ""
+
+#. translators: 1: posts published. 2: posts selected.
+#: assets/src/apps/automation/App.js:729
+#: build/automation.js:23
+msgid "Published %1$d of %2$d. The rest are still drafts. Try them again."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:740
+#: build/automation.js:23
+msgid "Nothing was published. The posts are still drafts. Try again."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:798
+#: build/automation.js:23
+msgid "That didn’t save."
+msgstr ""
+
+#. translators: %d: posts still to write.
+#: assets/src/apps/automation/App.js:842
+#: build/automation.js:24
+msgid "Writing… %d post left"
+msgid_plural "Writing… %d posts left"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/apps/automation/App.js:900
+#: build/automation.js:24
+msgid "Posts get written and filed on a schedule. Set the topics once — you don’t need to keep a tab open."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:923
+#: assets/src/apps/automation/App.js:1618
+#: build/automation.js:17
+#: build/automation.js:24
+msgid "Add schedule"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:935
+#: assets/src/apps/bulk/App.js:274
+#: build/automation.js:24
+#: build/bulk.js:4
+msgid "No runs left this month."
+msgstr ""
+
+#. translators: %s: the date the monthly allowance starts again
+#. translators: %s: the date the monthly count starts again
+#: assets/src/apps/automation/App.js:943
+#: assets/src/apps/bulk/App.js:282
+#: build/automation.js:25
+#: build/bulk.js:5
+msgid "The count resets on %s. Schedules stay set up and wait."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:949
+#: assets/src/apps/bulk/App.js:288
+#: build/automation.js:25
+#: build/bulk.js:5
+msgid "Schedules stay set up and wait."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1079
+#: assets/src/apps/automation/App.js:1707
+#: build/automation.js:12
+#: build/automation.js:19
+msgid "Add topics"
+msgstr ""
+
+#. translators: %s: the name of the schedule that ran out of topics.
+#: assets/src/apps/automation/App.js:1086
+#: build/automation.js:13
+msgid "%s has written every topic on its list. Add more and it picks up where it left off."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1101
+#: build/automation.js:13
+msgid "New topics, one per line"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1113
+#: build/automation.js:13
+msgid "Or write the old list again from the top"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1127
+#: assets/src/apps/automation/App.js:2449
+#: assets/src/apps/bulk/App.js:2531
+#: assets/src/apps/settings/CustomPrompts.js:167
+#: assets/src/shared/ConfirmDialog.js:38
+#: build/automation.js:1
+#: build/automation.js:13
+#: build/automation.js:22
+#: build/bulk.js:2
+#: build/bulk.js:25
+#: build/history.js:1
+#: build/settings.js:1
+msgid "Cancel"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1142
+#: build/automation.js:13
+msgid "Add them"
+msgstr ""
+
+#. translators: %1$d: rows shown, %2$d: rows in total
+#. translators: %1$d: rows shown, %2$d: rows waiting in total
+#: assets/src/apps/automation/App.js:1162
+#: assets/src/apps/bulk/App.js:1473
+#: build/automation.js:14
+#: build/bulk.js:13
+msgid "%1$d of %2$d shown, newest first."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1180
+#: build/automation.js:14
+msgid "What failed"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1263
+#: assets/src/apps/automation/App.js:1460
+#: build/automation.js:14
+#: build/automation.js:16
+msgid "Publish"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1265
+#: assets/src/apps/automation/App.js:1456
+#: build/automation.js:14
+#: build/automation.js:16
+msgid "Publishing…"
+msgstr ""
+
+#. translators: %d: number of selected posts.
+#: assets/src/apps/automation/App.js:1269
+#: build/automation.js:15
+msgid "Publish %d post"
+msgid_plural "Publish %d posts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/apps/automation/App.js:1282
+#: build/automation.js:17
+msgid "Nothing written yet. Press Run now, or wait for the next run."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1308
+#: build/automation.js:15
+msgid "Remove all posts from this list?"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1312
+#: build/automation.js:15
+msgid "The posts stay published."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1316
+#: assets/src/apps/automation/App.js:1329
+#: build/automation.js:15
+msgid "Clear list"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1328
+#: build/automation.js:15
+msgid "Clearing…"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1340
+#: build/automation.js:15
+msgid "Select every post that is not published yet"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1351
+#: assets/src/apps/bulk/App.js:1172
+#: build/automation.js:15
+#: build/bulk.js:10
+msgid "Title"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1353
+#: assets/src/apps/bulk/App.js:1184
+#: build/automation.js:15
+#: build/bulk.js:10
+msgid "Written"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1356
+#: assets/src/apps/automation/App.js:1642
+#: assets/src/apps/bulk/App.js:1190
+#: build/automation.js:15
+#: build/automation.js:17
+#: build/bulk.js:10
+msgid "Status"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1360
+#: assets/src/apps/automation/App.js:1646
+#: assets/src/apps/bulk/App.js:1197
+#: assets/src/apps/history/App.js:537
+#: build/automation.js:15
+#: build/automation.js:17
+#: build/bulk.js:10
+#: build/history.js:1
+msgid "Actions"
+msgstr ""
+
+#. translators: %s: post title.
+#: assets/src/apps/automation/App.js:1380
+#: build/automation.js:16
+msgid "Select %s"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1440
+#: assets/src/apps/bulk/App.js:1340
+#: assets/src/apps/bulk/App.js:1397
+#: assets/src/apps/history/App.js:612
+#: build/automation.js:16
+#: build/bulk.js:11
+#: build/bulk.js:12
+#: build/history.js:2
+msgid "Read it"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1475
+#: build/automation.js:16
+msgid "Takes it off this list. The post stays on your site."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1484
+#: assets/src/apps/settings/KeyField.js:276
+#: build/automation.js:16
+#: build/settings.js:1
+msgid "Removing…"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1488
+#: assets/src/apps/bulk/App.js:668
+#: assets/src/apps/bulk/App.js:883
+#: assets/src/apps/bulk/App.js:1112
+#: assets/src/apps/bulk/App.js:1424
+#: assets/src/apps/bulk/App.js:1438
+#: assets/src/apps/bulk/App.js:1510
+#: assets/src/apps/settings/CustomPrompts.js:367
+#: assets/src/apps/settings/KeyField.js:263
+#: assets/src/apps/settings/KeyField.js:277
+#: assets/src/apps/settings/MediaField.js:57
+#: build/automation.js:16
+#: build/bulk.js:7
+#: build/bulk.js:8
+#: build/bulk.js:12
+#: build/bulk.js:13
+#: build/settings.js:1
+#: build/settings.js:2
+#: build/settings.js:3
+msgid "Remove"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1498
+#: build/automation.js:16
+msgid "Sends the post to the Trash and takes it off your site."
+msgstr ""
+
+#. translators: %s: post title.
+#: assets/src/apps/automation/App.js:1508
+#: build/automation.js:17
+msgid "Delete “%s”?"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1514
+#: build/automation.js:17
+msgid "It goes to the Trash and comes off your site."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1518
+#: assets/src/apps/automation/App.js:1537
+#: assets/src/apps/automation/App.js:1867
+#: assets/src/apps/automation/App.js:1884
+#: assets/src/apps/history/App.js:633
+#: assets/src/apps/history/App.js:653
+#: build/automation.js:17
+#: build/automation.js:22
+#: build/history.js:3
+msgid "Delete"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1533
+#: build/automation.js:17
+msgid "Deleting…"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1606
+#: build/automation.js:17
+msgid "No schedules yet"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1608
+#: build/automation.js:17
+msgid "Give it a list of topics and say how often. It writes them one at a time and leaves you drafts."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1633
+#: build/automation.js:17
+msgid "Schedule"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1636
+#: build/automation.js:17
+msgid "Next run"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1639
+#: build/automation.js:17
+msgid "Results"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1681
+#: build/automation.js:19
+msgid "Writing now"
+msgstr ""
+
+#. translators: %d: how many posts this schedule has written.
+#: assets/src/apps/automation/App.js:1749
+#: build/automation.js:20
+msgid "%d written"
+msgid_plural "%d written"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: how many of this schedule's runs came back empty.
+#: assets/src/apps/automation/App.js:1772
+#: build/automation.js:21
+msgid "%d failed"
+msgid_plural "%d failed"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/apps/automation/App.js:1811
+#: build/automation.js:21
+msgid "Running…"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1815
+#: build/automation.js:21
+msgid "Run now"
+msgstr ""
+
+#. translators: %s: the name of the schedule.
+#. translators: %s: the title of the row
+#. translators: %s: what the row is called.
+#: assets/src/apps/automation/App.js:1823
+#: assets/src/apps/bulk/App.js:1385
+#: assets/src/apps/history/App.js:620
+#: build/automation.js:22
+#: build/bulk.js:12
+#: build/history.js:3
+msgid "More for %s"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1841
+#: assets/src/apps/settings/CustomPrompts.js:349
+#: build/automation.js:22
+#: build/settings.js:2
+msgid "Edit"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1852
+#: build/automation.js:22
+msgid "Copying…"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1856
+#: assets/src/apps/settings/CustomPrompts.js:357
+#: build/automation.js:22
+#: build/settings.js:2
+msgid "Duplicate"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1875
+#: build/automation.js:22
+msgid "Delete this schedule?"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:1879
+#: build/automation.js:22
+msgid "Posts it already wrote stay where they are."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2024
+#: assets/src/apps/settings/App.js:3052
+#: build/automation.js:22
+#: build/settings.js:11
+msgid "Save changes"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2025
+#: build/automation.js:22
+msgid "Create schedule"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2031
+#: build/automation.js:22
+msgid "← Back to schedules"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2039
+#: build/automation.js:22
+msgid "Edit schedule"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2040
+#: build/automation.js:22
+msgid "New schedule"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2046
+#: build/automation.js:22
+msgid "It writes one topic per run, in the order you list them. Everything here can be changed later."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2066
+#: build/automation.js:22
+msgid "What it writes about"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2073
+#: build/automation.js:22
+msgid "Schedule name"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2074
+#: build/automation.js:22
+msgid "Only you see this."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2083
+#: build/automation.js:22
+msgid "Weekly coffee posts"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2092
+#: assets/src/apps/automation/App.js:2106
+#: build/automation.js:22
+msgid "Where topics come from"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2096
+#: build/automation.js:22
+msgid "Give it your own list, or let it think of them."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2113
+#: assets/src/apps/automation/App.js:2131
+#: build/automation.js:22
+msgid "My topic list"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2120
+#: build/automation.js:22
+msgid "AI ideas"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2135
+#: build/automation.js:22
+msgid "One per line. It works down the list, and when the list runs out it stops and tells you."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2154
+#: build/automation.js:22
+msgid "What to write about"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2158
+#: build/automation.js:22
+msgid "It comes up with a fresh angle each run. Leave it empty and it picks for you."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2170
+#: assets/src/apps/bulk/App.js:1995
+#: build/automation.js:22
+#: build/bulk.js:20
+msgid "Home coffee brewing"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2182
+#: assets/src/apps/automation/App.js:2197
+#: build/automation.js:22
+msgid "Start over when the list runs out"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2186
+#: build/automation.js:22
+msgid "Off means it stops at the end and waits for you."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2209
+#: build/automation.js:22
+msgid "When it runs"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2213
+#: build/automation.js:22
+msgid "How often"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2214
+#: build/automation.js:22
+msgid "The clock starts when you save."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2233
+#: build/automation.js:22
+msgid "Posts per run"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2262
+#: build/automation.js:22
+msgid "What comes out"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2266
+#: build/automation.js:22
+msgid "Save each post as"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2270
+#: build/automation.js:22
+msgid "Draft is safest. Nothing goes live without you."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2290
+#: assets/src/apps/settings/App.js:2182
+#: build/automation.js:22
+#: build/settings.js:9
+msgid "Everything comes out in this language."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2300
+#: build/automation.js:22
+msgid "The site’s own language"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2306
+#: assets/src/apps/settings/App.js:1564
+#: build/automation.js:22
+#: build/settings.js:9
+msgid "Languages"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2317
+#: assets/src/apps/bulk/App.js:2264
+#: build/automation.js:22
+#: build/bulk.js:24
+msgid "Writing tone"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2318
+#: assets/src/apps/bulk/App.js:2270
+#: build/automation.js:22
+#: build/bulk.js:24
+msgid "Type to find one."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2328
+#: build/automation.js:22
+msgid "No particular tone"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2334
+#: assets/src/apps/bulk/App.js:1824
+#: assets/src/apps/bulk/App.js:2283
+#: build/automation.js:22
+#: build/bulk.js:18
+#: build/bulk.js:24
+msgid "Tone"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2345
+#: assets/src/apps/bulk/App.js:2320
+#: build/automation.js:22
+#: build/bulk.js:24
+msgid "Keywords to work in"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2349
+#: build/automation.js:22
+msgid "Comma separated. Left empty, it writes without any."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2358
+#: build/automation.js:22
+msgid "single origin, grind size"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2371
+#: assets/src/apps/bulk/App.js:2303
+#: build/automation.js:22
+#: build/bulk.js:24
+msgid "A guide, not a hard stop."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2385
+#: assets/src/apps/automation/App.js:2400
+#: build/automation.js:22
+msgid "Add a table of contents"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2389
+#: build/automation.js:22
+msgid "Sits at the top, links to each heading."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2410
+#: assets/src/apps/automation/App.js:2425
+#: assets/src/apps/bulk/App.js:2348
+#: assets/src/apps/bulk/App.js:2365
+#: build/automation.js:22
+#: build/bulk.js:24
+msgid "Add an FAQ section"
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2414
+#: assets/src/apps/bulk/App.js:2354
+#: build/automation.js:22
+#: build/bulk.js:24
+msgid "Three or four questions at the bottom."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2453
+#: build/automation.js:22
+msgid "Changes take effect on the next run."
+msgstr ""
+
+#: assets/src/apps/automation/App.js:2457
+#: build/automation.js:22
+msgid "It starts on the next slot after you save."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:86
+#: build/bulk.js:2
+msgid "Blog post"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:87
+#: build/bulk.js:2
+msgid "Listicle"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:88
+#: build/bulk.js:2
+msgid "How-to guide"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:89
+#: build/bulk.js:2
+msgid "Product review"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:90
+#: build/bulk.js:2
+msgid "Comparison"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:91
+#: build/bulk.js:2
+msgid "News piece"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:111
+#: build/bulk.js:2
+msgid "Why morning walks boost productivity"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:112
+#: build/bulk.js:2
+msgid "What actually matters in a coffee grinder"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:320
+#: build/bulk.js:5
+msgid "You’ve used all of this month’s bulk runs. Upgrade to Pro for more, or wait for next month."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:366
+#: build/bulk.js:6
+msgid "Take this off the list?"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:367
+#: build/bulk.js:6
+msgid "The draft it made stays in Posts."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:373
+#: build/bulk.js:6
+msgid "Remove this one?"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:374
+#: build/bulk.js:6
+msgid "Nothing has been made from it yet, so the writing goes with it."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:389
+#: build/bulk.js:6
+msgid "Writing"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:394
+#: build/bulk.js:6
+msgid "Failed"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:399
+#: build/bulk.js:6
+msgid "Draft made"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:404
+#: build/bulk.js:6
+msgid "Ready"
+msgstr ""
+
+#. translators: %s: length of the generated post in words
+#. translators: %s: number of words, already formatted.
+#: assets/src/apps/bulk/App.js:545
+#: assets/src/apps/bulk/App.js:1273
+#: assets/src/apps/history/App.js:587
+#: build/bulk.js:7
+#: build/bulk.js:11
+#: build/history.js:2
+msgid "%s word"
+msgid_plural "%s words"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/apps/bulk/App.js:614
+#: build/bulk.js:7
+msgid "It didn’t finish"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:621
+#: build/bulk.js:7
+msgid "Nothing came back for this one. Try it again."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:630
+#: build/bulk.js:7
+msgid "It finished with nothing in it. Remove it and write it again."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:680
+#: assets/src/apps/bulk/App.js:784
+#: assets/src/apps/bulk/App.js:1324
+#: build/bulk.js:7
+#: build/bulk.js:11
+msgid "Try again"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:692
+#: assets/src/apps/bulk/App.js:1360
+#: build/bulk.js:7
+#: build/bulk.js:11
+msgid "Create draft"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:739
+#: build/bulk.js:7
+msgid "This one did not come back"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:758
+#: build/bulk.js:7
+msgid "No reason was recorded for this one."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:764
+#: build/bulk.js:7
+msgid "Nothing was charged twice for it and the rest of the batch carried on."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:826
+#: build/bulk.js:7
+msgid "Added as a draft."
+msgstr ""
+
+#. translators: %d: how many posts are about to be deleted
+#: assets/src/apps/bulk/App.js:874
+#: build/bulk.js:8
+msgid "Remove %d post?"
+msgid_plural "Remove %d posts?"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/apps/bulk/App.js:882
+#: build/bulk.js:8
+msgid "This can’t be undone."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:921
+#: build/bulk.js:7
+msgid "We lost contact with the server."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:961
+#: build/bulk.js:7
+msgid "Progress updates stopped"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:968
+#: build/bulk.js:7
+msgid "Reload the page to pick up where the queue left off."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:982
+#: build/bulk.js:7
+msgid "Open it"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1005
+#: build/bulk.js:7
+msgid "Beta"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1009
+#: assets/src/apps/bulk/App.js:2458
+#: build/bulk.js:7
+#: build/bulk.js:24
+msgid "Hand it a list of titles and come back to finished drafts."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1023
+#: assets/src/apps/bulk/App.js:1077
+#: assets/src/apps/bulk/App.js:2455
+#: build/bulk.js:7
+#: build/bulk.js:24
+msgid "Write a batch"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1037
+#: build/bulk.js:7
+msgid "Writing now. You can close this tab. It carries on."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1060
+#: assets/src/apps/history/App.js:464
+#: build/bulk.js:7
+#: build/history.js:1
+msgid "Nothing written yet"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1066
+#: build/bulk.js:7
+msgid "Paste in a list of titles, one per line. Each comes back as a draft you can read before it goes anywhere."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1091
+#: build/bulk.js:7
+msgid "What to do with the ones you tick"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1100
+#: build/bulk.js:7
+msgid "With the ones I tick…"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1106
+#: build/bulk.js:7
+msgid "Create drafts"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1123
+#: build/bulk.js:8
+msgid "Apply"
+msgstr ""
+
+#. translators: %d: how many rows are in the list
+#: assets/src/apps/bulk/App.js:1128
+#: build/bulk.js:9
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: how many rows are ticked
+#: assets/src/apps/bulk/App.js:1140
+#: build/bulk.js:10
+msgid "%d ticked"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1160
+#: build/bulk.js:10
+msgid "Tick every row"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1178
+#: assets/src/apps/history/App.js:289
+#: assets/src/apps/history/App.js:524
+#: build/bulk.js:10
+#: build/history.js:1
+msgid "Length"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1255
+#: build/bulk.js:10
+msgid "Why it failed"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1306
+#: build/bulk.js:11
+msgid "Writing…"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1376
+#: build/bulk.js:11
+msgid "Open draft"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1412
+#: build/bulk.js:12
+msgid "Write again"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1597
+#: build/bulk.js:13
+msgid "That didn’t go through. Try again."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1666
+#: build/bulk.js:25
+msgid "Put at least one headline in here, one per line."
+msgstr ""
+
+#. translators: %d: how many posts one bulk run may hold on this plan
+#: assets/src/apps/bulk/App.js:1680
+#: build/bulk.js:25
+msgid "A bulk run stops at %d posts on your plan. Take some out, or split them into two runs."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1711
+#: build/bulk.js:25
+msgid "Ask for some headlines first, or switch to your own."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1729
+#: build/bulk.js:25
+msgid "Every headline is empty. Write one, or go back and paste a list."
+msgstr ""
+
+#. translators: %d: how many runs the plan allows each month
+#: assets/src/apps/bulk/App.js:1759
+#: build/bulk.js:14
+msgid "Up to %d runs a month on your plan. A batch can be any size."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1765
+#: build/bulk.js:14
+msgid "Unlimited runs on your plan, and a batch can be any size."
+msgstr ""
+
+#. translators: 1: how many runs the plan allows each month. 2: how many headlines fit in one batch.
+#: assets/src/apps/bulk/App.js:1773
+#: build/bulk.js:15
+msgid "Up to %1$d runs a month on your plan, and up to %2$d headlines in a batch."
+msgstr ""
+
+#. translators: %d: how many headlines fit in one batch
+#: assets/src/apps/bulk/App.js:1782
+#: build/bulk.js:16
+msgid "Unlimited runs on your plan, up to %d headlines in a batch."
+msgstr ""
+
+#. translators: %d: how many posts one batch may hold
+#: assets/src/apps/bulk/App.js:1792
+#: build/bulk.js:17
+msgid "One batch is one run, and up to %d headlines fit in a batch."
+msgstr ""
+
+#. translators: 1: how many runs are left this month. 2: how many posts one batch may hold.
+#: assets/src/apps/bulk/App.js:1801
+#: build/bulk.js:18
+msgid "One batch is one run. You have %1$d left this month, and up to %2$d headlines fit in a batch."
+msgid_plural "One batch is one run. You have %1$d left this month, and up to %2$d headlines fit in a batch."
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/apps/bulk/App.js:1814
+#: build/bulk.js:18
+msgid "Posts to write"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1818
+#: assets/src/apps/bulk/App.js:2234
+#: assets/src/apps/history/App.js:283
+#: assets/src/apps/history/App.js:512
+#: build/bulk.js:18
+#: build/bulk.js:24
+#: build/history.js:1
+msgid "Template"
+msgstr ""
+
+#. translators: %s: the chosen length in words
+#: assets/src/apps/bulk/App.js:1833
+#: build/bulk.js:19
+msgid "%s words each"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1839
+#: build/bulk.js:19
+msgid "Keywords"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1844
+#: build/bulk.js:19
+msgid "None"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1849
+#: build/bulk.js:19
+msgid "FAQ section"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1851
+#: assets/src/apps/bulk/App.js:1857
+#: build/bulk.js:19
+msgid "Yes"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1852
+#: assets/src/apps/bulk/App.js:1858
+#: build/bulk.js:19
+msgid "No"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1855
+#: build/bulk.js:19
+msgid "Contents list"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1861
+#: build/bulk.js:19
+msgid "Counts against"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1865
+#: build/bulk.js:20
+msgid "Nothing. Your plan has no cap."
+msgstr ""
+
+#. translators: %d: how many runs are left this month
+#: assets/src/apps/bulk/App.js:1871
+#: build/bulk.js:20
+msgid "1 of your %d remaining runs"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1887
+#: assets/src/apps/bulk/App.js:1903
+#: build/bulk.js:20
+msgid "Where the titles come from"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1893
+#: build/bulk.js:20
+msgid "Paste your own, or give it a topic and let it suggest some."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1910
+#: build/bulk.js:20
+msgid "My own headlines"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1917
+#: build/bulk.js:20
+msgid "AI headlines"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1931
+#: build/bulk.js:20
+msgid "Headlines, one per line"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1937
+#: build/bulk.js:20
+msgid "Each one becomes its own draft."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1975
+#: build/bulk.js:20
+msgid "Topic"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:1981
+#: build/bulk.js:20
+msgid "What the whole batch is about."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2020
+#: build/bulk.js:20
+msgid "How many headlines"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2026
+#: build/bulk.js:20
+msgid "You can edit or drop any of them next."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2077
+#: build/bulk.js:20
+msgid "Suggest them"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2083
+#: build/bulk.js:20
+msgid "Takes a few seconds. Nothing is written yet."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2116
+#: build/bulk.js:20
+msgid "Thinking…"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2120
+#: build/bulk.js:20
+msgid "Suggest headlines"
+msgstr ""
+
+#. translators: %d: how many headlines came back
+#: assets/src/apps/bulk/App.js:2132
+#: build/bulk.js:21
+msgid "%d ready. Press Next to look it over."
+msgid_plural "%d ready. Press Next to look them over."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: how many posts the batch will write
+#: assets/src/apps/bulk/App.js:2154
+#: build/bulk.js:22
+msgid "The %d it will write"
+msgid_plural "The %d it will write"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/apps/bulk/App.js:2167
+#: build/bulk.js:22
+msgid "No titles yet. Go back a step."
+msgstr ""
+
+#. translators: %d: which headline in the list
+#: assets/src/apps/bulk/App.js:2185
+#: build/bulk.js:23
+msgid "Headline %d"
+msgstr ""
+
+#. translators: %d: which headline in the list
+#: assets/src/apps/bulk/App.js:2200
+#: build/bulk.js:24
+msgid "Drop headline %d"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2220
+#: build/bulk.js:24
+msgid "Add another"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2225
+#: build/bulk.js:24
+msgid "How they should read"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2237
+#: build/bulk.js:24
+msgid "The shape each post takes."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2250
+#: assets/src/apps/settings/App.js:2509
+#: build/bulk.js:24
+#: build/settings.js:11
+msgid "Templates"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2326
+#: build/bulk.js:24
+msgid "Press Enter after each one."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2337
+#: build/bulk.js:24
+msgid "single origin, freshness, grind size"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2380
+#: assets/src/apps/bulk/App.js:2397
+#: build/bulk.js:24
+msgid "Add a contents list"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2386
+#: build/bulk.js:24
+msgid "Links to each section, at the top."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2410
+#: build/bulk.js:24
+msgid "Before it starts"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2421
+#: build/bulk.js:24
+msgid "Say the word and they start writing in the background. You can close this tab. It carries on."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2427
+#: build/bulk.js:24
+msgid "Nothing is published. Each one lands as a draft for you to read first."
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2440
+#: build/bulk.js:24
+msgid "← Back to Bulk Posts"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2476
+#: build/bulk.js:24
+msgid "Where you are"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2478
+#: build/bulk.js:24
+msgid "Titles"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2479
+#: build/bulk.js:24
+msgid "Review and settings"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2483
+#: build/bulk.js:24
+msgid "Confirm"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2505
+#: build/bulk.js:24
+msgid "Starting…"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2506
+#: build/bulk.js:24
+msgid "Start writing"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2520
+#: assets/src/apps/history/App.js:741
+#: build/bulk.js:25
+#: build/history.js:5
+msgid "Next"
+msgstr ""
+
+#: assets/src/apps/bulk/App.js:2532
+#: build/bulk.js:25
+msgid "Back"
+msgstr ""
+
+#: assets/src/apps/editor/index.js:94
+#: build/editor.js:1
+msgid "AI is thinking…"
+msgstr ""
+
+#: assets/src/apps/editor/index.js:157
+#: build/editor.js:1
+msgid "Please select text"
+msgstr ""
+
+#: assets/src/apps/history/App.js:53
+#: build/history.js:1
+msgid "Post editor"
+msgstr ""
+
+#: assets/src/apps/history/App.js:141
+#: assets/src/apps/history/App.js:265
+#: build/history.js:1
+msgid "Everything the plugin has written, newest first."
+msgstr ""
+
+#: assets/src/apps/history/App.js:170
+#: build/history.js:1
+msgid "Back to history"
+msgstr ""
+
+#: assets/src/apps/history/App.js:185
+#: build/history.js:1
+msgid "That entry wouldn’t open. Go back and try again."
+msgstr ""
+
+#: assets/src/apps/history/App.js:208
+#: build/history.js:1
+msgid "This entry was saved without any text."
+msgstr ""
+
+#: assets/src/apps/history/App.js:236
+#: build/history.js:1
+msgid "History is a Pro feature"
+msgstr ""
+
+#: assets/src/apps/history/App.js:237
+#: build/history.js:1
+msgid "Every piece this plugin has written for you, kept and searchable, so you can find one again months later."
+msgstr ""
+
+#: assets/src/apps/history/App.js:280
+#: assets/src/apps/history/App.js:506
+#: build/history.js:1
+msgid "What it wrote"
+msgstr ""
+
+#: assets/src/apps/history/App.js:286
+#: assets/src/apps/history/App.js:518
+#: build/history.js:1
+msgid "Where from"
+msgstr ""
+
+#: assets/src/apps/history/App.js:292
+#: assets/src/apps/history/App.js:530
+#: build/history.js:1
+msgid "When"
+msgstr ""
+
+#: assets/src/apps/history/App.js:351
+#: build/history.js:1
+msgid "That entry was already gone. The list is up to date now."
+msgstr ""
+
+#: assets/src/apps/history/App.js:363
+#: build/history.js:1
+msgid "Couldn’t delete that entry. Reload the page and try again."
+msgstr ""
+
+#: assets/src/apps/history/App.js:408
+#: build/history.js:1
+msgid "Search history"
+msgstr ""
+
+#: assets/src/apps/history/App.js:416
+#: build/history.js:1
+msgid "Search titles"
+msgstr ""
+
+#: assets/src/apps/history/App.js:436
+#: build/history.js:1
+msgid "Couldn’t load your history. Reload the page and try again."
+msgstr ""
+
+#: assets/src/apps/history/App.js:460
+#: build/history.js:1
+msgid "Nothing matches that"
+msgstr ""
+
+#: assets/src/apps/history/App.js:471
+#: build/history.js:1
+msgid "Try a shorter search, or clear it to see everything."
+msgstr ""
+
+#: assets/src/apps/history/App.js:475
+#: build/history.js:1
+msgid "Once you write something anywhere in the plugin, it turns up here."
+msgstr ""
+
+#: assets/src/apps/history/App.js:490
+#: build/history.js:1
+msgid "Clear the search"
+msgstr ""
+
+#: assets/src/apps/history/App.js:568
+#: build/history.js:1
+msgid "No text saved"
+msgstr ""
+
+#: assets/src/apps/history/App.js:626
+#: build/history.js:3
+msgid "this entry"
+msgstr ""
+
+#: assets/src/apps/history/App.js:644
+#: build/history.js:3
+msgid "Delete this entry?"
+msgstr ""
+
+#: assets/src/apps/history/App.js:648
+#: build/history.js:3
+msgid "You won’t be able to get it back."
+msgstr ""
+
+#. translators: 1: rows on this page. 2: rows in total.
+#: assets/src/apps/history/App.js:690
+#: build/history.js:4
+msgid "%1$d of %2$d shown"
+msgstr ""
+
+#: assets/src/apps/history/App.js:713
+#: build/history.js:4
+msgid "Previous"
+msgstr ""
+
+#. translators: 1: current page number. 2: total number of pages.
+#: assets/src/apps/history/App.js:721
+#: build/history.js:5
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:124
+#: build/settings.js:3
+msgid "WP-Cron only runs when someone visits the site, so on a quiet site scheduled posts run late. To keep them on time, switch off the built-in cron and add a real server cron job:"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:131
+#: build/settings.js:3
+msgid "Add to"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:147
+#: build/settings.js:3
+msgid "Add this server crontab line (every 5 minutes):"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:164
+#: build/settings.js:3
+msgid "On a managed host (Kinsta, WP Engine, Cloudways) set this up in the host’s cron panel instead, and point it at wp-cron.php."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:178
+#: assets/src/apps/settings/KeyField.js:150
+#: build/settings.js:1
+#: build/settings.js:3
+msgid "Testing…"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:179
+#: build/settings.js:3
+msgid "Test cron"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:190
+#: build/settings.js:3
+msgid "Next run:"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:211
+#: assets/src/apps/settings/App.js:2211
+#: build/settings.js:3
+#: build/settings.js:9
+msgid "Creativity (temperature)"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:215
+#: assets/src/apps/settings/App.js:2252
+#: build/settings.js:3
+#: build/settings.js:9
+msgid "Max reply length"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:216
+#: assets/src/apps/settings/App.js:2378
+#: build/settings.js:3
+#: build/settings.js:11
+msgid "Topic variety"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:217
+#: assets/src/apps/settings/App.js:2415
+#: build/settings.js:3
+#: build/settings.js:11
+msgid "Word variety"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:218
+#: assets/src/apps/settings/App.js:2879
+#: build/settings.js:3
+#: build/settings.js:11
+msgid "Brand color"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:270
+#: build/settings.js:3
+msgid "Gemini"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:275
+#: build/settings.js:3
+msgid "OpenRouter"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:280
+#: build/settings.js:3
+msgid "OpenAI"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:281
+#: build/settings.js:3
+msgid "also powers images"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:286
+#: build/settings.js:3
+msgid "Claude"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:291
+#: build/settings.js:3
+msgid "DeepSeek"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:317
+#: assets/src/apps/settings/KeyField.js:34
+#: build/settings.js:1
+#: build/settings.js:3
+msgid "Key rejected"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:322
+#: assets/src/apps/settings/KeyField.js:39
+#: build/settings.js:1
+#: build/settings.js:3
+msgid "Quota reached"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:327
+#: build/settings.js:3
+msgid "Unreachable"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:332
+#: build/settings.js:3
+msgid "No key"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:337
+#: build/settings.js:3
+msgid "Not checked yet"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:435
+#: build/settings.js:3
+msgid "Keys, models, and how the writing sounds."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:439
+#: build/settings.js:3
+msgid "What happens when a provider fails, and where the writing runs."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:443
+#: build/settings.js:3
+msgid "Your own templates and characters, for every screen that writes."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:447
+#: build/settings.js:3
+msgid "Your name and logo on the plugin instead of ours."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:451
+#: build/settings.js:3
+msgid "Where to ask, and where to tell us."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:477
+#: build/settings.js:9
+msgid "Opening OpenRouter…"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:480
+#: build/settings.js:9
+msgid "Or connect an OpenRouter account instead of pasting a key"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:485
+#: build/settings.js:9
+msgid "Sign in with OpenRouter instead of pasting a key"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:510
+#: build/settings.js:11
+msgid "Server cron is running this, so work carries on whether anyone visits the site or not."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:516
+#: build/settings.js:11
+msgid "WP-Cron picks the work up on site visits, so a quiet site can run a little late."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:521
+#: build/settings.js:11
+msgid "In this tab means schedules and bulk runs only move while a WP Wand tab is open."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:568
+#: build/settings.js:3
+msgid "Your license includes support. Tell us what happened and what you expected."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:574
+#: build/settings.js:3
+msgid "Get in touch with whoever set this site up for you."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:579
+#: build/settings.js:3
+msgid "Post on the support forum. Include the model you used and what came back."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:607
+#: build/settings.js:3
+msgid "Stuck on something"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:611
+#: build/settings.js:3
+msgid "Ask a question"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:622
+#: build/settings.js:3
+msgid "Open the support forum"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:626
+#: build/settings.js:3
+msgid "Contact support"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:633
+#: assets/src/shared/ReviewAsk.js:249
+#: build/assistant.js:3
+#: build/automation.js:1
+#: build/bulk.js:1
+#: build/settings.js:3
+msgid "Leave a review"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:634
+#: build/settings.js:3
+msgid "Reviews are how other people find this plugin. Good or bad, we read them."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:645
+#: build/settings.js:3
+msgid "Write a review on WordPress.org"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:655
+#: build/settings.js:3
+msgid "Version"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:656
+#: build/settings.js:3
+msgid "What you are running."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:695
+#: build/settings.js:3
+msgid "More runs a month"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:696
+#: build/settings.js:3
+msgid "Bulk and scheduled runs go from 5 a month each to 10 on Solo and 30 on Growth. Agency has no limit on either."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:702
+#: build/settings.js:3
+msgid "Bigger runs"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:703
+#: build/settings.js:3
+msgid "Free stops a bulk run at 10 posts and a scheduled run at 5. Pro starts at 20 and 10, and the top plan has no lid on either."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:709
+#: build/settings.js:3
+msgid "It sounds like you"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:710
+#: build/settings.js:3
+msgid "Say who you are and what you sell. Everything after that is written to match."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:716
+#: build/settings.js:3
+msgid "Your own prompts"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:717
+#: build/settings.js:3
+msgid "Keep the ones that work and reuse them anywhere on the site."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:723
+#: build/settings.js:3
+msgid "Every site you build"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:724
+#: build/settings.js:3
+msgid "Use it on every site you build, not only this one."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:730
+#: assets/src/apps/settings/App.js:863
+#: assets/src/apps/settings/App.js:890
+#: build/settings.js:3
+msgid "Auto fallback"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:731
+#: build/settings.js:3
+msgid "A provider runs out of credit or its key stops working. The next one on your list picks the job up."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:738
+#: build/settings.js:3
+msgid "Your name, not ours"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:739
+#: build/settings.js:3
+msgid "Your name, logo and colors across the whole plugin, on sites you hand to clients."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:750
+#: assets/src/shared/ProModal.js:86
+#: build/settings.js:1
+#: build/settings.js:3
+msgid "What Pro adds"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:753
+#: build/settings.js:3
+msgid "Everything you have now keeps working. Pro is for when 5 bulk runs and 5 scheduled runs a month stops being enough."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:866
+#: build/settings.js:3
+msgid "If a provider runs out of credit or its key stops working, the next one finishes the job. Timeouts don’t count; those are worth a retry."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:870
+#: build/settings.js:3
+msgid "If a provider runs out of credit or its key stops working, the next one finishes the job. You need keys for more than one provider, so it comes with Pro. Either way, when a generation fails you’ll be told why."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:880
+#: build/settings.js:3
+msgid "Auto fallback comes with Pro. See what Pro adds."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:902
+#: build/settings.js:3
+msgid "Fallback order"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:903
+#: build/settings.js:3
+msgid "Drag or use the arrows to change the order. Untick one to skip it."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:917
+#: build/settings.js:3
+msgid "Runs first"
+msgstr ""
+
+#. translators: %s: provider name, e.g. OpenAI
+#: assets/src/apps/settings/App.js:1021
+#: build/settings.js:4
+msgid "Move %s up"
+msgstr ""
+
+#. translators: %s: provider name, e.g. OpenAI
+#: assets/src/apps/settings/App.js:1041
+#: build/settings.js:5
+msgid "Move %s down"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1061
+#: build/settings.js:5
+msgid "Keep at least one provider here, or turn auto fallback off above."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1086
+#: build/settings.js:5
+msgid "Add a key to use this as a fallback."
+msgstr ""
+
+#. translators: 1: provider name. 2: a time of day, e.g. 3:15 pm
+#: assets/src/apps/settings/App.js:1116
+#: build/settings.js:6
+msgid "%1$s is paused until %2$s."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1130
+#: build/settings.js:6
+msgid "Try it now"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1141
+#: build/settings.js:6
+msgid "It was paused because the account stopped working. An administrator can switch it back on, and that starts spending money there again."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1151
+#: build/settings.js:6
+msgid "Top of the list goes first. Your chosen model is never rewritten."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1194
+#: build/settings.js:6
+msgid "Couldn't start the connection. Try again, or paste a key below."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1258
+#: build/settings.js:6
+msgid "Settings saved."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1274
+#: build/settings.js:6
+msgid "Could not save."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1277
+#: build/settings.js:6
+msgid "Could not save. Something went wrong at our end. Try again."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1368
+#: assets/src/apps/settings/App.js:1373
+#: build/settings.js:6
+msgid "The most the model will write in one go, measured in tokens. Roughly 750 words per 1,000 tokens."
+msgstr ""
+
+#. translators: 1: the shared explanation. 2: recommended token count. 3: the model's maximum.
+#: assets/src/apps/settings/App.js:1380
+#: build/settings.js:7
+msgid "%1$s Best for this model: %2$s. It will accept up to %3$s."
+msgstr ""
+
+#. translators: 1: the shared explanation. 2: the token count, which is both the recommendation and the ceiling.
+#: assets/src/apps/settings/App.js:1392
+#: build/settings.js:8
+msgid "%1$s Best for this model: %2$s, which is also its maximum."
+msgstr ""
+
+#. translators: 1: the shared explanation. 2: recommended token count.
+#: assets/src/apps/settings/App.js:1402
+#: build/settings.js:9
+msgid "%1$s Best for this model: %2$s."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1530
+#: build/settings.js:9
+msgid "(key not active right now)"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1683
+#: build/settings.js:9
+msgid "Couldn’t load settings:"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1714
+#: build/settings.js:9
+msgid "Got it"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1771
+#: build/settings.js:9
+msgid "Custom Prompts"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1794
+#: build/settings.js:9
+msgid "White Label"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1811
+#: build/settings.js:9
+msgid "Support"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1820
+#: build/settings.js:9
+msgid "See what Pro adds"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1838
+#: build/settings.js:9
+msgid "API keys"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1844
+#: build/settings.js:9
+msgid "Where the writing comes from."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1883
+#: build/settings.js:9
+msgid "Connected with OpenRouter"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1901
+#: build/settings.js:9
+msgid "Disconnect OpenRouter?"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1905
+#: build/settings.js:9
+msgid "The key stays in your OpenRouter account. This site just stops using it."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:1910
+#: assets/src/apps/settings/App.js:1926
+#: build/settings.js:9
+msgid "Disconnect"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2007
+#: build/settings.js:9
+msgid "One key is enough to start. Add more and you can switch models."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2014
+#: build/settings.js:9
+msgid "Need one?"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2076
+#: build/settings.js:9
+msgid "Checking your API keys…"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2091
+#: build/settings.js:9
+msgid "We can't reach your AI provider right now, so the model list is unavailable. Your keys are still saved — try again in a minute."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2095
+#: build/settings.js:9
+msgid "Add a key above and the model and writing settings turn up here."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2105
+#: build/settings.js:9
+msgid "How it writes"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2112
+#: build/settings.js:9
+msgid "Showing the last model list we loaded — we couldn't reach the provider just now."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2119
+#: build/settings.js:9
+msgid "Model"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2123
+#: build/settings.js:9
+msgid "Each one has its own price and its own feel."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2135
+#: build/settings.js:9
+msgid "Pick a model"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2139
+#: build/settings.js:9
+msgid "Search models"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2169
+#: build/settings.js:9
+msgid "Refreshing models…"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2196
+#: build/settings.js:9
+msgid "Pick a language"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2200
+#: build/settings.js:9
+msgid "Search languages"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2215
+#: build/settings.js:9
+msgid "Low stays on topic. High wanders and surprises you."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2238
+#: build/settings.js:9
+msgid "Stays on topic"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2242
+#: build/settings.js:9
+msgid "Wanders"
+msgstr ""
+
+#. translators: 1: the value in the field. 2: the model's maximum.
+#: assets/src/apps/settings/App.js:2290
+#: build/settings.js:10
+msgid "%1$s is more than this model takes. It stops at %2$s, so every generation will fail until you bring it down."
+msgstr ""
+
+#. translators: %s: the model's maximum, e.g. 4,096
+#: assets/src/apps/settings/App.js:2316
+#: build/settings.js:11
+msgid "Use %s"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2342
+#: build/settings.js:11
+msgid "Use recommended"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2361
+#: build/settings.js:11
+msgid "More writing controls"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2371
+#: build/settings.js:11
+msgid "This model doesn’t take these two settings directly. WP Wand asks for them in the prompt instead, so treat them as a nudge, not a rule."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2382
+#: build/settings.js:11
+msgid "Higher means fewer repeated topics."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2401
+#: build/settings.js:11
+msgid "Repeats freely"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2405
+#: build/settings.js:11
+msgid "Keeps moving on"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2419
+#: build/settings.js:11
+msgid "Higher means less repeated wording."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2438
+#: build/settings.js:11
+msgid "Reuses words"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2442
+#: build/settings.js:11
+msgid "Varies them"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2454
+#: build/settings.js:11
+msgid "Write with AI button"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2458
+#: build/settings.js:11
+msgid "Where it sits while you edit."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2477
+#: build/settings.js:11
+msgid "Side"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2483
+#: build/settings.js:11
+msgid "Top bar"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2489
+#: build/settings.js:11
+msgid "Hidden"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2500
+#: build/settings.js:11
+msgid "Nothing shows while you edit. Come back here to turn it on again."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2513
+#: build/settings.js:11
+msgid "Pull the latest writing templates. Takes a few seconds."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2530
+#: build/settings.js:11
+msgid "Syncing…"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2534
+#: build/settings.js:11
+msgid "Get the latest"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2553
+#: build/settings.js:11
+msgid "When a provider fails"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2582
+#: build/settings.js:11
+msgid "In the background"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2589
+#: build/settings.js:11
+msgid "Where writing runs"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2593
+#: build/settings.js:11
+msgid "Where bulk batches and schedules get written."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2610
+#: build/settings.js:11
+msgid "In this tab"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2616
+#: build/settings.js:11
+msgid "On the server, when someone visits the site"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2622
+#: build/settings.js:11
+msgid "On the server, on a real clock"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2649
+#: assets/src/apps/settings/App.js:2665
+#: build/settings.js:11
+msgid "Live preview (streaming)"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2653
+#: build/settings.js:11
+msgid "Text appears as it is written, while the tab is open. Long posts are written section by section and show up when they’re done."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2680
+#: build/settings.js:11
+msgid "So it sounds like you"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2695
+#: build/settings.js:11
+msgid "About your business"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2699
+#: build/settings.js:11
+msgid "What you sell, in your own words."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2709
+#: build/settings.js:11
+msgid "About your business comes with Pro. See what Pro adds."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2718
+#: build/settings.js:11
+msgid "Example: We write and share detailed reviews of hiking items on our blog."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2739
+#: build/settings.js:11
+msgid "Who you are writing for"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2743
+#: build/settings.js:11
+msgid "Where they are, what they care about, what they already know."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2753
+#: build/settings.js:11
+msgid "Who you are writing for comes with Pro. See what Pro adds."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2762
+#: build/settings.js:11
+msgid "Example: hikers in the US, mostly under 35, planning their first big trip."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2785
+#: build/settings.js:11
+msgid "Custom Prompts is a Pro feature"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2789
+#: build/settings.js:11
+msgid "Save the prompts and writing styles that work for you, and use them anywhere on the site."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2812
+#: build/settings.js:11
+msgid "White Label is a Pro feature"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2816
+#: build/settings.js:11
+msgid "Put your own name, logo and colors across the whole plugin, on every site you hand to a client."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2829
+#: build/settings.js:11
+msgid "Your name on it"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2835
+#: build/settings.js:11
+msgid "Put your own name and logo on WP Wand, so client sites never see ours."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2843
+#: build/settings.js:11
+msgid "Logo"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2847
+#: build/settings.js:11
+msgid "The wide logo, shown at the top of every screen."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2855
+#: build/settings.js:11
+msgid "Logo icon"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2859
+#: build/settings.js:11
+msgid "The small square icon, used in the admin menu."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2867
+#: build/settings.js:11
+msgid "Brand name"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2871
+#: build/settings.js:11
+msgid "Shown at the top of every screen when there is no logo."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2883
+#: build/settings.js:11
+msgid "Buttons and links pick this up."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2906
+#: build/settings.js:11
+msgid "How it appears in the plugins list"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2914
+#: build/settings.js:11
+msgid "Plugin name"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2922
+#: build/settings.js:11
+msgid "Plugin description"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2930
+#: build/settings.js:11
+msgid "Author name"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2938
+#: build/settings.js:11
+msgid "Author link"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2942
+#: build/settings.js:11
+msgid "Where your clients go for help. The Support tab sends them here too."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2965
+#: build/settings.js:11
+msgid "Handing the site over"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2971
+#: assets/src/apps/settings/App.js:2989
+#: build/settings.js:11
+msgid "Hide this tab from clients"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:2975
+#: build/settings.js:11
+msgid "They keep the plugin, they lose the branding controls. Once it’s hidden, you get it back by deactivating and reactivating the Pro plugin."
+msgstr ""
+
+#: assets/src/apps/settings/App.js:3005
+#: assets/src/apps/settings/App.js:3023
+#: build/settings.js:11
+msgid "Reset to default"
+msgstr ""
+
+#: assets/src/apps/settings/App.js:3009
+#: build/settings.js:11
+msgid "Clears every white-label field and puts the WP Wand name and logo back."
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:33
+#: build/settings.js:1
+msgid "Prompt templates"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:34
+#: build/settings.js:1
+msgid "Your prompt templates"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:36
+#: build/settings.js:1
+msgid "These show up in the Write with AI button. Put <code>{topic}</code> where you want your own words to appear."
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:42
+#: build/settings.js:1
+msgid "Add a template"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:43
+#: build/settings.js:1
+msgid "New prompt template"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:44
+#: build/settings.js:1
+msgid "Edit prompt template"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:45
+#: build/settings.js:1
+msgid "It shows up in the Write with AI button on every screen that writes."
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:49
+#: build/settings.js:1
+msgid "Template name"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:50
+#: build/settings.js:1
+msgid "Product description"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:51
+#: build/settings.js:1
+msgid "Prompt"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:52
+#: build/settings.js:1
+msgid "Write a short product description for {topic}. Two sentences, no hype."
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:56
+#: build/settings.js:1
+msgid "No templates yet"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:57
+#: build/settings.js:1
+msgid "Write one and it turns up in the Write with AI button, ready to reuse."
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:61
+#: build/settings.js:1
+msgid "Remove this template?"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:65
+#: build/settings.js:1
+msgid "AI characters"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:66
+#: build/settings.js:1
+msgid "Your AI characters"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:67
+#: build/settings.js:1
+msgid "A character sets who is writing. Pick one in the Write with AI button and the tone follows it."
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:71
+#: build/settings.js:1
+msgid "Add a character"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:72
+#: build/settings.js:1
+msgid "New AI character"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:73
+#: build/settings.js:1
+msgid "Edit AI character"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:74
+#: build/settings.js:1
+msgid "Describe who is writing. The style follows from that."
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:78
+#: build/settings.js:1
+msgid "Character name"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:79
+#: build/settings.js:1
+msgid "Coffee roaster"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:80
+#: build/settings.js:1
+msgid "Character"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:81
+#: build/settings.js:1
+msgid "You write product reviews for a small coffee roaster. Plain words, no hype."
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:85
+#: build/settings.js:1
+msgid "No characters yet"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:86
+#: build/settings.js:1
+msgid "Write one and you can pick it whenever you generate something."
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:90
+#: build/settings.js:1
+msgid "Remove this character?"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:193
+#: build/settings.js:1
+msgid "Save"
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:228
+#: build/settings.js:1
+msgid "Put <code>{topic}</code> where your own words go."
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:401
+#: build/settings.js:2
+msgid "Remove it"
+msgstr ""
+
+#. translators: %s: the name of the prompt or character being copied.
+#: assets/src/apps/settings/CustomPrompts.js:422
+#: build/settings.js:2
+msgid "%s copy"
+msgstr ""
+
+#. translators: %s: the name of the prompt or character being removed.
+#: assets/src/apps/settings/CustomPrompts.js:435
+#: build/settings.js:3
+msgid "“%s” goes off the list. Anything already written with it stays."
+msgstr ""
+
+#: assets/src/apps/settings/CustomPrompts.js:457
+#: build/settings.js:3
+msgid "What you are managing"
+msgstr ""
+
+#: assets/src/apps/settings/KeyField.js:29
+#: build/settings.js:1
+msgid "Working"
+msgstr ""
+
+#: assets/src/apps/settings/KeyField.js:44
+#: build/settings.js:1
+msgid "Could not check"
+msgstr ""
+
+#: assets/src/apps/settings/KeyField.js:49
+#: build/settings.js:1
+msgid "No key yet"
+msgstr ""
+
+#: assets/src/apps/settings/KeyField.js:55
+#: build/settings.js:1
+msgid "Checking…"
+msgstr ""
+
+#: assets/src/apps/settings/KeyField.js:128
+#: build/settings.js:1
+msgid "The test never reached the provider. Check your connection and try again."
+msgstr ""
+
+#: assets/src/apps/settings/KeyField.js:158
+#: build/settings.js:1
+msgid "Not saved yet"
+msgstr ""
+
+#: assets/src/apps/settings/KeyField.js:180
+#: build/settings.js:1
+msgid "Paste a key first, then press Test."
+msgstr ""
+
+#: assets/src/apps/settings/KeyField.js:202
+#: build/settings.js:1
+msgid "•••••••• saved — leave blank to keep"
+msgstr ""
+
+#: assets/src/apps/settings/KeyField.js:206
+#: build/settings.js:1
+msgid "Paste a key to switch this on"
+msgstr ""
+
+#: assets/src/apps/settings/KeyField.js:244
+#: build/settings.js:1
+msgid "Test"
+msgstr ""
+
+#: assets/src/apps/settings/KeyField.js:255
+#: build/settings.js:1
+msgid "Remove this key?"
+msgstr ""
+
+#: assets/src/apps/settings/KeyField.js:259
+#: build/settings.js:1
+msgid "Nothing will be written with this provider until you add a new one."
+msgstr ""
+
+#: assets/src/apps/settings/MediaField.js:20
+#: assets/src/apps/settings/MediaField.js:48
+#: build/settings.js:3
+msgid "Select image"
+msgstr ""
+
+#: assets/src/apps/settings/MediaField.js:21
+#: build/settings.js:3
+msgid "Use this image"
+msgstr ""
+
+#: assets/src/apps/settings/MediaField.js:38
+#: build/settings.js:3
+msgid "No image"
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:66
+#: build/welcome.js:1
+msgid "It's free, no subscription, no card on file."
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:70
+#: build/welcome.js:1
+msgid "Write one post at a time, as often as you like."
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:74
+#: build/welcome.js:1
+msgid "Up to 50 bulk posts and 25 scheduled posts a month, on your own API key."
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:78
+#: build/welcome.js:1
+msgid "All 44 writing templates, none of them locked."
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:82
+#: build/welcome.js:1
+msgid "Images too, at 256×256. Pro unlocks the larger sizes."
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:86
+#: build/welcome.js:1
+msgid "Plugin updates and support, both included."
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:127
+#: build/welcome.js:1
+msgid "Welcome to"
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:131
+#: build/welcome.js:1
+msgid "Write posts, product copy and page content without leaving WordPress."
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:167
+#: build/welcome.js:1
+msgid "Read Our Documentation"
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:175
+#: build/welcome.js:1
+msgid "What are you getting for free?"
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:192
+#: build/welcome.js:1
+msgid "Start with a free key — about a minute"
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:198
+#: build/welcome.js:1
+msgid "Google's Gemini has a free tier that's enough to write with properly. No card, no billing setup. Get the key, paste it in Settings, and you're writing."
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:210
+#: build/welcome.js:1
+msgid "Get a free Gemini key"
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:219
+#: build/welcome.js:1
+msgid "Then paste it in Settings"
+msgstr ""
+
+#: assets/src/apps/welcome/App.js:226
+#: build/welcome.js:1
+msgid "Prefer somewhere else? OpenRouter connects from Settings with one click and no key to copy. Or grab one from"
+msgstr ""
+
+#. translators: %s is the keyword on the chip being removed.
+#: assets/src/shared/ChipInput.js:32
+#: build/bulk.js:2
+msgid "Remove %s"
+msgstr ""
+
+#: assets/src/shared/Combo.js:52
+#: build/automation.js:1
+#: build/bulk.js:1
+#: build/settings.js:1
+msgid "Type to filter"
+msgstr ""
+
+#: assets/src/shared/Combo.js:53
+#: build/automation.js:1
+#: build/bulk.js:1
+#: build/settings.js:1
+msgid "Nothing matches that."
+msgstr ""
+
+#: assets/src/shared/ProModal.js:90
+#: build/settings.js:1
+msgid "Everything you have now keeps working."
+msgstr ""
+
+#: assets/src/shared/ProModal.js:127
+#: build/settings.js:1
+msgid "Not now"
+msgstr ""
+
+#: assets/src/shared/ProModal.js:137
+#: build/settings.js:1
+msgid "See the plans"
+msgstr ""
+
+#: assets/src/shared/ReviewAsk.js:161
+#: build/assistant.js:3
+#: build/automation.js:1
+#: build/bulk.js:1
+msgid "WP Wand working out for you?"
+msgstr ""
+
+#: assets/src/shared/ReviewAsk.js:172
+#: build/assistant.js:3
+#: build/automation.js:1
+#: build/bulk.js:1
+msgid "Yes, it is"
+msgstr ""
+
+#: assets/src/shared/ReviewAsk.js:179
+#: build/assistant.js:3
+#: build/automation.js:1
+#: build/bulk.js:1
+msgid "Not really"
+msgstr ""
+
+#: assets/src/shared/ReviewAsk.js:186
+#: build/assistant.js:3
+#: build/automation.js:1
+#: build/bulk.js:1
+msgid "Ask me later"
+msgstr ""
+
+#: assets/src/shared/ReviewAsk.js:193
+#: build/assistant.js:3
+#: build/automation.js:1
+#: build/bulk.js:1
+msgid "No thanks"
+msgstr ""
+
+#: assets/src/shared/ReviewAsk.js:207
+#: build/assistant.js:3
+#: build/automation.js:1
+#: build/bulk.js:1
+msgid "Thanks — that's good to hear."
+msgstr ""
+
+#: assets/src/shared/ReviewAsk.js:211
+#: build/assistant.js:3
+#: build/automation.js:1
+#: build/bulk.js:1
+msgid "Sorry to hear that."
+msgstr ""
+
+#: assets/src/shared/ReviewAsk.js:215
+#: build/assistant.js:3
+#: build/automation.js:1
+#: build/bulk.js:1
+msgid "A review on WordPress.org helps other people find WP Wand. Takes a minute."
+msgstr ""
+
+#: assets/src/shared/ReviewAsk.js:219
+#: build/assistant.js:3
+#: build/automation.js:1
+#: build/bulk.js:1
+msgid "Tell us what went wrong on the support forum and we'll take a look. The review page is there too, if you'd rather say it publicly."
+msgstr ""
+
+#: assets/src/shared/ReviewAsk.js:232
+#: build/assistant.js:3
+#: build/automation.js:1
+#: build/bulk.js:1
+msgid "Open a support topic"
+msgstr ""
+
+#: assets/src/shared/RowMenu.js:32
+#: build/automation.js:1
+#: build/bulk.js:1
+#: build/history.js:1
+msgid "More actions"
+msgstr ""

@@ -16,6 +16,13 @@ final class EditorController extends AbstractController
 {
     protected string $rest_base = 'editor';
 
+    /**
+     * What the Template column shows for a row this endpoint wrote. There is no template on this
+     * path — the writer types a prompt and gets text back — and the column has to say something
+     * true rather than sit empty. Stored, not computed at display time, so one string decides it.
+     */
+    public const TEMPLATE_LABEL = 'Custom prompt';
+
     public function register_routes(): void
     {
         register_rest_route(
@@ -30,18 +37,24 @@ final class EditorController extends AbstractController
     public function run(WP_REST_Request $request): WP_REST_Response
     {
         if (!class_exists('WPWand\Generation\Generator')) {
-            return new WP_REST_Response(['error' => __('Generator is unavailable. Check that an API key is configured.', 'wp-wand')], 503);
+            return new WP_REST_Response(['error' => __('Nothing can write yet. Add an API key in Settings first.', 'ai-content-generation')], 503);
         }
 
         $prompt = trim((string) $request->get_param('prompt'));
         if ($prompt === '') {
-            return new WP_REST_Response(['error' => __('Empty prompt.', 'wp-wand')], 400);
+            return new WP_REST_Response(['error' => __('Empty prompt.', 'ai-content-generation')], 400);
         }
 
         $content = \WPWand\Generation\Generator::generate($prompt);
 
         if (is_object($content) && isset($content->error)) {
-            $msg = isset($content->error->message) ? (string) $content->error->message : __('Generation failed.', 'wp-wand');
+            // Generator hands back the provider's error json-encoded, so it has to be unwrapped here
+            // the way every other controller does it — the editor shows this string in an alert, and
+            // a raw JSON blob tells the writer nothing about what actually went wrong.
+            $msg = \WPWand\Generation\ErrorFormatter::humanize(
+                $content->error,
+                __('Generation failed. Please try again.', 'ai-content-generation')
+            );
             return new WP_REST_Response(['error' => $msg], 200);
         }
 
@@ -60,8 +73,20 @@ final class EditorController extends AbstractController
         }
 
         if ($text === '') {
-            return new WP_REST_Response(['error' => __('No response from the AI. Please try again.', 'wp-wand')], 200);
+            return new WP_REST_Response(['error' => __('No response from the AI. Please try again.', 'ai-content-generation')], 200);
         }
+
+        // The block editor writes text and recorded none of it, so anything written from the
+        // Gutenberg toolbar was missing from History entirely. There is no template here — the
+        // writer typed a prompt — so the row carries the label the Template column will show for
+        // exactly this case, and the title is read out of the text.
+        \WPWand\Data\History::record(
+            self::TEMPLATE_LABEL,
+            ['prompt' => $prompt],
+            \WPWand\Data\History::response_from_text($text),
+            \WPWand\Data\History::title_from($text),
+            \WPWand\Data\History::SOURCE_EDITOR
+        );
 
         return new WP_REST_Response(['text' => $text], 200);
     }

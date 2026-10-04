@@ -2,6 +2,8 @@
 
 namespace WPWand\Automation;
 
+use WPWand\Generation\UsageLimits;
+
 /**
  * Option-backed store + normaliser for automation schedules (Phase 3).
  *
@@ -16,12 +18,45 @@ final class Schedules
 
     /** Frequency → interval in seconds. */
     private const INTERVALS = [
-        'hourly' => HOUR_IN_SECONDS,
-        'daily'  => DAY_IN_SECONDS,
-        'weekly' => WEEK_IN_SECONDS,
+        'hourly'  => HOUR_IN_SECONDS,
+        'daily'   => DAY_IN_SECONDS,
+        'weekly'  => WEEK_IN_SECONDS,
+        // Added 2026-08-30. A blog that publishes once a month had to pick weekly and remember to
+        // pause it, or accept four times the posts it wanted. `interval()` falls back to daily for
+        // anything it does not know, so before this a saved 'monthly' ran every day — silently.
+        'monthly' => MONTH_IN_SECONDS,
     ];
 
-    private const MAX_COUNT = 10;
+    /** What max_count() returns when a tier has no ceiling on a run. */
+    public const NO_CAP = UsageLimits::NO_CAP;
+
+    /** Posts one scheduled run may ask for, by tier. Owner's ladder, 2026-09-13: 10 / 20 / none. */
+    private const MAX_COUNT = [
+        'solo'   => 10,
+        'growth' => 20,
+        'agency' => self::NO_CAP,
+    ];
+
+    /**
+     * Posts one run may ask for: 10 on Solo, 20 on Growth, no ceiling on Agency (NO_CAP), the free
+     * per-run cap (5) otherwise. The form, the sanitiser and the runner all read this one number, so
+     * a schedule can neither ask for more than its tier allows nor be handed more — and where there
+     * is no ceiling, all three let the count through as typed.
+     *
+     * Every tier bills automation by the run, not the post, so this is the only thing that says how
+     * big a run may be. Same split bulk makes with FREE_BULK_PER_RUN on free.
+     */
+    public static function max_count(): int
+    {
+        return self::MAX_COUNT[UsageLimits::tier()] ?? UsageLimits::FREE_AUTOMATION_PER_RUN;
+    }
+
+    /** Clamp a requested per-run count to the tier's ceiling, or leave it when there is none. */
+    public static function clamp_count(int $count): int
+    {
+        $max = self::max_count();
+        return $max > 0 ? max(1, min($max, $count)) : max(1, $count);
+    }
 
     /** @return array<int, array<string, mixed>> */
     public static function all(): array
@@ -179,7 +214,7 @@ final class Schedules
             'subject'     => trim(sanitize_text_field((string) ($in['subject'] ?? $existing['subject'] ?? ''))),
             'loop'        => array_key_exists('loop', $in) ? (bool) $in['loop'] : (bool) ($existing['loop'] ?? false),
             'cursor'      => (int) ($existing['cursor'] ?? 0),
-            'count'       => max(1, min(self::MAX_COUNT, (int) ($in['count'] ?? $existing['count'] ?? 1))),
+            'count'       => self::clamp_count((int) ($in['count'] ?? $existing['count'] ?? 1)),
             'post_status' => $status,
             'author'      => (int) ($in['author'] ?? $existing['author'] ?? get_current_user_id()),
             'tone'        => trim(sanitize_text_field((string) ($in['tone'] ?? $existing['tone'] ?? ''))),
@@ -191,6 +226,16 @@ final class Schedules
             'next_run'    => $next_run,
             'last_run'    => (int) ($existing['last_run'] ?? 0),
             'runs'        => (int) ($existing['runs'] ?? 0),
+            // What this schedule has actually produced. Read from the existing record only, never
+            // from $in — a save must not be able to rewrite the schedule's own tally, and the form
+            // that posts here has no business sending one.
+            //
+            // The screen used to count the rows it had been handed instead: `posts.length` and
+            // `failures.length`, both of which are capped at twenty and both of which shrink when
+            // someone deletes a post the schedule wrote. A schedule that had written forty posts
+            // reported twenty, and deleting one of them made it nineteen.
+            'posts_written' => max(0, (int) ($existing['posts_written'] ?? 0)),
+            'posts_failed'  => max(0, (int) ($existing['posts_failed'] ?? 0)),
             'created_at'  => (int) ($existing['created_at'] ?? time()),
         ];
     }

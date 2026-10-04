@@ -5,15 +5,16 @@ namespace WPWand\Rest\Controllers;
 use WP_REST_Request;
 use WP_REST_Response;
 use WPWand\Generation\JobRunner;
+use WPWand\Generation\WordCount;
 
 /**
- * /wpwand/v1/bulk-posts — bulk post generation (Pro).
+ * /wpwand/v1/bulk-posts — bulk post generation (free, capped; Pro lifts the caps).
  *
- * REUSES the legacy engine: rows go into the SAME {prefix}wpwand_generated_post table and
- * jobs are scheduled on the SAME Action Scheduler hook ('wpwand_bulk_post_schedule', group
- * 'wpwand_bulk_sheduler', args ['datas'=>...]) that the legacy Post_Generator handler
- * processes (outline → sections → optional TOC/FAQ → conclusion → row status 'done'). We
- * only add a clean REST surface + React wizard on top.
+ * Rows go into the legacy {prefix}wpwand_generated_post table, but generation itself runs on
+ * the step-based JobRunner queue (outline → sections → optional TOC/FAQ → conclusion → row
+ * status 'done'), drained by the page heartbeat or by wp-cron. The old Action Scheduler route
+ * ('wpwand_bulk_post_schedule', group 'wpwand_bulk_sheduler') is gone: its handler went with
+ * the legacy Post_Generator, so anything queued onto that hook was never generated.
  *
  * - POST /bulk-posts/titles  { topic, count }                  → title options
  * - POST /bulk-posts         { titles[], tone, keyword, ... }  → queue jobs
@@ -68,11 +69,11 @@ final class BulkController extends AbstractController
         $id  = absint($request['id']);
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$this->table()} WHERE id = %d", $id), ARRAY_A); // phpcs:ignore
         if (!$row) {
-            return new WP_REST_Response(['error' => __('Not found.', 'wp-wand-pro')], 404);
+            return new WP_REST_Response(['error' => __('Not found.', 'ai-content-generation')], 404);
         }
 
         if (!(new JobRunner())->retry($id)) {
-            return new WP_REST_Response(['error' => __('Nothing to retry for this post.', 'wp-wand-pro')], 200);
+            return new WP_REST_Response(['error' => __('Nothing to retry for this post.', 'ai-content-generation')], 200);
         }
 
         // Always arm the new-engine WP-Cron drainer so the re-queued job processes even when the
@@ -91,14 +92,18 @@ final class BulkController extends AbstractController
         $id  = absint($request['id']);
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$this->table()} WHERE id = %d", $id), ARRAY_A); // phpcs:ignore
         if (!$row) {
-            return new WP_REST_Response(['error' => __('Not found.', 'wp-wand-pro')], 404);
+            return new WP_REST_Response(['error' => __('Not found.', 'ai-content-generation')], 404);
         }
 
+        $content = (string) $row['content'];
+
         return new WP_REST_Response([
-            'id'      => (int) $row['id'],
-            'title'   => (string) $row['title'],
-            'content' => (string) $row['content'],
-            'status'  => (string) $row['status'],
+            'id'         => (int) $row['id'],
+            'title'      => (string) $row['title'],
+            'content'    => $content,
+            'status'     => (string) $row['status'],
+            'template'   => self::template_label($row['template'] ?? null),
+            'word_count' => self::words_for($row),
         ], 200);
     }
 
@@ -112,7 +117,7 @@ final class BulkController extends AbstractController
         $id  = absint($request['id']);
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$this->table()} WHERE id = %d", $id), ARRAY_A); // phpcs:ignore
         if (!$row || trim((string) $row['title']) === '') {
-            return new WP_REST_Response(['error' => __('Nothing to approve.', 'wp-wand-pro')], 400);
+            return new WP_REST_Response(['error' => __('Nothing to approve.', 'ai-content-generation')], 400);
         }
 
         $post_id = wp_insert_post([
@@ -123,7 +128,7 @@ final class BulkController extends AbstractController
         ]);
 
         if (!$post_id || is_wp_error($post_id)) {
-            return new WP_REST_Response(['error' => __('Could not create the post.', 'wp-wand-pro')], 200);
+            return new WP_REST_Response(['error' => __('Could not create the post.', 'ai-content-generation')], 200);
         }
 
         if (!empty($row['featured_image_id'])) {
@@ -134,14 +139,32 @@ final class BulkController extends AbstractController
 
         return new WP_REST_Response([
             'post_id'  => (int) $post_id,
-            'edit_url' => admin_url('post.php?post=' . (int) $post_id . '&action=edit'),
+            'edit_url' => self::edit_url((int) $post_id),
         ], 200);
     }
 
-    public function can_pro(): bool
+    /** Where a row's draft lives, or '' when no draft has been made from it yet. */
+    private static function edit_url(int $post_id): string
     {
-        return $this->can_use() && \WPWand\Core\Pro::unlocked();
+        return $post_id > 0
+            ? admin_url('post.php?post=' . $post_id . '&action=edit')
+            : '';
     }
+
+    /**
+     * The rows this screen owns.
+     *
+     * Bulk Posts and Automated Posts write to the same table. This list used to filter on
+     * `post_id = 0`, which kept automated posts out as a side effect — they get a post id the
+     * moment they are finalised — and which also threw a bulk row out the instant a draft was made
+     * from it. That was the bug: the row vanished, and vanishing reads as "deleted", not "done".
+     *
+     * So the filter is now the question it was always standing in for. A row stamped `bulk` is
+     * ours whatever its post id. A row written before the column existed has no stamp, and for
+     * those the old rule is kept exactly as it was, so nothing that is on the screen today
+     * disappears from it and nothing new arrives.
+     */
+    private const MINE = "(source = 'bulk' OR (source IS NULL AND post_id = 0))";
 
     private function table(): string
     {
@@ -149,30 +172,30 @@ final class BulkController extends AbstractController
         return $wpdb->prefix . 'wpwand_generated_post';
     }
 
-    /** Legacy Action-Scheduler engine: any bulk-post action still pending/in-progress? */
-    private function as_process_running(): bool
+    /**
+     * The generation engine to run. 'action_scheduler' was removed once it became clear nothing
+     * handled the hook it queued onto, so a site that had already picked it reads back as
+     * 'browser' — the queue drains and the client keeps its heartbeat instead of stalling.
+     */
+    private function engine(): string
     {
-        global $wpdb;
-        $table = $wpdb->prefix . 'actionscheduler_actions';
-        if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $table)) !== $table) {
-            return false; // Action Scheduler not installed
-        }
-        $n = (int) $wpdb->get_var( // phpcs:ignore WordPress.DB
-            "SELECT COUNT(*) FROM `{$table}` WHERE hook = 'wpwand_bulk_post_schedule' AND status IN ('in-progress','pending')"
-        );
-        return $n > 0;
+        $engine = (string) get_option('wpwand_gen_engine', 'browser');
+        return in_array($engine, ['browser', 'wp_cron', 'system_cron'], true) ? $engine : 'browser';
     }
 
     public function titles(WP_REST_Request $request): WP_REST_Response
     {
         if (!class_exists('WPWand\Generation\Generator')) {
-            return new WP_REST_Response(['error' => __('Generator unavailable.', 'wp-wand-pro')], 503);
+            return new WP_REST_Response(['error' => __('Nothing can write yet. Add an API key in Settings first.', 'ai-content-generation')], 503);
         }
 
         $topic = sanitize_text_field((string) $request->get_param('topic'));
-        $count = max(1, min(10, absint($request->get_param('count') ?: 3)));
+        // As many headlines as a run may hold on this tier; fifty where there is no ceiling, since
+        // this is one request to the model. It used to be a silent ten for everyone.
+        $per_run = \WPWand\Generation\UsageLimits::bulk_per_run();
+        $count   = max(1, min($per_run > 0 ? $per_run : 50, absint($request->get_param('count') ?: 3)));
         if ($topic === '') {
-            return new WP_REST_Response(['error' => __('Please enter a topic.', 'wp-wand-pro')], 400);
+            return new WP_REST_Response(['error' => __('Say what the batch is about first.', 'ai-content-generation')], 400);
         }
 
         $language = get_option('wpwand_language') ?: 'English';
@@ -182,7 +205,7 @@ final class BulkController extends AbstractController
         );
 
         if (is_object($content) && isset($content->error)) {
-            $msg = \WPWand\Generation\ErrorFormatter::humanize($content->error, __('Failed.', 'wp-wand-pro'));
+            $msg = \WPWand\Generation\ErrorFormatter::humanize($content->error, __('Couldn’t come up with headlines. Try again.', 'ai-content-generation'));
             return new WP_REST_Response(['error' => $msg], 200);
         }
 
@@ -202,51 +225,52 @@ final class BulkController extends AbstractController
 
     public function queue(WP_REST_Request $request): WP_REST_Response
     {
-        global $wpdb;
-
         $titles = (array) $request->get_param('titles');
         $titles = array_values(array_filter(array_map(static fn ($t) => sanitize_text_field((string) $t), $titles)));
         if (empty($titles)) {
-            return new WP_REST_Response(['error' => __('Select at least one title.', 'wp-wand-pro')], 400);
+            return new WP_REST_Response(['error' => __('Tick at least one title.', 'ai-content-generation')], 400);
         }
 
         $is_pro = \WPWand\Generation\UsageLimits::is_pro();
 
-        // CAP B — per-run: free users may enqueue at most FREE_BULK_PER_RUN posts in one run.
-        // Over the cap → block (no enqueue) with a 429 upgrade message; the client shows a modal.
-        if (! $is_pro && count($titles) > \WPWand\Generation\UsageLimits::FREE_BULK_PER_RUN) {
+        // CAP B — per-run: a run may hold at most bulk_per_run() posts on this tier (10 free, 20 Solo,
+        // 50 Growth, no ceiling on Agency). Over it → block before anything is queued. Free gets the
+        // upgrade modal; a paid tier gets the sentence itself, since "Upgrade to Pro" is not its answer.
+        $per_run = \WPWand\Generation\UsageLimits::bulk_per_run();
+        if ($per_run > 0 && count($titles) > $per_run) {
             return new WP_REST_Response([
-                'error'   => sprintf(
+                'error'   => $is_pro
+                    /* translators: %d: how many posts one bulk run may hold on this plan, e.g. 20. */
+                    ? sprintf(__('A bulk run stops at %d posts on your plan.', 'ai-content-generation'), $per_run)
                     /* translators: %d: the free per-run post limit, e.g. 10. */
-                    __('Free plan allows up to %d posts per bulk generation. Upgrade to Pro to generate more at once.', 'wp-wand-pro'),
-                    \WPWand\Generation\UsageLimits::FREE_BULK_PER_RUN
-                ),
-                'upgrade' => true,
+                    : sprintf(__('A bulk run stops at %d posts. Upgrade to Pro to write more at once.', 'ai-content-generation'), $per_run),
+                'upgrade' => ! $is_pro,
             ], 429);
         }
 
-        // CAP A — monthly: free counts RUNS (cap 5/period); Pro counts posts by tier; Agency = ∞ (-1).
+        // CAP A — monthly: every tier counts RUNS (5 on free, 100 / 300 by Pro tier; Agency = ∞ (-1)).
         // remaining === 0 means "not unlimited and nothing left" → block before enqueue.
         $remaining = \WPWand\Generation\UsageLimits::bulk_remaining();
         if ($remaining === 0) {
             return new WP_REST_Response([
-                'error'   => sprintf(
-                    /* translators: %s: usage counter, e.g. "5/5". */
-                    __('Monthly limit reached (%s). Upgrade for more.', 'wp-wand-pro'),
-                    \WPWand\Generation\UsageLimits::bulk_text()
-                ),
+                'error'   => \WPWand\Generation\UsageLimits::limit_reached_message('bulk'),
                 'upgrade' => true,
             ], 429);
         }
 
-        // Pro: the monthly cap is in posts, so clamp to the remaining post allowance (unless
-        // unlimited). Free: the monthly cap is in runs and the per-run post count was already gated
-        // above, so no clamping — a run of up to FREE_BULK_PER_RUN posts costs exactly one unit.
-        if ($is_pro && $remaining !== PHP_INT_MAX) {
-            $titles = array_slice($titles, 0, $remaining);
-        }
+        // Nothing is clamped to the allowance: a run costs one unit whatever its size, on every
+        // tier. Pro used to be clamped to its remaining post allowance here (until 2026-09-13).
 
         $word_count = absint($request->get_param('word_count'));
+
+        // The shape every post in this batch is written to. Anything the build does not know —
+        // an empty field, or a key from a newer release — falls back to the blog shape, which is
+        // what every batch generated before the field existed.
+        $template = sanitize_text_field((string) $request->get_param('template'));
+        if (!isset(JobRunner::TEMPLATES[$template])) {
+            $template = JobRunner::TEMPLATE_FALLBACK;
+        }
+
         $settings   = [
             'tone'        => sanitize_text_field((string) $request->get_param('tone')),
             'keyword'     => sanitize_text_field((string) $request->get_param('keyword')),
@@ -254,40 +278,42 @@ final class BulkController extends AbstractController
             'faq_include' => (bool) $request->get_param('faq_include'),
             'word_count'  => $word_count,
             'language'    => sanitize_text_field((string) $request->get_param('language')),
+            'template'    => $template,
+            // The house style. Every batch was written without it — `GenerateController` built it
+            // for the Write with AI button and nothing built it here, so `JobRunner` read an empty
+            // string and a queued post was held to no rules at all: no ceiling on exclamation
+            // marks, no named list of words to avoid, no "two actionable numbers", and none of the
+            // About your business text the user had already typed into Settings. Same site, same
+            // settings, two different qualities depending on which button was pressed.
+            //
+            // A batch is always running prose, so unlike the assistant there is no template here
+            // that should be exempt — the exempt ones are headlines and meta descriptions, and
+            // this endpoint does not write those. `HouseStyle::rules()` drops the business and
+            // audience blocks itself when they are blank, so a free install sends the rules and
+            // nothing empty gets quoted into the prompt.
+            'style_rules' => \WPWand\Generation\HouseStyle::rules(\WPWand\Generation\HouseStyle::owner_context()),
         ];
-
-        if ($word_count > 0) {
-            update_option('wpwand_target_word_count', $word_count);
-        }
-
-        // Count this bulk generation against the monthly allowance: free = one RUN, Pro = per post.
-        \WPWand\Generation\UsageLimits::consume_bulk_run(count($titles));
-        update_option('wpwand_pgc_task_completed', 0);
-        update_option('wpwand_pgc_total_queue', count($titles));
 
         // Toggleable engine (Settings → experimental). Default 'browser' = step-queue driven by
         // the page heartbeat; reliable on low-config hosts and immune to long-content timeouts.
-        $engine = (string) get_option('wpwand_gen_engine', 'browser');
+        $engine = $this->engine();
 
-        if ($engine === 'action_scheduler' && function_exists('as_schedule_single_action')) {
-            $ids  = [];
-            $step = 30;
-            foreach ($titles as $title) {
-                $wpdb->insert($this->table(), ['title' => $title, 'content' => '', 'post_id' => 0, 'status' => 'pending']);
-                $row_id = (int) $wpdb->insert_id;
+        // Step-based job queue (sectioned generation, no long requests). A row id of 0 comes back
+        // when the insert itself failed, so drop those before anything counts or polls them.
+        $ids = array_values(array_filter((new JobRunner())->enqueue($titles, $settings)));
 
-                $args = ['title' => $title, 'content' => '', 'post_id' => $row_id, 'status' => 'pending', 'settings' => $settings];
-                $action_id = as_schedule_single_action(time() + $step, 'wpwand_bulk_post_schedule', ['datas' => $args], 'wpwand_bulk_sheduler');
-                $wpdb->update($this->table(), ['action_id' => $action_id], ['id' => $row_id]);
-
-                $ids[] = $row_id;
-                $step += 60;
-            }
-            return new WP_REST_Response(['queued' => count($ids), 'ids' => $ids, 'engine' => $engine], 200);
+        // Nothing queued means nothing will generate, so don't spend the allowance on it.
+        if (empty($ids)) {
+            return new WP_REST_Response([
+                'error' => __('Could not add these posts to the queue. Try again.', 'ai-content-generation'),
+            ], 500);
         }
 
-        // browser / wp_cron — step-based job queue (sectioned generation, no long requests).
-        $ids = (new JobRunner())->enqueue($titles, $settings);
+        // Count this bulk generation against the monthly allowance, now that the queue exists:
+        // one run, whatever its size.
+        \WPWand\Generation\UsageLimits::consume_bulk_run();
+        update_option('wpwand_pgc_task_completed', 0);
+        update_option('wpwand_pgc_total_queue', count($ids));
 
         // wp_cron (pseudo-cron, fires on traffic) and system_cron (real server crontab hitting
         // wp-cron.php) both drain via the same scheduled event — they differ only in how reliably
@@ -313,22 +339,44 @@ final class BulkController extends AbstractController
     public function index(WP_REST_Request $request): WP_REST_Response
     {
         global $wpdb;
-        // Only not-yet-approved rows (post_id = 0) — approved ones became real posts.
-        $rows = $wpdb->get_results("SELECT id, title, content, status, created_at FROM {$this->table()} WHERE post_id = 0 ORDER BY created_at DESC LIMIT 100", ARRAY_A); // phpcs:ignore
+        // Every row, including the ones a draft has been made from. They used to be filtered out
+        // with `WHERE post_id = 0`, so pressing the button made the row disappear — the only sign
+        // anything had happened, and it read as "deleted" rather than "done". The row stays and
+        // says Draft made, with a way through to the draft.
+        $mine = self::MINE;
+        $rows = $wpdb->get_results("SELECT id, title, content, status, template, word_count, post_id, created_at, UNIX_TIMESTAMP(created_at) AS created_ts FROM {$this->table()} WHERE {$mine} ORDER BY created_at DESC LIMIT 100", ARRAY_A); // phpcs:ignore
+
+        // How many rows exist behind the LIMIT 100 above, so the list can say when it's truncated
+        // instead of silently dropping anything past the cap. One extra query, not one per row.
+        $total = (int) $wpdb->get_var("SELECT COUNT(*) FROM {$this->table()} WHERE {$mine}"); // phpcs:ignore
 
         // Background generation in progress? Matches the legacy "Generating Bulk Post…" header.
         // The active engine decides what "running" means; OR the per-row fallback either way.
-        $engine  = (string) get_option('wpwand_gen_engine', 'browser');
+        $engine  = $this->engine();
         $running = (new JobRunner())->is_running('bulk');
-        if ($engine === 'action_scheduler') {
-            $running = $running || $this->as_process_running();
-        }
         $running = $running || (bool) array_filter($rows ?: [], static fn ($r) => 'done' !== $r['status'] && 'failed' !== $r['status']);
 
         return new WP_REST_Response([
             'items'           => $this->shape($rows),
+            'total'           => $total,
             'limit_text'      => \WPWand\Generation\UsageLimits::bulk_text(),
+            // The same sentence Automated Posts shows, built the same way. "3/5" never said what it
+            // was counting. Every tier counts runs since 2026-09-13.
+            'used_label'      => self::usage_label(),
+            // On Pro the chip says what was bought rather than counting down to a number nobody
+            // is watching. Empty on free, where the count is the thing that matters.
+            'plan'            => \WPWand\Generation\UsageLimits::plan_name(),
+            // The monthly cap as a number, in runs on every tier; the wizard quotes it on Pro.
+            'monthly_limit'   => \WPWand\Generation\UsageLimits::bulk_limit(),
             'can_create'      => \WPWand\Generation\UsageLimits::can_bulk(),
+            // The date the count comes back, and how much is left as a number rather than inside a
+            // sentence. Both only reached the client inside a 429 before, which is to say only
+            // after someone had already been stopped. Same key name Automated Posts uses.
+            'resets_on'       => \WPWand\Generation\UsageLimits::reset_date(),
+            'remaining'       => \WPWand\Generation\UsageLimits::bulk_remaining(),
+            // The most headlines one run may hold on this tier (-1 = no ceiling). The wizard reads
+            // it rather than a hardcoded list the server then quietly clamps.
+            'per_run_max'     => \WPWand\Generation\UsageLimits::bulk_per_run(),
             'process_running' => $running,
             'engine'          => $engine,
             'queue_total'     => (int) get_option('wpwand_pgc_total_queue', 0),
@@ -357,17 +405,110 @@ final class BulkController extends AbstractController
      * @param array<int, array<string, mixed>>|null $rows
      * @return array<int, array<string, mixed>>
      */
+    /**
+     * "3 of 5 runs used this month" — the mirror of AutomationController::usage_label(), so the two
+     * counters and the upgrade card use one word for one quantity.
+     */
+    private static function usage_label(): string
+    {
+        $limit = \WPWand\Generation\UsageLimits::bulk_limit();
+        $used  = \WPWand\Generation\UsageLimits::bulk_used();
+
+        // Both screens showed "3 of 5 runs used this month" about two different counters, so the
+        // two chips read as one number that disagreed with itself. This one names bulk.
+        if ($limit < 0) {
+            return __('Unlimited bulk runs this month', 'ai-content-generation');
+        }
+
+        /* translators: 1: runs used so far. 2: the monthly limit. */
+        return sprintf(__('%1$d of %2$d bulk runs used this month', 'ai-content-generation'), min($used, $limit), $limit);
+    }
+
     private function shape($rows): array
     {
-        return array_map(static function ($r) {
+        return array_map(function ($r) {
             $content = isset($r['content']) ? (string) $r['content'] : '';
+            $plain   = $content !== '' ? WordCount::strip_markdown($content) : '';
+
+            $failed  = 'failed' === (string) $r['status'];
+            $post_id = isset($r['post_id']) ? (int) $r['post_id'] : 0;
+
             return [
-                'id'      => (int) $r['id'],
-                'title'   => (string) $r['title'],
-                'status'  => (string) $r['status'],
-                'preview' => $content !== '' ? mb_substr(trim(wp_strip_all_tags($content)), 0, 120) : '',
-                'date'    => isset($r['created_at']) ? gmdate('g:i a : M j, Y', strtotime((string) $r['created_at'])) : '',
+                'id'         => (int) $r['id'],
+                'title'      => (string) $r['title'],
+                'status'     => (string) $r['status'],
+                // 120 characters is the right length for a taste of an article and the wrong
+                // length for the reason a run died — the two used to share this field, so a
+                // provider's own sentence was cut off mid-word and the rest was unreachable.
+                // A body is clipped; a reason travels whole, in its own field.
+                'preview'    => $failed || $plain === '' ? '' : mb_substr($plain, 0, 120),
+                'reason'     => $failed ? $plain : '',
+                'template'   => self::template_label($r['template'] ?? null),
+                'word_count' => $this->words_for_row($r, $plain),
+                'post_id'    => $post_id,
+                'edit_url'   => self::edit_url($post_id),
+                // Site time, not the raw column. `created_at` is a TIMESTAMP that MySQL displays in the
+                // server's zone, so on the dev machine (+06 server, UTC site) a row read six hours
+                // later than the Posts list showed the same draft. UNIX_TIMESTAMP() gives the epoch
+                // the column stores; get_date_from_gmt() puts it in the site's clock — the convention
+                // every screen follows since 2026-09-10.
+                'date'       => ! empty($r['created_ts'])
+                    ? get_date_from_gmt(gmdate('Y-m-d H:i:s', (int) $r['created_ts']), 'g:i a : M j, Y')
+                    : '',
             ];
         }, $rows ?: []);
+    }
+
+    /**
+     * The stored length, filled in on the way past for a row written before the column existed.
+     *
+     * WHY NOT IN THE MIGRATION. Walking a couple of thousand bodies inside an activation hook is
+     * how an activation times out. This fills them a page at a time instead, as the list is read,
+     * and only for rows that are actually finished — a half-written body would otherwise store the
+     * length of half an article and keep it after the row failed.
+     *
+     * @param array<string, mixed> $r
+     */
+    private function words_for_row(array $r, string $plain): int
+    {
+        $stored = isset($r['word_count']) ? (int) $r['word_count'] : 0;
+
+        if ($stored > 0 || $plain === '' || 'done' !== ($r['status'] ?? '')) {
+            return $stored;
+        }
+
+        global $wpdb;
+        $words = WordCount::of_plain($plain);
+        $wpdb->update($this->table(), ['word_count' => $words], ['id' => (int) $r['id']]);
+
+        return $words;
+    }
+
+    /**
+     * The same thing for one row read whole, where the plain text has not been worked out yet.
+     *
+     * @param array<string, mixed> $row
+     */
+    private static function words_for(array $row): int
+    {
+        $stored = isset($row['word_count']) ? (int) $row['word_count'] : 0;
+
+        return $stored > 0 ? $stored : WordCount::of((string) ($row['content'] ?? ''));
+    }
+
+    /**
+     * What the screen prints under a row's title.
+     *
+     * A row from before the column existed, and every automated post, stores nothing here. That is
+     * a fact about the row rather than a fault, so it says so — it is not dressed up as "Blog post",
+     * which would be a claim about a choice nobody made.
+     */
+    private static function template_label(?string $key): string
+    {
+        $key = (string) $key;
+
+        return isset(JobRunner::TEMPLATES[$key])
+            ? JobRunner::TEMPLATES[$key]['label']
+            : __('Template not recorded', 'ai-content-generation');
     }
 }

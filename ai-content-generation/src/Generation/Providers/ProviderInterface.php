@@ -37,6 +37,27 @@ interface ProviderInterface
     /** True when this provider can stream to the browser with the OpenAI-compatible SSE the client parses. */
     public function supportsStreaming(): bool;
 
+    /**
+     * True when this provider accepts OpenAI's frequency_penalty / presence_penalty fields.
+     *
+     * Google's OpenAI-compatible surface does not. It answers an unknown field with HTTP 400 and an
+     * error body, so sending them to Gemini fails every non-streaming generation on the site.
+     */
+    public function supportsPenalties(): bool;
+
+    /**
+     * Extra body fields this provider needs on a non-streaming chat request.
+     *
+     * @return array<string, mixed>
+     */
+    public function chatBodyExtras(): array;
+
+    /**
+     * Tokens this provider spends before it writes anything, which must be added to a max_tokens
+     * budget or the caller's own request eats itself. Zero for providers that do not think first.
+     */
+    public function tokenOverhead(): int;
+
     /** HTTP headers for a chat / streaming request, as an array of "Key: value" strings. */
     public function headers(): array;
 

@@ -94,11 +94,9 @@ if (!function_exists('wpwand_templates')) {
         $all_prompts = get_option('wpwand_data');
         $custom_data = get_option('wpwand_custom_data', []);
 
-        if (is_array($all_prompts) && isset($all_prompts['free'], $all_prompts['pro'])) {
-            return array_merge((array) $custom_data, (array) $all_prompts['free'], (array) $all_prompts['pro']);
-        }
-
-        return [];
+        // One list now. Templates::flatten() still reads the old {free, pro} shape, which is what a
+        // Pro licence sync writes into this option.
+        return array_merge((array) $custom_data, \WPWand\Data\Templates::flatten($all_prompts));
     }
 }
 
@@ -113,8 +111,11 @@ if (!function_exists('wpwand_ai_error')) {
         $source   = str_replace('_error', '', isset($error->type) ? $error->type : '');
         $provider = ucfirst($source);
 
-        if (isset($error->message) && strpos($error->message, 'curl') !== false) {
-            return "<h4>{$provider} Error</h4><p>" . esc_html__('Server is not responding. Please try again later.', 'wp-wand') . "</p>";
+        // Anchored and case-insensitive: WP_Http writes "cURL error 28: …", so the old
+        // strpos($msg, 'curl') never matched, and an unanchored match would also have claimed any
+        // provider sentence that merely mentions curl. Same gate as ErrorFormatter::transport_message().
+        if (isset($error->message) && preg_match('/^cURL error \d+/i', (string) $error->message)) {
+            return "<h4>{$provider} Error</h4><p>" . esc_html__('Server is not responding. Please try again later.', 'ai-content-generation') . "</p>";
         }
 
         $error_details = isset($error->message) ? json_decode($error->message) : null;
@@ -192,7 +193,7 @@ if (!function_exists('wpwand_generate_ai_content')) {
                 'error' => (object) [
                     'message' => wp_json_encode([
                         'type'    => 'update_required',
-                        'message' => __('Please update WP Wand Pro to version 2.0.0 or higher to keep generating content. Your Pro features are paused until the update completes.', 'wp-wand'),
+                        'message' => __('Please update WP Wand Pro to version 2.0.0 or higher to keep generating content. Your Pro features are paused until the update completes.', 'ai-content-generation'),
                     ]),
                     'type'    => 'wpwand_error',
                     'code'    => 426,
@@ -206,7 +207,7 @@ if (!function_exists('wpwand_generate_ai_content')) {
 
         return (object) [
             'error' => (object) [
-                'message' => wp_json_encode(['message' => __('The generation engine is unavailable.', 'wp-wand')]),
+                'message' => wp_json_encode(['message' => __('The generation engine is unavailable.', 'ai-content-generation')]),
                 'type'    => 'wpwand_error',
                 'code'    => 500,
             ],
@@ -264,7 +265,7 @@ if (!function_exists('wpwand_dall_e_request')) {
     function wpwand_dall_e_request($prompt, $args = [])
     {
         $message = '<div class="wpwand-content wpwand-prompt-error"><p>'
-            . esc_html__('Image generation is paused until WP Wand Pro is updated to version 2.0.0 or higher.', 'wp-wand')
+            . esc_html__('Image generation is paused until WP Wand Pro is updated to version 2.0.0 or higher.', 'ai-content-generation')
             . '</p></div>';
 
         wp_send_json($message);

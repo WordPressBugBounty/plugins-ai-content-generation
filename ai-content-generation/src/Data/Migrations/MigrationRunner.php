@@ -16,7 +16,7 @@ final class MigrationRunner
      * The schema version this build of the plugin expects. Bumped when a new
      * migration is added.
      */
-    public const TARGET_VERSION = '1.1.0';
+    public const TARGET_VERSION = '1.8.0';
 
     private const OPTION_KEY = 'wpwand_db_version';
 
@@ -30,6 +30,13 @@ final class MigrationRunner
         return [
             new Migration_1_0_0_BaselineSchema(),
             new Migration_1_1_0_GenJobs(),
+            new Migration_1_2_0_FreeUsageCounters(),
+            new Migration_1_3_0_AutomationRunCounter(),
+            new Migration_1_4_0_LegacyProCarryover(),
+            new Migration_1_5_0_RefundFailedRuns(),
+            new Migration_1_6_0_BulkTemplateAndLength(),
+            new Migration_1_7_0_AutomationPostCounters(),
+            new Migration_1_8_0_HistoryTitleAndSource(),
         ];
     }
 

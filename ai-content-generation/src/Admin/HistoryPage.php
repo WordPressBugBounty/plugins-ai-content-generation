@@ -22,8 +22,8 @@ final class HistoryPage
     {
         add_submenu_page(
             self::PARENT_SLUG,
-            __('History', 'wp-wand'),
-            __('History', 'wp-wand'),
+            __('History', 'ai-content-generation'),
+            __('History', 'ai-content-generation'),
             'edit_posts',
             self::PAGE_SLUG,
             [$this, 'render'],
@@ -33,7 +33,7 @@ final class HistoryPage
 
     public function render(): void
     {
-        echo '<div class="wrap"><div id="wpwand-history-root"></div></div>';
+        echo '<div class="wrap"><hr class="wp-header-end"><div id="wpwand-history-root"></div></div>';
     }
 
     public function enqueue(string $hook): void
@@ -56,12 +56,10 @@ final class HistoryPage
             true
         );
 
-        wp_enqueue_style(
-            'wpwand-inter-font',
-            'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
-            [],
-            $asset['version']
-        );
+        // No webfont request here on purpose: hitting fonts.googleapis.com from wp-admin is a
+        // third-party round trip nobody asked for and a wordpress.org review flag. Every rule in the
+        // stylesheet reads --wpwand-font, which names Inter first and then the platform UI stack, so
+        // a machine without Inter renders one consistent typeface rather than two.
         if (is_readable(WPWAND_NEW_DIR . 'build/style-history.css')) {
             wp_enqueue_style(
                 self::HANDLE,
@@ -71,18 +69,12 @@ final class HistoryPage
             );
         }
 
-        wp_localize_script(
-            self::HANDLE,
-            'wpwandApi',
-            [
-                'root'  => esc_url_raw(rest_url()),
-                'nonce' => wp_create_nonce('wp_rest'),
-                'brand' => \WPWand\Data\Brand::resolve()['color'],
-            ]
-        );
+        ScriptConfig::merge(self::HANDLE, ScriptConfig::base() + [
+            'brand' => \WPWand\Data\Brand::resolve()['color'],
+        ]);
 
         if (function_exists('wp_set_script_translations')) {
-            wp_set_script_translations(self::HANDLE, 'wp-wand');
+            wp_set_script_translations(self::HANDLE, 'ai-content-generation');
         }
     }
 }

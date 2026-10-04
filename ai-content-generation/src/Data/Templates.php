@@ -3,22 +3,47 @@
 namespace WPWand\Data;
 
 /**
- * Free template catalog + seeding, in the new architecture.
+ * The template catalog + seeding.
  *
- * Port of the legacy wpwand_dummy_datas() (the built-in free template list) + wpwand_get_data()
- * (which seeds the wpwand_data option from it). The catalog content lives byte-identically in
- * free-templates-data.php (exported from the legacy function — never hand-edited).
+ * ONE list. It used to be split into 'free' and 'pro' arrays, but nothing gated on the split:
+ * every reader merged both, no template carried is_pro, and 'pro' was a byte-identical subset of
+ * 'free'. Collapsing it removes a whole class of bug — a fix landing in one copy and not the other.
  *
  * MIGRATION-SAFE: the data is stored under the UNCHANGED `wpwand_data` option, so existing installs
  * (whose option is already populated, or refreshed from TALA on Pro) are untouched — this only seeds
- * a fresh/empty install or an explicit sync. On Pro, the TALA fetch still overwrites wpwand_data.
+ * a fresh/empty install or an explicit sync. On Pro the TALA fetch still overwrites wpwand_data with
+ * whatever the licence server sends, which is why readers must keep accepting the old two-key shape.
  */
 final class Templates
 {
-    /** The built-in free catalog: ['free' => [...], 'pro' => [...]]. */
+    /** The built-in catalog: ['Template Name' => [...], ...]. */
     public static function catalog(): array
     {
         return require __DIR__ . '/free-templates-data.php';
+    }
+
+    /**
+     * Flatten whatever shape the wpwand_data option is carrying into one name => template list.
+     *
+     * Two shapes exist in the wild: the one this plugin ships, and the {free, pro} payload a Pro
+     * licence sync writes straight from the licence server. Both must read.
+     *
+     * @param mixed $data
+     * @return array<string, array<string, mixed>>
+     */
+    public static function flatten($data): array
+    {
+        if (!is_array($data)) {
+            return [];
+        }
+
+        if (isset($data['free']) || isset($data['pro'])) {
+            $free = is_array($data['free'] ?? null) ? $data['free'] : [];
+            $pro  = is_array($data['pro'] ?? null) ? $data['pro'] : [];
+            return array_merge($free, $pro);
+        }
+
+        return $data;
     }
 
     /**

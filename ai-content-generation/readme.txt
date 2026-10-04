@@ -1,66 +1,77 @@
-=== WP Wand – Unlimited Content Generation using AI – for OpenAI, Claude, Openrouter and Deepseek ===
+=== WP Wand – AI Content Writer for OpenAI, Claude, Gemini, OpenRouter and Deepseek ===
 
 Contributors: wpgrids, ashrafuddin765
 Tags: ChatGPT, AI Writer, Content Generator, OpenAi, OpenRouter
-Requires at least: 5.0
-Requires PHP: 8.0
-Tested up to: 7.0
-Stable Tag: 2.0.0
+Requires at least: 6.2
+Requires PHP: 7.4
+Tested up to: 7.1
+Stable Tag: 2.1.1
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-WP Wand is a powerful AI Content Writer for WordPress. Your AI Co-Pilot for generating content, powered by OpenAI, Claude, OpenRouter and Deepseek.
+Write posts, product copy and marketing content inside WordPress with your own OpenAI, Claude, OpenRouter or Deepseek key.
 
 == Description ==
 
-WP Wand is the powerful AI content generation and AI writing assistant plugin for WordPress. It uses advanced algorithms and supports popular models from OpenAI (ChatGPT, GPT-3.5, GPT-4, GPT-5), Anthropic (Claude), OpenRouter and Deepseek to generate high-quality and engaging content effortlessly, without breaking your bank.
+WP Wand writes content inside WordPress using your own API key. Connect OpenAI, Anthropic (Claude), Google Gemini, OpenRouter or Deepseek, pick a template, and the draft lands in the editor you're already working in — Gutenberg, Classic or Elementor.
 
-WPWand is fully integrated with Gutenberg Editor, Classic Editor, Elementor Page Builder & WooCommerce to improve your writing experience much better. With it's seamless AI writing experience, you can create any type of article for your needs.
+There's no WP Wand subscription. You pay your AI provider directly for what you use, at their rates, and you can switch models whenever you like.
 
-Generate a long-form blog post under 2 minutes or create multiple blog posts using our advanced Bulk Post Generator.
+**What the free plugin gives you**
 
-To improve your SEO experience, WP Wand now supports popular SEO plugin Rank Math and Yoast SEO. Improve your content fast.
+* 44 prompt templates. All of them free, no template is locked.
+* The AI Assistant on every WordPress admin screen, plus Gutenberg, Classic Editor and Elementor.
+* Single generations with no cap — run as many as your provider key will allow.
+* Bulk Posts: 5 runs per 30 days, up to 10 posts a run. So up to 50 posts a month.
+* Automation: 5 scheduled runs per 30 days, up to 5 posts a run.
+* AI image generation with an OpenAI key, at 256x256.
+* 43 output languages, and any model your key can reach.
 
-Say goodbye to the days of struggling to generate content ideas, spending hours on research, and staring at an empty screen. WPWand's advanced technology will take care of all that for you. From writing any type of article to full blog post, crafting marketing copy, social media posts, email content, and product descriptions, WP Wand has got you covered.
+**What needs WP Wand Pro**
 
+Custom prompt templates, AI Character, business-details and target-customer training, the Rank Math and Yoast SEO panels, the WooCommerce product-editor integration, generation history, larger AI images, auto fallback to a second provider, and higher Bulk and Automation limits. White labelling comes with the Agency plan.
+
+**About One Click Blog Post**
+
+Give it a topic and it writes a complete first draft — roughly 2,000 words, in about two to three minutes, depending on the model you chose. It's a first draft, not a finished post. Read it, fix what's wrong, then publish.
 
 [Official Site](https://wpwand.com/)
 
-[Get PRO Version](https://wpwand.com/pricing-plan/)
+[Get WP Wand Pro](https://wpwand.com/pro-plugin)
 
-[PRO Support](https://wpwand.com/support/)
+[Pro Support](https://wpwand.com/support/)
 
-**How to Write A Complete Blog Post in 2 Minutes**
+**Watch: writing a full blog post**
 
 https://youtu.be/FdX82QqHFyo
 
-**How to Generate 100+ Bulk Posts Using WP Wand**
+**Watch: generating posts in bulk**
 
 https://youtu.be/w2nR1mgsiiE
 
-**How to Add or Improve Existing Content using AI Assistant**
+**Watch: adding to or rewriting existing content with the AI Assistant**
 
 https://youtu.be/tT9MFaq1SV8
 
-**How to Generate WooCommerce Product Description Using WP Wand**
+**Watch: writing a WooCommerce product description**
 
 https://youtu.be/CT48W5eVVx4
 
-**Watch How to generate AI Content Inside Elementor**
+**Watch: generating content inside Elementor**
 
 https://youtu.be/4H3pUa2J4kY
 
-**How to Use White Label Feature in WP Wand**
+**Watch: setting up white label**
 
 https://youtu.be/i7lUOW5e5Wc
 
-**Why Should You Use WP Wand? Watch This Video**
+**Watch: what WP Wand does**
 
 https://www.youtube.com/watch?v=CJkraHhSsZ8
 
 == Supported AI Models ==
 
-WP Wand supports a wide range of models from the leading AI providers.
+When you save a key, WP Wand reads the model list from that provider account, so you get exactly the models your key can reach. If the list can't be fetched, it falls back to a built-in set.
 
 = OpenAI =
 * GPT-5
@@ -68,17 +79,20 @@ WP Wand supports a wide range of models from the leading AI providers.
 * ChatGPT 4o Latest
 * GPT-4o Mini
 * GPT-4o
-* GPT-4 Turbo
-* GPT-4
-* GPT-3.5 Turbo
-* GPT-3.5 Turbo 16k
+* Plus any other text model on your account
 
 = Anthropic (Claude) =
 * Claude 4 Opus
 * Claude 4 Sonnet
-* Claude 3 Opus (deprecated)
-* Claude 3.5 Sonnet Latest (deprecated)
-* Claude 3.5 Haiku Latest (deprecated)
+* Claude 3.5 Haiku
+* Plus any other model on your account
+
+= Google Gemini =
+* Gemini 3.7 Flash
+* Gemini 3.5 Flash Lite
+* Gemini 2.5 Pro
+* Gemini 2.5 Flash
+* Plus any other Gemini model on your key
 
 = Deepseek =
 * DeepSeek Chat
@@ -87,65 +101,67 @@ WP Wand supports a wide range of models from the leading AI providers.
 = OpenRouter =
 * All text models are supported.
 
-
 == CORE FEATURES ==
 
-* No Monthly Subscription Required
-* No Limit on Content Generation
-* AI for Gutenberg - Integrated with Gutenberg Page Builder
-* AI for Elementor - Integrated with Elementor Page Builder
-* ChatGPT Assistant Inside WordPress Editor (Gutenberg)
-* AI Image Generator
-* Powerful AI Assistant
-* OpenRouter Support
-* 50x Cheaper Than Other AI Services
-* 50+ Highly Trained Prompt Templates [All Free]. Some of our most popular templates include:
-    * One Click Blog Post Writer
-    * WooCommerce Product Description
-    * Content Rewriter
-    * AIDA Copywriting Formula
-    * Social Media Post Ideas
-* Basic AI Training
-* Bulk Post Generation
-* Create Custom Prompt
-* White Label for Agency
+= Free =
+
+* No monthly WP Wand subscription — you bring your own API key
+* Unlimited single generations
+* 44 prompt templates, none of them locked
+* AI Assistant on every admin screen
+* AI for Gutenberg, Classic Editor and Elementor
+* Bulk Post Generation — 5 runs of up to 10 posts, per 30 days
+* Scheduled post Automation — 5 runs per 30 days, up to 5 posts a run
+* Connect OpenRouter in one click — no API key to copy and paste
+* AI image generation with an OpenAI key, at 256x256
+* OpenAI, Claude, Gemini, OpenRouter and Deepseek support
+* Pick whichever model your key can reach
+* 43 output languages
+* Works with your existing theme and plugins
+
+= WP Wand Pro =
+
+* Create your own prompt templates
 * Custom AI Character
-* Custom Business Details Input
-* Targeted Customer Profile
-* One Click AI Blog Post Writer
-* One Click WooCommerce Description Writer
-* Integreated with Rank Math Plugin - Beta
-* Integreated with Yoast SEO Plugin - Beta
-* Option to Choose Different AI Models
-* Supports All Themes & Plugins
-* 42+ Language Support
+* Business details and target-customer profile, fed into every template
+* One click WooCommerce description writer inside the product editor
+* Integrated with Rank Math — beta
+* Integrated with Yoast SEO — beta
+* Generation history
+* Larger AI images: 512x512 and 1024x1024
+* Higher Bulk and Automation limits
+* Auto fallback: when one provider account runs dry, carry on with the next one you listed (off until you turn it on)
 
-== ALL TEMPLATE LIST ==
+= Agency plan =
 
-* Headline Generator
+* White label WP Wand with your own name, logo and colours
+
+== ALL 44 TEMPLATES ==
+
+* Headline Generation
 * Paragraph Related to Headline
-* One Click Blog Post Writer
-* Review Blog Post in One Click
-* Comparison Blog Post Between 2 Products
+* One Click Blog Post
 * Blog Title
 * Blog Outline
 * Blog Intro
 * Blog Paragraph
 * Blog Post Writer
-* Job Post Generator
-* WooCommerce Product Description
-* General Product Description
+* Job Post
+* Product Description
+* Linkedin Post
+* Facebook Post
 * Meta Title
 * Meta Description
 * Meta Keywords
-* Amazon Product Review
-* Content Rewriter
-* Magic Headlines - Generate Headline Ideas
-* Sentence Expander
 * Sales Page Headlines
+* Sentence Expander
 * Button Call to Action Text
-* Email Subject line
-* Email Body
+* Review Blog Post
+* Comparison Blog Post Between 2 Products
+* WooCommerce Product Description
+* Amazon Product Review
+* Email Subject Line
+* Email Content
 * FAQs Writer
 * Grammar Correction
 * Features to Benefits
@@ -154,10 +170,7 @@ WP Wand supports a wide range of models from the leading AI providers.
 * PAS Copywriting Formula
 * Offer Ideas
 * Press Release
-* Social Media Post Ideas 
-* Linkedin Post
-* Facebook Post
-* Instagram Post
+* Social Media Post Ideas
 * Website Tagline
 * Website About Us
 * Quora Answers
@@ -165,65 +178,62 @@ WP Wand supports a wide range of models from the leading AI providers.
 * Feature List
 * Course Name
 * Course Description
-* Feature Description
+* Feature Details
 * Keyword Generator
+* Content Rewriter
+* Magic Headlines
 
 == HOW WP WAND IS DIFFERENT? ==
 
-**Write copy & content that converts**
+**Your key, your bill**
 
-WP Wand uses OpenAI to help you create high-quality content that is tailored to your brand and optimized for conversions.
+There's no WP Wand subscription and no word quota you have to buy back. You connect your own OpenAI, Claude, Gemini, OpenRouter or Deepseek key and pay that provider directly for what you use.
 
-**No limit on content generation**
+**No cap on single generations**
 
-Unlike other AI services, WP Wand does not limit the amount of content you can generate. Generate unlimited content without any restriction.
+Templates and the AI Assistant aren't rate-limited by WP Wand. Bulk Posts and Automation are capped on the free plugin — 5 runs each per 30 days — and Pro raises both.
 
-**Auto Bulk AI Blog Post Generator**
+**Bulk blog post generation**
 
-Add your topic and let WP Wand generate bulk blog posts with one click. Keep your website updated with tons of articles.
+Add your topics and WP Wand queues the posts in the background. Free covers 5 runs a month of up to 10 posts each.
 
 **Everything inside WordPress**
 
-With WP Wand, you don't need to switch between different platforms. You can generate content directly from your WordPress website.
+No second tab, no separate dashboard. You write from the editor you're already in.
 
-**50+ High Quality Prompt Templates**
+**44 prompt templates**
 
-We offer 50+ different high quality templates trained on industry best-practices and proven examples. Generate any type of content with simple 2 clicks.
+Every template ships free. They're written for a specific job — meta description, product copy, FAQ block, press release — so you're not starting from a blank prompt box.
 
-**50x cheaper than other AI services**
+**Works with your themes and plugins**
 
-With WP Wand, there are no monthly subscription fees or word limits. Generate content with 50x less cost and save more money.
+WP Wand puts content into the editor. It doesn't touch how your theme renders it.
 
-**Supports all themes & plugins**
+== WHAT YOU CAN WRITE ==
 
-WP Wand is designed to work seamlessly with all WordPress themes and plugins, so you can create content that matches the look and feel of your website.
+**Long-form blog posts**
 
+One Click Blog Post turns a topic into a full draft of roughly 2,000 words in a couple of minutes. Edit it, add what only you know, then publish.
 
-== WHAT AMAZING CONTENT CAN YOU CREATE? ==
+**Website content**
 
-**One Click Long Form Blog Post**
+Taglines, About Us pages, feature lists and course descriptions for a new site or a rewrite of an old one.
 
-Create high-quality, engaging & seo friendly blog post with a single click. Generate new ideas, topics, and even entire articles quickly and easily.
+**Marketing copy**
 
-**Full Website Content**
+Landing page headlines, ad copy, calls to action, and the AIDA, PAS and HSO formulas if you want a proven structure.
 
-Whether you're building a new website or updating an existing one, WP Wand can help you create high-quality, optimized content for every page on your site.
+**Social media content**
 
-**Marketing Copy**
+Post ideas, LinkedIn posts and Facebook posts, in the tone you pick.
 
-Generate persuasive, effective marketing copy that drives conversions and increases sales. Create landing pages, ad copy, and more with ease.
+**Email content**
 
-**Social Media Content**
+Subject lines and email copy, written to a brief instead of from scratch.
 
-Keep your social media channels fresh and engaging everyday. Create eye-catching posts, captions that drive engagement and build your brand.
+**eCommerce content**
 
-**Email Content**
-
-Generate email subject lines, copy etc. that stand out in crowded inboxes and drive clicks. Use WP Wand to create effective email campaigns that convert.
-
-**eCommerce Content**
-
-Create product descriptions, category pages, and more for your eCommerce store. Optimize your content for search engines and drive more sales.
+Product descriptions, Amazon-style reviews and comparison posts. The free plugin has a WooCommerce Product Description template; the panel inside the WooCommerce product editor is a Pro feature.
 
 == Supported Languages ==
 
@@ -232,8 +242,7 @@ Create product descriptions, category pages, and more for your eCommerce store. 
 * Armenian
 * Bosnian
 * Bulgarian
-* Chinese (Simplified)
-* Chinese (Traditional)
+* Chinese
 * Croatian
 * Czech
 * Danish
@@ -269,97 +278,113 @@ Create product descriptions, category pages, and more for your eCommerce store. 
 * Thai
 * Turkish
 * Ukrainian
+* Urdu
 * Vietnamese
 
 == Fine-Tune Your Content ==
 
-For advanced users, WP Wand offers settings to fine-tune the AI's output:
+If you want more control, the Advanced tab has:
 
-* **Temperature:** Control the randomness of the generated text. Higher values mean more creative but less predictable results.
-* **Max Tokens:** Set the maximum length of the generated content.
-* **Presence Penalty:** Increase the model's likelihood to talk about new topics.
-* **Frequency Penalty:** Decrease the model's likelihood to repeat the same line verbatim.
+* **Creativity (temperature):** how far the model strays from the safe answer. Higher is more varied, less predictable.
+* **Max reply length:** the longest reply one request may return.
+* **Topic variety:** nudge the model towards new topics instead of circling the same ones.
+* **Word variety:** nudge it away from repeating the same phrases.
+* **Live preview (streaming):** watch the text arrive as it's written.
 
-Whether you're a business owner, digital agency owner, marketer, or website developer, WP Wand can help you unlock your creative potential and take your content game to the next level. 
-
-Install WP Wand today and experience the power of AI content creation.
+Install WP Wand, add a key, and write your first draft in a couple of minutes.
 
 == Installation ==
 
 1. Upload the `ai-content-generation` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. After activation, navigate to the "WP Wand" menu in your WordPress dashboard to access the settings.
-4. Enter your API key(s) from OpenAI, Anthropic (Claude), or Deepseek to get started.
-
+4. Enter your API key(s) from OpenAI, Anthropic (Claude), Google Gemini, Deepseek or OpenRouter to get started — or connect OpenRouter with one click.
 
 == Frequently Asked Questions ==
 
 = How does WP Wand work? =
 
-WP Wand uses OpenAI's advanced technology to analyze and generate content based on your input. Simply activate the plugin on your WordPress website, create content directly inside WordPress editor or select a pre-made template, and let WP Wand do the rest.
+You add an API key from OpenAI, Anthropic (Claude), Google Gemini, OpenRouter or Deepseek on the WP Wand settings page — or connect OpenRouter with one click and skip the key entirely. After that you can write from the AI Assistant on any admin screen, from inside Gutenberg, Classic Editor or Elementor, or by picking one of the 44 templates and filling in the fields.
 
-= How can WP Wand save 50x cost than other AI services? =
+= What does it cost to run? =
 
-WP Wand allows users to use their own OpenAI API key to connect. This means that if you use OpenAI's most advanced model, you can create around 40,000 words of content with just $1, which is 50x more cost-effective than other AI content creation services.
+WP Wand has no monthly fee. You pay your AI provider directly for the tokens you use, at their published rate for whichever model you picked. A small model costs a fraction of a premium one for the same post, so if the bill matters, start with a mini or turbo model and move up only where the quality needs it.
 
-To put this into perspective, let's say you need to create 100 blog posts, each containing 1000 words. With other AI content creation services, this could cost you anywhere from $290 to $590 or more, depending on the platform and the quality of the content generated.
+= Are there any limits on content generation? =
 
-With WP Wand, you can generate the same amount of content for just $2.50, which is a huge cost-saving. Plus, you don't need to pay for monthly subscriptions with word limits.
+Single generations aren't capped. Templates and the AI Assistant run as often as your provider key allows.
 
-= Are there any limits on content generation with WP Wand? =
+Two features are capped on the free plugin, and both reset every 30 days:
 
-No, there are no limits on content generation with WP Wand. You can create as much content as you need, whenever you need it.
+* Bulk Posts: 5 runs, up to 10 posts per run — so up to 50 posts a month.
+* Automation: 5 scheduled runs, up to 5 posts per run.
+
+WP Wand Pro raises both caps.
 
 = Can I use WP Wand as an Elementor AI alternative? =
 
-Yes, you can use WP Wand as an Elementor AI alternative. WP Wand gives you more options to choose and allows you to use our high quality templates that saves your time & effort.
+Yes. The AI Assistant mounts inside Elementor, and you get the full template list there rather than a fixed set of prompts.
 
 = Can I use WP Wand inside Gutenberg? =
 
-Yes, you can. WP Wand is seamlessly integrated with Gutenberg editor. You can generate content inside Gutenberg or insert content inside Gutenberg using a single click. 
+Yes. Generate in the sidebar and insert the result into the post with one click.
 
 = Can WP Wand be used with any WordPress theme or plugin? =
 
-Yes, WP Wand is compatible with all WordPress themes and plugins, so you can use it with your existing website setup.
+Yes. WP Wand writes into the editor and leaves rendering to your theme.
 
-= Do you offer White Label feature in WP Wand? =
+= Do you offer a White Label feature? =
 
-Yes, we do! If you purchase our Agency package (Annual or Lifetime), you'll be able to White Label WP Wand for your need.
+Yes, on the Agency plan (annual or lifetime). You can replace the plugin name, logo and brand colour with your own.
 
-= Who can use WP Wand? =
+= Who is WP Wand for? =
 
-WP Wand is designed for website developers who use WordPress, digital agency owners, and marketers who want to create high-quality content faster and more efficiently.
+Site owners, agencies, marketers and developers who publish on WordPress and want a first draft in front of them instead of an empty screen.
 
-= Does WP Wand support WooCommerce integration? =
+= Does WP Wand work with WooCommerce? =
 
-Yes, WP Wand has WooCommerce integration, allowing you to optimize your product titles, descriptions, and short descriptions.
+The free plugin ships a "WooCommerce Product Description" template you can run from the AI Assistant. The WP Wand panel inside the WooCommerce product editor — for titles, descriptions and short descriptions — is part of WP Wand Pro.
 
 = Can I train the AI with my own business information? =
 
-Yes, you can feed the AI using your own data to generate highly targeted content.
+That's a Pro feature. WP Wand Pro lets you save an AI Character, your business details and a target-customer profile, and feeds them into every template.
 
-= Do I have to purchase subscription to use WP Wand? =
+= Do I have to buy a subscription? =
 
-No, you don't have to purchase any monthly or yearly subscription to use WP Wand.
-
+No. The free plugin works with your own API key, and Pro is a one-off or annual licence, not a monthly content plan.
 
 == Screenshots ==
 
-1. Our powerful AI Assistant seamlessly integrated within the Gutenberg editor.
-2. Access over 50 professionally crafted prompt templates with a single click.
-3. Generate a complete, high-quality blog post in under a minute.
-4. The main settings page for WP Wand, where you can configure your API keys.
-5. Fine-tune the AI's output with advanced settings for temperature, max tokens, and more.
+1. The AI Assistant inside the Gutenberg editor.
+2. 44 prompt templates, one click each.
+3. One Click Blog Post writing a full draft.
+4. Settings, where your API keys go.
+5. Advanced settings: creativity, reply length and variety.
 
 == Changelog ==
+
+= 2.1.1 =
+* Fixed: "Update now" in the notice that asks you to update WP Wand Pro did nothing on some sites. It finds the Pro update straight away now.
+
+= 2.1.0 =
+* New: Google Gemini support, and OpenRouter connects with one click.
+* New: Settings, Bulk Posts, Automated Posts and History rebuilt to one design. Bulk Posts works on a phone.
+* New: Bulk Posts and Automated Posts write with your house style and your About your business text, and History records every post the plugin writes.
+* Improved: the article prompts. A listicle, how-to, review or news post comes back in that shape, the FAQ and contents list are written when you switch them on, and the length you ask for is the length you get.
+* Fixed: a provider's "too many requests" no longer fails the post. It waits, and Try again picks up where it stopped.
+* Changed: Pro plans count runs, not posts. Solo 10 bulk and 10 automation runs a month, Growth 30 and 30, Agency unlimited.
+* Changed: the licence server moved to thefarhan.com. Old Pro copies are carried across. Nothing to do on your side.
+* Fixed: monthly schedules ran daily, identical headlines became one post, dates were off by your timezone, and the word count showed a dash for non-Latin text.
+* Fixed: plainer wording throughout, a Remove key button, Gemini keys that wouldn't save, and a dozen smaller faults.
 
 = 2.0.0 =
 * New: Complete rebuild on a modern React + REST architecture for a faster, smoother UI.
 * New: Redesigned Settings, AI Assistant panel, Bulk Posts, History and Automation screens.
 * New: Live API-key status with model list and per-model token limits fetched from the provider.
-* New: Step-based generation engine that reliably produces long content without timeouts.
-* New: Scheduled post Automation (Pro) and an improved Bulk generator with retry on failure.
-* Improved: Human-readable provider errors throughout.
+* New: Step-based generation engine behind Bulk Posts and Automation, so long runs don't time out.
+* New: Scheduled post Automation, free with a monthly allowance, plus an improved Bulk generator
+  that retries a post when it fails.
+* Improved: Provider errors are written in plain English instead of raw API output.
 * Changed: The entire legacy codebase was removed; existing settings, license and data migrate
   automatically with no re-activation required.
 
@@ -450,6 +475,7 @@ No, you don't have to purchase any monthly or yearly subscription to use WP Wand
 * New: All Prompt Templates Are Now Free to Use.
 * Fixed: OpenAI Error Message.
 * Fixed: Minor Issues.
+
 = 1.2.3 =
 * Fixed: Minor Issue.
 
@@ -557,6 +583,20 @@ No, you don't have to purchase any monthly or yearly subscription to use WP Wand
 * Initial release
 
 == Upgrade Notice ==
+
+= 2.1.1 =
+Fixes the "Update now" link in the notice that asks you to update WP Wand Pro. If that notice is
+still showing, update to this and click it again.
+
+= 2.1.0 =
+Redesigned screens, better article prompts, and the licence server has moved. Your settings and
+licence carry over; nothing to re-activate. If you run WP Wand Pro, update it too when the update
+appears.
+
+= 2.0.0 =
+Rebuilt on React and the REST API. Your settings, licence and history carry over on their own —
+nothing to re-activate. Bulk Posts and Automation now ship in the free plugin with a monthly
+allowance.
 
 = 1.0.0 =
 Initial release of WP Wand - AI Content Generator plugin.

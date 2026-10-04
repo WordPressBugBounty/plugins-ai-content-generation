@@ -62,6 +62,17 @@ final class ElementorIntegration
             true
         );
 
+        // The trigger's rules used to be a cssText string in the bundle. Same version as the script:
+        // both come out of the same build, so a cache holding one and not the other is a bug.
+        if (is_readable(WPWAND_NEW_DIR . 'build/style-elementor.css')) {
+            wp_enqueue_style(
+                self::HANDLE,
+                WPWAND_NEW_URL . 'build/style-elementor.css',
+                [],
+                $asset['version']
+            );
+        }
+
         wp_localize_script(self::HANDLE, 'wpwandElementor', [
             'brand' => Brand::resolve(),
         ]);
